@@ -69,6 +69,7 @@ _Using branches ensures that you'll never be working on the same exact file as s
 function [x, u, A, B, C, D, E] = stabderivs2ss(Xderivs, Yderivs, Zderivs,...
     Lderivs, Mderivs, Nderivs, steady, gmi)
 ```
+ - You can do the same with python if/when we end up using it. 
 1. Script Preamble:
     - Clear the workspace, close figures and clear the command line before writing your script :)
 ```matlab
