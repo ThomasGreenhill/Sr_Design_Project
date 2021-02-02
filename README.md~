@@ -22,7 +22,7 @@ _Using branches ensures that you'll never be working on the same exact file as s
 1. When you are done coding and you want everyone else to use your work:
     * Commit to your branch.
         - Add a brief summary of what you did (i.e. "Improved functionality of climbrate.m")
-        - Add a description, your initials and date (i.e. "Added gear down option as an input to climbrate.m and modified dependent script performance.m TVG 02.01.2021")
+        - Add a description (i.e. "Added gear down option as an input to climbrate.m and modified dependent script performance.m")
     * Create a pull request, and someone will approve it.
         - If you want someone to review your code, just send a message on discord. 
         - You can always self-approve pull requests by going to the repo website: https://github.com/ThomasGreenhill/Sr_Design_Project/pulls
@@ -70,10 +70,7 @@ function [x, u, A, B, C, D, E] = stabderivs2ss(Xderivs, Yderivs, Zderivs,...
     Lderivs, Mderivs, Nderivs, steady, gmi)
 ```
 1. Script Preamble:
-    - Clear the workspace, close figures and clear the command line before writing your script :)
-```matlab
-clear; close all; clc;
-```
+    - Clear the workspace, close figures and clear the command line before w
 1. Adding Paths
     - To call a function from a script while it is located in a different folder, you must add the function folder to path. For example:
 ```matlab
