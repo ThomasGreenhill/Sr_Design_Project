@@ -32,7 +32,7 @@ _Using branches ensures that you'll never be working on the same exact file as s
 1. Style
     - Please comment your code and add plenty of white space :P 
     - You can use MBeautify to autoformat your code if you want! If people actually use MBeautify, we can directly add it to the Repo.
-1. Functions
+2. Functions
     - Use functions, organize them in folders and put each function in its own .m file (i.e. climbrate.m has just one function inside; climbrate())
     - Inside the function mfile but before the function definition, comment in some information on the function. For example:
 ```matlab
@@ -69,29 +69,29 @@ _Using branches ensures that you'll never be working on the same exact file as s
 function [x, u, A, B, C, D, E] = stabderivs2ss(Xderivs, Yderivs, Zderivs,...
     Lderivs, Mderivs, Nderivs, steady, gmi)
 ```
-- You can do the same with python if/when we end up using it. 
-1. Script Preamble:
+    - You can do the same with python if/when we end up using it. 
+3. Script Preamble:
     - Clear the workspace, close figures and clear the command line before writing your script :)
 ```matlab
 clear; close all; clc;
 ```
-2. Adding Paths
+4. Adding Paths
     - To call a function from a script while it is located in a different folder, you must add the function folder to path. For example:
 ```matlab
 addpath("./Functions/");
 ```
-3. Creating Directories 
+5. Creating Directories 
 ```matlab
 warning('off', 'all')
 mkdir './Figures'
 warning('on', 'all')
 ```
-4. Figure Formatting
+6. Figure Formatting
     - You guys can use my formatlatex() function for our design project if you want to. I'll put it under the "Utilities" folder. Call it with:
 ```matlab
 formatlatex()
 ```
-5. Saving Figures
+7. Saving Figures
     - Add this after your figure code to save it as "myfigure.jpg" within the "Figures" folder.
 ```
 saveas(gcf,"./Figures/myfigure.jpg")
