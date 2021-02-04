@@ -7,6 +7,9 @@
 * Michael Puso
 * Xuchang Tang
 
+# Link to Overleaf:
+https://www.overleaf.com/project/601b49f4bef41b30e0441a19
+
 # Repository (Repo) Guidelines
 
 ## Creating and working from a branch
