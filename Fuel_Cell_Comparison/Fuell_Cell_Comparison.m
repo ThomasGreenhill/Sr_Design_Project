@@ -20,7 +20,7 @@ close all;
 addpath("../Utilities")
 formatlatex()
 warning('off', 'all')
-mkdir './Figures'
+mkdir("./Figures")
 warning('on', 'all')
 format shortG
 %% Load data
@@ -36,3 +36,4 @@ bar(X,fuelcelldata.RatedPower.Data./fuelcelldata.TotalWeight.Data)
 ylabel("Specific Power (W/kg)")
 xlabel("H$_2$ Fuel Cell Model")
 title("Ballard Fuel Cell Specific Power",'FontSize',26)
+saveas(gcf,"./Figures/figure.jpg")
