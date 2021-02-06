@@ -17,7 +17,7 @@
 %   History:
 %       02.06.2021: Created, TVG
 %
-
+%%
 fuelcelldata.Names = ["30kW FCveloCity-MD"; "85kW FCveloCity-HD85"; "100kW FCveloCity-HD100"; "70kW FCmove-HD"];
     
 fuelcelldata.RatedPower.Units = "W";
@@ -70,6 +70,15 @@ fuelcelldata.FuelEfficiency = [0; 0; 0; 0.57];
 fuelcelldata.SoundLevel.Units = "dBa";
 fuelcelldata.SoundLevel.Data = [75; 0; 0; 0]; %dBa
 
+%% Specific Power
+% Added 40% weight for the fuel cells that do not have submodules speficied
+
+fuelcelldata.TotalWeight.Data = zeros(4,1);
+fuelcelldata.TotalWeight.Data(1) = fuelcelldata.CellWeight.Data(1)*1.4;
+fuelcelldata.TotalWeight.Data(2) = fuelcelldata.CellWeight.Data(2) + fuelcelldata.AirWeight.Data(2) + fuelcelldata.CoolantWeight.Data(2);
+fuelcelldata.TotalWeight.Data(3) = fuelcelldata.CellWeight.Data(3) + fuelcelldata.AirWeight.Data(3) + fuelcelldata.CoolantWeight.Data(3);
+fuelcelldata.TotalWeight.Data(4) = fuelcelldata.CellWeight.Data(4);
+%%
 save("fuelcelldata.mat")
                                         
 
