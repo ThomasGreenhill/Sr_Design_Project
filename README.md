@@ -7,6 +7,9 @@
 * Michael Puso
 * Xuchang Tang
 
+# Link to Overleaf:
+https://www.overleaf.com/project/601b49f4bef41b30e0441a19
+
 # Repository (Repo) Guidelines
 
 ## Creating and working from a branch
@@ -14,15 +17,16 @@ _Using branches ensures that you'll never be working on the same exact file as s
 1. Create your own branch by clicking "Current Branch" at the top of the desktop app. Name the branch first initial last name (i.e. TGreenhill)
 1. Any time before you start coding:
     * Make sure your local files under the "main" and "FLastname" branches are both in sync with everyone else's work. 
-        1. Switch to "main" as your current branch, then press "Fetch" and "Pull"
+        1. Switch to "main" as your current branch, then press "Fetch" and "Pull".
+        1. Switch to your "FLastname" branch.
         1. Click on "Current Branch" in the desktop app, at the bottom click "Choose a branch to merge into FLastname". Choose main and click "Merge main into FLastname". 
-    * Switch to your "FLastname" branch
+    * Make sure you are on your "FLastname" branch before writing any code.
 1. While you are coding:
     * Commit to your branch often.
 1. When you are done coding and you want everyone else to use your work:
     * Commit to your branch.
-        - Add a brief summary of what you did (i.e. "Improved functionality of climbrate.m")
-        - Add a description, your initials and date (i.e. "Added gear down option as an input to climbrate.m and modified dependent script performance.m TVG 02.01.2021")
+        - Add a brief summary of what you did (i.e. "Improved functionality of climbrate.m").
+        - Add a description, your initials and date (i.e. "Added gear down option as an input to climbrate.m and modified dependent script performance.m TVG 02.01.2021").
     * Create a pull request, and someone will approve it.
         - If you want someone to review your code, just send a message on discord. 
         - You can always self-approve pull requests by going to the repo website: https://github.com/ThomasGreenhill/Sr_Design_Project/pulls
