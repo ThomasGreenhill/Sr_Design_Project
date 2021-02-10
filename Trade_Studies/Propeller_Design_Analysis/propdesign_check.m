@@ -12,10 +12,15 @@ R = 82 / 2 * 0.0254;                % m
 Treq =  425.6896 * 4.44822;         % N
 a0 = 330.803;                       % m/s
 
+% Functions
 Cdfn = @(Cl) 0.0095 + 0.0040 * (Cl - 0.2).^2;
 m0fn = @(Ma) (2 * pi ./ sqrt(1 - Ma.^2)) .* (Ma <= 0.9) + (2 * pi ./ sqrt(1 - 0.9^2)) .* (Ma > 0.9);
 
 %% Function calls
 [r, c, bet, Pdesign, Tdesign, Qdesign, etap, the] = propdesign(R, Vinf, n, Treq, Cl, B, m0fn, a0, Cdfn);
 
-Pdesign = Pdesign * 0.00134102;
+fprintf("\nThe propeller power is %.2f hp\n", Pdesign * 0.00134102);
+
+line1 = zeros(size(c));
+
+plotblade3D(r, R, c, bet, B, line1);
