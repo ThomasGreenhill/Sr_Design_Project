@@ -2,6 +2,7 @@
 % Code to design a propeller, based on EAE 130A project 2
 %
 %   Inputs:
+%       airprops: struc of air properties at desired conditions
 %       R: Propeller radius
 %       Vinf: Air velocity at propeller inlet
 %       n: Propeller angular rate (Hz)
@@ -33,20 +34,22 @@
 %       
 %   History:
 %       02.09.2021: Imported from previous project, TVG
-%
+%       02.09.2021: Modified header, XT
+%       02.10.2021: Added air properties as an input and debugged using
+%           propdesign_check.m
 
 function [r, c, bet, Pdesign, Tdesign, Qdesign, etap, the] = ...
-    propdesign(R, Vinf, n, Treq, Cl, B, m0fn, a0, Cdfn)
-k = 1.4;
-Rgas = 287;
-T = 288;
-P = 101250;
-rho = 1.225; %slugs/ft^3 (shouldn't it be kg/m^3 ?)
+    propdesign(airprops, R, Vinf, n, Treq, Cl, B, m0fn, a0, Cdfn)
+k = airprops.k;
+Rgas = airprops.Rgas;
+T = airprops.T;
+P = airprops.P;
+rho = airprops.rho; %kg/m^3
 nn = 201;
 
 K = 0.94;
 
-D = 2 * R; %ft
+D = 2 * R;
 r = linspace(0.15*R, R, nn);
 x = r / R;
 tc = 0.04 ./ x.^1.2;
@@ -78,8 +81,8 @@ m0 = m0fn(M);
 
 % Prepare for iteration
 % Initial values:
-v0 = 0.5 * ones(1, nn);
-Tdesign = 2e3;
+v0 = 0.1 * ones(1, nn);
+Tdesign = 2.2e3;
 iter = 1;
 iterlim = 1e3;
 
