@@ -11,8 +11,7 @@
 %           
 %
 %   Outputs: 
-%       outVec: if FAR 23, 1xn vector of motor power (hp)
-%               if FAR 25, 1xn vector of motor thrust (N)
+%       outVec: 1xn vector of motor power (hp)
 %
 %   Calls:
 %       {none}
@@ -21,11 +20,9 @@
 %       1. Function uses empirical expression provided in Roskam Part I
 %       2. FAR 23/25 based on aircraft mass included
 %       3. When integrating functions, mute the FAR23/25 fprintf sections
-%       4. Not well tested yet
 %
 %   History:
-%           2/9/2021, Created by X.Tang
-%           2/9/2021, Debugged by X.Tang
+%           2/9/2021, X.Tang
 %       
 %
 
@@ -80,32 +77,13 @@ function [outVec] = STOLpowerreq(m, dist_TO, S, CL_max_TO, sigma, motDistr)
         
         % Calculation for power in hp
         PTO = (W_Brit.^2 / S_Brit) / (TOP23Val * sigma * CL_max_TO);
-        
-        % Power distribution
-        sumDistr = sum(motDistr);
-        outVec = zeros(1, length(motDistr));
-        for i = 1:length(motDistr)
-            curDistr = motDistr(i) / sumDistr;
-            outVec(i) = curDistr * PTO;      
-        end
-
         %% Can mute when integrated
         fprintf("\nAircraft category: FAR 23, motor POWER vector output\n");
         %%
     else            % FAR 25
         a3 = 37.5;
         TOP25 = S_Brit / a3;
-        TTO_lbf = (W_Brit.^2 / S_Brit) / (TOP25 * sigma * CL_max_TO);
-        TTO = TTO_lbf * 4.44822;    % from lbf to N
         
-        % Thrust distribution
-        sumDistr = sum(motDistr);
-        outVec = zeros(1, length(motDistr));
-        for i = 1:length(motDistr)
-            curDistr = motDistr(i) / sumDistr;
-            outVec(i) = curDistr * TTO;      
-        end
-
         
         %% Can mute when integrated
         fprintf("\nAircraft category: FAR 25, motor THRUST vector output\n");
