@@ -34,6 +34,11 @@ _Using branches ensures that you'll never be working on the same exact file as s
 
 ## Coding suggestions
 1. Style
+    - Functions and variables should be named with lowercase letters with words separated by underscores. For example: my_function, my_variable
+         * Capitals can sometimes be okay for variable names, say if you have theta (disturbed pitch angle) and Theta (absolute pitch angle), it is okay to have capitals in the variable name. In this instance, use the_disturbed and The_absolute as the variable names. Use your best judgement.
+    - Always capitalize acronym names (i.e. VTOL)
+    - Constants should use all caps. For example: RHO = 1.225;
+    - Use the first three letters of any greek letter to designate that letter. For example: the, alp, psi, phi, Gam
     - Please comment your code and add plenty of white space :P 
     - You can use MBeautify to autoformat your code if you want! If people actually use MBeautify, we can directly add it to the Repo.
 1. Functions
