@@ -41,12 +41,12 @@ k = 1.4;
 Rgas = 287;
 T = 288;
 P = 101250;
-rho = 1.225; %slugs/ft^3 (shouldn't it be kg/m^3 ?)
+rho = 1.225;            %kg/m^3 
 nn = 201;
 
 K = 0.94;
 
-D = 2 * R; %ft
+D = 2 * R;              %ft
 r = linspace(0.15*R, R, nn);
 x = r / R;
 tc = 0.04 ./ x.^1.2;

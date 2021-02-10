@@ -12,12 +12,12 @@ clc
 % Treq =  425.6896 * 4.44822;         % N
 % a0 = deg2rad(-2);                   % rad
 
-Vinf = 87 * 1.68781;                % ft/s
+Vinf = 87;               % ft/s
 n = 1854.4805 / 60;                 % Hz
 B = 3;
 Cl = 0.4;
-R = 82 / 2 /12;                     % in
-Treq =  425.6896;                   % lbf
+R = 82 / 2 / 12;                % fta
+Treq =  425.6896 * 4.44822;         % N
 a0 = deg2rad(-2);                   % rad
 
 % Functions
