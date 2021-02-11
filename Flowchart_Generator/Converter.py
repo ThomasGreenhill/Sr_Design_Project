@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-'''
-A program that converts pseudocode to .png flowcharts
-'''
+### A program that converts pseudocode to .png flowcharts
 
 import re
 import os
