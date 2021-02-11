@@ -36,8 +36,9 @@ def read(file_name):
     for_re = re.compile(r'^FOR\s(.+)\s<-\s(.+)\sTO\s(.+)')
     next_re = re.compile(r'^NEXT\s(.+)')
     
-    processed_lines.append("START")
-    
+    # processed_lines.append("START")
+    nostop = True
+
     for line in lines:
         
         line = line.rstrip().lstrip()
@@ -62,7 +63,7 @@ def read(file_name):
         else:
             processed_lines.append(line)
 
-    processed_lines.append("STOP")
+    # processed_lines.append("STOP")
     
     return processed_lines
 
@@ -143,8 +144,21 @@ def translation(lines,font_data):
             amount_per_branch[x[-1]] += 1
             y[-1] +=1
         
-        elif re.search(input_re,line) or re.search(output_re,line):
+        elif re.search(input_re,line):
             chart_code.append({"type":"IO","content":line,"position":[x[-1],y[-1]],"role":'n'})
+
+            if draw.textsize(line,font=font)[0] + font_size * 2 > branch_width[x[-1]]:
+                branch_width[x[-1]] = draw.textsize(line,font=font)[0] + font_size * 2
+
+            if draw.textsize(line,font=font)[1] + font_size > layer_height[y[-1]]:
+                layer_height[y[-1]] = draw.textsize(line,font=font)[1] + font_size
+                
+            amount_per_branch[x[-1]] += 1
+            y[-1] +=1
+
+        elif re.search(output_re,line):
+            chart_code.append({"type":"IO","content":line,"position":[x[-1],y[-1]],"role":'t'})
+
 
             if draw.textsize(line,font=font)[0] + font_size * 2 > branch_width[x[-1]]:
                 branch_width[x[-1]] = draw.textsize(line,font=font)[0] + font_size * 2

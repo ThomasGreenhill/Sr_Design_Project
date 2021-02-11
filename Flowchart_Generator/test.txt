@@ -1,0 +1,4 @@
+Test 1 
+INPUT "mission specification"
+
+OUTPUT "aircraft weight"
