@@ -1,0 +1,7 @@
+Test 1 
+INPUT "mission specification"
+WHILE x < 5 DO
+  OUTPUT x
+ENDWHILE
+
+OUTPUT "Mission requirements"
