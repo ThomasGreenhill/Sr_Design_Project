@@ -35,7 +35,7 @@
 %       02.09.2021: Imported from previous project, TVG
 %
 
-function [r, c, bet, Pdesign, Tdesign, Qdesign, etap, the] = ...
+function [r, c, bet, Pdesign, Tdesign, Qdesign, etap, the, dCTdx] = ...
     propdesign(R, Vinf, n, Treq, Cl, B, m0fn, a0, Cdfn)
 k = 1.4;
 Rgas = 287;

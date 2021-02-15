@@ -67,7 +67,7 @@ function [outVec] = STOLpowerreq(m, dist_TO, S, CL_max_TO, sigma, motDistr)
                 fprintf("\nError: TOp23 has two negative roots\n");
                 return
             end 
-        elseif (delta <= tol)
+        elseif (abs(delta) <= tol)
             TOP23Val = mean(TOP23);
             
             if (TOP23Val <= 0)

@@ -3,7 +3,7 @@
 %
 %   Inputs:
 %           W: Weight of aircraft
-%           Tavg: Average thrust
+%           V: Takeoff velocity
 %           S: Wing reference area
 %           RHO: Density of air
 %           CL_max: Maximum lift coefficient
@@ -24,11 +24,11 @@
 %       2. 
 %
 %   History:
-%       2/9/2021: Created file. TVG
-%       2/13/2021: Created function. GN
+%       2/9/2021: Created and debugged.
+%       2/13/2021: 
 %
 
-function [SG] = takeoffdistance(W, Tavg, S, RHO, CL_max, mu_r, CD_0, bspan, e)
+function [SG] = takeoffdistance(W, V, S, RHO, CL_max, mu_r, CD_0, bspan, e)
 
 g = 9.81; % [m/s^2]
 Gam = 1.4;
@@ -51,6 +51,7 @@ qavg = 0.5*RHO*(Vavg^2); % Average dynamic pressure
 
 Davg = CD_avg*qavg*S; % Average drag
 Lavg = CL_opt*qavg*S; % Average lift
+Tavg = ; % Average thrust (typically found on 
 
 aavg = (g/W)*(Tavg - Davg-(mu_r*(W-Lavg)); % Average acceleration
 

@@ -1,4 +1,3 @@
-%% VTOLpowerreq.m
 % Provides figures for required power of VTOL aircraft
 %
 %   Inputs:
