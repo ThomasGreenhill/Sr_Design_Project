@@ -23,6 +23,7 @@ def propeller_in_cruise(W_initial, W_final, c_p, AtmData, Propeller, Wing, const
         History:
             02.14.2021: Created. XTang
             02.15.2021: Briefly debugged. XTang
+            02.15.2021: Reviewed by TVG
     '''
 
     # Checking the size of const_logic

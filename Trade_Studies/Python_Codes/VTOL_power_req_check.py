@@ -4,6 +4,10 @@ import numpy
 from VTOL_power_req import VTOL_power_req
 from Class130 import AtmData, Propeller
 
+# History:
+#   02.14.2021: Created by XT
+#   02.15.2021: Reviewed by TVG (looks good)
+
 # atm data
 v_inf = 87 * 0.514444
 temp = 288

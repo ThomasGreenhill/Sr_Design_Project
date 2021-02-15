@@ -61,6 +61,7 @@ def prop_design(AtmData, Propeller, T_req):
         02.09.2021 imported from previous project, TGreenhill
         02.13.2021 translated and editted by XTang
         02.13.2021 briefly debugged by XTang
+        02.15.2021 verified by TVG and improved iteration tolerance from 0 decimal places to 12 decimal places
     '''
 
     if not AtmData.is_SI:
@@ -111,7 +112,7 @@ def prop_design(AtmData, Propeller, T_req):
         print("Error: Trequired = Tdesign. Either change Trequired or modify initial value of Tdesign in code")
         return
 
-    while (round(T_design, 0) != round(T_req, 0)) and (iter < iterLim):
+    while (numpy.round(T_design, 12) != numpy.round(T_req, 12)) and (iter < iterLim):
         theta = numpy.arctan(([AtmData.vel + item for item in v_0]) / (2 * math.pi * n * r)) - phi
 
         # For a fixed Cl, calculate c

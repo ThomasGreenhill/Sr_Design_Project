@@ -3,6 +3,10 @@ import numpy
 from propeller_in_cruise import propeller_in_cruise
 from Class130 import AtmData, Wing, Propeller
 
+# History:
+#   02.14.2021: Created by XT
+#   02.15.2021: Reviewed for bugs by TVG but not compared to literature values
+
 # Test A, constant Cl and airspeed, numbers from lecture 01.27.2021
 const_logic = [True, True, False]
 W_initial = 2500 * 4.4482216153     # lbf to N

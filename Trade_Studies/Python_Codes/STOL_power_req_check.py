@@ -4,6 +4,13 @@ import numpy
 from STOL_power_req import STOL_power_req
 from Class130 import AtmData, Wing, Propeller
 
+# History:
+#   02.14.2021: Created by XT
+#   02.15.2021: Reviewed by TVG. 
+#       Changed line 32 to reflect changes in Wing class (added alpha and CD as dummy values). 
+#       Not verified relative to literature values
+
+
 # atm data
 v_inf = 87 * 0.514444
 temp = 288
@@ -29,7 +36,7 @@ span = 5
 e = 0.9
 CL_max = 2.1
 
-wing_check = Wing(area, span, e, "chord", 1, CL_max, "CD", 1, "airfoil")
+wing_check = Wing(area, span, e, "alpha", "chord", 1, 1, CL_max, "CD", "CD_0", "airfoil")
 
 # function call
 m = 6000
