@@ -7,30 +7,32 @@ def wing_dimension(W, AtmData, Airfoil, Wing):
     def lift_coeff(Cla, e, AR, a):
         return a * Cla / (1 + 57.3 * Cla / (numpy.pi * e * AR))
 
-'''
-    Computes the required chord and platform area for a wing based on a set
-    of requirements
+    '''
+        Computes the required chord and platform area for a wing based on a set
+        of requirements
+    
+        Inputs:
+                W: Aircraft weight
+                AtmData.vel: Free-stream velocity (Class:AtmData)
+                AtmData.dens: Air density (Class:AtmData)
+                Airfoil.Cla: Airfoil lift curve slope -- typical value 0.11 (Class:Airfoil)
+                Airfoil.Cl_max (Class:Airfoil)
+                Wing.span = Wing span (Class:Wing)
+                Wing.e = Wing span efficiency ratio (Class:Wing)
+    
+        Outputs:
+                c_new: (m) mean chord length
+                S_new: (m^2) wing area
+    
+        Notes:
+    
+    
+        History:
+            02.09.2021: Created and debugged, TVG
+            02.14.2021: Translated & integrated with Class130 by XTang
+            Not Yet Debugged
+    '''
 
-    Inputs:
-            W: Aircraft weight
-            AtmData.vel: Free-stream velocity (Class:AtmData)
-            AtmData.dens: Air density (Class:AtmData)
-            Airfoil.Cla: Airfoil lift curve slope -- typical value 0.11 (Class:Airfoil)
-            Airfoil.Cl_max (Class:Airfoil)
-            Wing.span = Wing span (Class:Wing)
-            Wing.e = Wing span efficiency ratio (Class:Wing)
-
-    Outputs:
-        {none}
-
-    Notes:
-
-
-    History:
-        02.09.2021: Created and debugged, TVG
-        02.14.2021: Translated & integrated with Class130 by XTang
-        Not Yet Debugged
-'''
     q_inf = 0.5 * AtmData.dens * AtmData.vel ** 2
     c_new = 1
     S_new = Wing.span * c_new
