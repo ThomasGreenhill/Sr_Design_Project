@@ -22,7 +22,7 @@ def electric_motor_mass(P_continuous):
         1. 
 
     History:
-        02.16.2021: Created and debugged TVG
+        02.16.2021: Created and debugged. TVG
     '''
 
     engine_mass = 0.2322*P_continuous*1e-3
@@ -53,10 +53,14 @@ def power_system_mass_sizing(distr, rho_battery, E, P_req_H2, battery_reserve):
             https://www.ballard.com/about-ballard/publication_library/product-specification-sheets/fcvelocity-md30-spec-sheet
             https://www.ballard.com/about-ballard/publication_library/product-specification-sheets/fcvelocity-hd-spec-sheet
             https://www.ballard.com/about-ballard/publication_library/product-specification-sheets/fcmovetm-spec-sheet
+        
+        2. ******
+        CURRENT IMPLEMENTATION DOES NOT INCLUDE A RESERVE FOR THE H2 ENERGY SIDE. REVISION NEEDED 
+        *********
 
 
     History:
-        02.16.2021: Created and debugged TVG
+        02.16.2021: Created and debugged. TVG
     '''
 
     if P_req_H2 <= 30e3:
@@ -120,7 +124,7 @@ def power_requirements(eta_mech, eta_p, V_hover_climb, V_climb, V_cruise, W_TOGW
         1. 
 
     History:
-        02.16.2021: Created and debugged TVG
+        02.16.2021: Created and debugged. TVG
     '''
 
     P_hover_climb = (1/eta_mech)*((W_TOGW*V_hover_climb)/2 + f*W_TOGW/M)*numpy.sqrt(f*(W_TOGW/S_disk)/(2*rho))
@@ -163,5 +167,5 @@ if __name__ == "__main__":
 
     # Test power_requirements
     print("\n Testing Power Requirements Function \n")
-    P_cruise, P_climb, P_hover_climb = power_requirements(0.9, 0.85, 2.54, 44, 62, 757*9.81, 0.1, 0.8, 10, 16.2, 1.225, 0.02, 8, 0.7, numpy.arctan(1/20))
+    P_cruise, P_climb, P_hover_climb = power_requirements(0.9, 0.85, 2.4, 44, 62, 757*9.81, 0.1, 0.8, 10, 16.2, 1.225, 0.02, 8, 0.7, numpy.arctan(1/20))
     print("\t Cruise Power = ", P_cruise, "\n \t Forward Flight Climb Power = ", P_climb, "\n \t Hover Climb Power = ", P_hover_climb,"\n")

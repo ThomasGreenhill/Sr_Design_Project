@@ -5,10 +5,12 @@ import numpy
 Useful Python classes in senior design project
 
 Classes included:
-            AtmData: records atmospheric conditions and airspeed
-            Propeller: records propeller information
-            Airfoil: records airfoil (sectional) information
-            Wing: records wing (3D) information and distributions of parameters
+        AtmData: records atmospheric conditions and airspeed
+        Propeller: records propeller information
+        Airfoil: records airfoil (sectional) information
+        Wing: records wing (3D) information and distributions of parameters
+        FuelCell: fuel cell with all useful parameters
+        SimpleFuelCell: fuel cell with only a few parameters relating to initial sizing
 
 Notes:
         1. Use dummy variables
@@ -19,6 +21,7 @@ History:
         02.13.2021, Added Propeller. XT
         02.14.2021, Added Wing & Airfoil. XT
         02.14.2021, Minor change: added attributes. XT
+        02.16.2021, Added class for H2 fuel cells. TVG
 '''
 
 # Atmospheric information
