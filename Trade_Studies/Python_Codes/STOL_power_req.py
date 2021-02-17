@@ -1,6 +1,4 @@
 import numpy
-import math
-from Class130 import AtmData, Propeller, Wing
 from prop_design_TVG import prop_design
 
 def STOL_power_req(m, dist_to, mot_distr, AtmData, Wing, Propeller_list):

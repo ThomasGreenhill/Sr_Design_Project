@@ -4,6 +4,7 @@ import numpy
 
 
 def std_atm(h, is_SI):
+    # return temp, press, dens, c_sound, visc, g
 
     def get_val(H):
         if H < 11000:
@@ -73,6 +74,7 @@ def std_atm(h, is_SI):
     '''
     Computes the standard atmospheric data at a given height
     Based on the report found in https://apps.dtic.mil/sti/pdfs/ADA588839.pdf
+    Viscosity is based on the report: http://www.cnofs.org/Handbook_of_Geophysics_1985/Chptr14.pdf
 
     Outer function
     Inputs:
@@ -84,6 +86,7 @@ def std_atm(h, is_SI):
             press: (Pa) or (psia) pressure
             dens: (kg/m^3) or (slug/ft^3) air density
             c_sound: (m/s) or (ft/s) speed of sound
+            visc: (N*s/m^2) or (lbf*s/ft^2) air viscosity
             g: (m/s^2) or (ft/s^2) gravitational acceleration
 
     Inner function
@@ -97,10 +100,14 @@ def std_atm(h, is_SI):
             1. All information based on 1976 US standard atmosphere
             2. Output may have insignificant difference from literature data, especially at high altitudes
             3. Checked with 1976 US Standard Atmosphere, close enough for trade studies & rough calculations
+            4. Viscosity values have relatively large error from 1976 Standard Atmosphere, although still within
+                exceptable range
+            
 
     History:
-            02.14.2021, created. XTang
-            02.15.2021, debugged and checked with literature values. XTang
+            02.14.2021, Created. XT
+            02.15.2021, Debugged and checked with literature values. XT
+            02.15.2021, Added viscosity. XT
     '''
     # Constants
     R_bar = 8314.32     # (N*m)/(kmol*K), universal gas constant
@@ -149,19 +156,25 @@ def std_atm(h, is_SI):
     # Speed of sound in m/s
     c_sound = numpy.sqrt((gam * R_bar * T_m) / MW_air)
 
+    # Dynamic Viscosity in (N*s/m^2) or (Pa*s)
+    beta_const = 1.458E-06              # kg s^-1 m^-1 k^-0.5
+    S_const = 110.4                     # K
+    visc = (beta_const * temp ** (3/2)) / (temp + S_const)
+
     # Gravity in m/s^2
     g = g_o * (r_o / (r_o + h)) ** 2
 
     # Output based on input unit of height
     if is_SI:       # SI unit
-        return temp, press, dens, c_sound, g
+        return temp, press, dens, c_sound, visc, g
     else:           # British unit
-        temp *= 1.8             # K to R
-        press *= 0.000145038    # Pa to psia
-        dens *= 0.00194032      # kg/m^3 to slug/ft^3
-        c_sound *= 3.2808399    # m/s to ft/s
-        g *= 3.2808399          # m/s^2 to ft/s^2
-        return temp, press, dens, c_sound, g
+        temp *= 1.8                         # K to R
+        press *= 0.000145038                # Pa to psia
+        dens *= 0.00194032                  # kg/m^3 to slug/ft^3
+        c_sound *= 3.2808399                # m/s to ft/s
+        visc *= (0.224809 / 3.28084 ** 2)   # (N*s)/m^2 to (lbf*s)/ft^2
+        g *= 3.2808399                      # m/s^2 to ft/s^2
+        return temp, press, dens, c_sound, visc, g
 
 
 
