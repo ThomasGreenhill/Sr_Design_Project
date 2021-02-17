@@ -5,10 +5,12 @@ import numpy
 Useful Python classes in senior design project
 
 Classes included:
-            AtmData: records atmospheric conditions and airspeed
-            Propeller: records propeller information
-            Airfoil: records airfoil (sectional) information
-            Wing: records wing (3D) information and distributions of parameters
+        AtmData: records atmospheric conditions and airspeed
+        Propeller: records propeller information
+        Airfoil: records airfoil (sectional) information
+        Wing: records wing (3D) information and distributions of parameters
+        FuelCell: fuel cell with all useful parameters
+        SimpleFuelCell: fuel cell with only a few parameters relating to initial sizing
 
 Notes:
         1. Use dummy variables
@@ -19,10 +21,12 @@ History:
         02.13.2021, Added Propeller. XT
         02.14.2021, Added Wing & Airfoil. XT
         02.14.2021, Minor change: added attributes. XT
+        02.16.2021, Added class for H2 fuel cells. TVG
 '''
 
 # Atmospheric information
 class AtmData:
+    # In either base SI of British units
     def __init__(self, vel, temp, pres, dens, visc, k, R, is_SI):
         self.dens = None
         self.vel = vel               # freestream velocity (m/s) or (ft/s)
@@ -37,7 +41,7 @@ class AtmData:
 
 # Propeller information
 class Propeller:
-    # All in SI unit
+    # All in base SI units
     def __init__(self, radius, RPM, eta_P, CP, CT, CQ, Cl = 0.4, chord = 1, numB = 3, alp0 = 0,
                  alpha = None, beta = None, theta = None, phi = None):
         self.radius = radius       # propeller radius (m)
@@ -58,7 +62,7 @@ class Propeller:
 
 # Airfoil information
 class Airfoil:
-    # All in SI unit
+    # All in base SI units
     # Will possibly be used with XFOIL
     def __init__(self, name, chord, alp0, alpha, Cla, Cl_max, Cl, Cd, Cm):
         self.name = name             # name
@@ -74,7 +78,7 @@ class Airfoil:
 
 # Wing information
 class Wing:
-    # All in SI unit
+    # All in base SI units
     def __init__(self, area, span, e, alpha, chord, c_bar, CL, CL_max, CD, CD_0, airfoil):
         self.area = area                # wing area (m^2)
         self.span = span                # wing span (m)
@@ -89,3 +93,30 @@ class Wing:
         self.airfoil = airfoil          # wing sectional airfoil type list
         self.AR = span ** 2 / area      # wing aspect ratio
         self.CD_i = CL ** 2 / (e * Wing.AR * numpy.pi)
+
+# Fuel cell information
+class FuelCell:
+    # All in base SI units
+    def __init__(self, name, rated_power, min_voltage, max_voltage, max_current, cell_dimensions, cell_weight, coolant_dimensions, coolant_weight, air_dimensions, air_weight, oxidant, fuel_flow_rate, fuel_efficiency, sound_level):
+        self.name = name
+        self.rated_power = rated_power
+        self.min_voltage = min_voltage
+        self.max_voltage = max_voltage
+        self.max_current = max_current
+        self.cell_dimensions = cell_dimensions
+        self.cell_weight = cell_weight
+        self.coolant_dimensions = coolant_dimensions
+        self.coolant_weight = coolant_weight
+        self.air_dimensions = air_dimensions
+        self.air_weight = air_weight
+        self.oxidant = oxidant
+        self.fuel_flow_rate = fuel_flow_rate
+        self.fuel_efficiency = fuel_efficiency
+        self.sound_level = sound_level
+
+class SimpleFuelCell:
+    # All in base SI units
+    def __init__(self, rated_power, cell_weight, cell_efficiency):
+        self.rated_power = rated_power
+        self.cell_weight = cell_weight
+        self.cell_efficiency = cell_efficiency
