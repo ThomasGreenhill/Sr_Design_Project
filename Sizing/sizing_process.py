@@ -69,7 +69,7 @@ def sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent
     TOGW_guess = 760 * g
 
     # Forward flight climb angle
-    gam_climb = numpy.arctan(1/20)
+    gam_climb = numpy.arctan(1/20) # Based on mission requirements
 
     # Distribution between battery and H2 fuel
     distr = 0 # fully H2, no battery
