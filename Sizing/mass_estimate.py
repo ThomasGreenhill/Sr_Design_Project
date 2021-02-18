@@ -1,4 +1,4 @@
-def mass_estimate(S_exposed, S_wetted_fuse, motors_mass, power_system_mass):
+def mass_estimate(S_exposed, S_wetted_fuse, motors_mass, power_system_mass, payload):
     '''
     mass_estimate
     Function to give a (very) rough estimate of the Takeoff Gross Mass (TOGM) based on Raymer Table 15.2
@@ -8,10 +8,11 @@ def mass_estimate(S_exposed, S_wetted_fuse, motors_mass, power_system_mass):
         S_wetted_fuse: Wetted area of the fuselage (m^2)
         motors_mass: Weight of the motors (kg)
         power_system_mass: Weight of the batteries (kg)
+        payload: Mass of payload (kg)
 
     Outputs:
         TOGM: (kg) Takeoff gross mass
-           
+
     Calls:
         {none}
 
@@ -21,27 +22,30 @@ def mass_estimate(S_exposed, S_wetted_fuse, motors_mass, power_system_mass):
     History:
         02.16.2021: Created, MP
         02.16.2021: Modified to reflect masses rather than weights and debugged, TVG
+        02.17.2021: Added payload as an input
     '''
 
-    wing_mass = 12*S_exposed
-    ht_mass   = 10*S_exposed
-    vt_mass   = 10*S_exposed
+    wing_mass = 12 * S_exposed
+    ht_mass = 10 * S_exposed
+    vt_mass = 10 * S_exposed
 
-    fuse_mass = 7*S_wetted_fuse
+    fuse_mass = 7 * S_wetted_fuse
 
-    subtotal = wing_mass + ht_mass + vt_mass + motors_mass*2 + power_system_mass # See note 1 for motor weight factor
+    subtotal = fuse_mass + wing_mass + ht_mass + vt_mass + motors_mass * 2 * 1.4 + power_system_mass + payload  # See note 1 for motor weight factor
 
-    TOGM = subtotal/(1 - 0.157) # TOGM = subtotal + 0.157*TOGM
+    TOGM = subtotal / (1 - 0.157)  # TOGM = subtotal + 0.157*TOGM
 
     return TOGM
+
 
 if __name__ == "__main__":
     # Using C-182 Values for reference areas to test
     S_exposed = 16.2  # m^2
-    S_wetted  = 26.94 # m^2
-    motors_mass  = 16.5  # kg
-    power_system_mass = 168   # kg
+    S_wetted = 26.94  # m^2
+    motors_mass = 16.5  # kg
+    power_system_mass = 168  # kg
+    payload = 100 * 3  # kg
 
     print("\n Testing Weight Estimate Function \n")
-    TOGM = weight_estimate(S_exposed, S_wetted, motors_mass, power_system_mass)
+    TOGM = mass_estimate(S_exposed, S_wetted, motors_mass, power_system_mass, payload)
     print("\t Estimated Aircraft Weight", TOGM)
