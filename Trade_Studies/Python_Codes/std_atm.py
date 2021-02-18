@@ -177,6 +177,43 @@ def std_atm(h, is_SI):
         return temp, press, dens, c_sound, visc, g
 
 
+# Checks
+if __name__ == "__main__":
 
+    is_SI = True
+    h_SF = 1.3208       # m
+    h_SAC = 0.762       # m
+    h_cruise_1 = 1828.8     # m
+    h_cruise_2 = 914.4      # m
+    h_cruise_3 = 457.2      # m
+    print("At SF and Davis")
+    temp, press, dens, _, _, _ = std_atm(h_SF, is_SI)
+    print(temp)
+    print(press)
+    print(dens)
+    print("============")
+    print("At Sac")
+    temp, press, dens, _, _, _ = std_atm(h_SAC, is_SI)
+    print(temp)
+    print(press)
+    print(dens)
+    print("============")
+    print("In cruise phase 1")
+    temp, press, dens, _, _, _ = std_atm(h_cruise_1, is_SI)
+    print(temp)
+    print(press)
+    print(dens)
+    print("============")
+    print("In cruise phase 2")
+    temp, press, dens, _, _, _ = std_atm(h_cruise_2, is_SI)
+    print(temp)
+    print(press)
+    print(dens)
+    print("============")
+    print("In cruise phase 3")
+    temp, press, dens, _, _, _ = std_atm(h_cruise_3, is_SI)
+    print(temp)
+    print(press)
+    print(dens)
 
 
