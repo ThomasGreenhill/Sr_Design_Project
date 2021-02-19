@@ -65,7 +65,7 @@ def sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent
         )
 
         # Assume 50% power in descent than power
-        P_hover_descent = 0.5 * P_hover_climb
+        P_hover_descent = P_hover_climb
 
         # Energy calculation
         E_cruise = P_cruise * time_cruise
@@ -89,9 +89,10 @@ def sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent
 
         if abs(TOGW_est - TOGW_guess) < tol:    # if converges
             print("Ended conversion in " + str(iter_num) + " iterations.")
-            power_loading = TOGW_est / (P_req * 1.5)   # N/W
+            power_loading = TOGW_est / (P_req * 1.5)    # N/W
             disk_loading = TOGW_est / S_disk            # N/m^2
-            return TOGW_est, power_loading, disk_loading
+            wing_loading = TOGW_est / S_wing / g        # kg/m^2
+            return TOGW_est, power_loading, disk_loading, wing_loading, P_req
 
         else:       # not yet converging
             TOGW_guess = TOGW_est
@@ -99,14 +100,16 @@ def sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent
             if TOGW_guess > 100000:  # N
                 power_loading = TOGW_est / (P_req * 1.5)    # N/W
                 disk_loading = TOGW_est / S_disk            # N/m^2
+                wing_loading = TOGW_est / S_wing / g  # kg/m^2
                 print("No Convergence, guessed TOGW larger than 100 kN")
-                return TOGW_guess, power_loading, disk_loading
+                return TOGW_guess, power_loading, disk_loading, wing_loading, P_req
 
             elif TOGW_guess < 2700:  # N
-                power_loading = TOGW_est / (P_req * 1.5)  # N/W
+                power_loading = TOGW_est / (P_req * 1.5)    # N/W
                 disk_loading = TOGW_est / S_disk            # N/m^2
+                wing_loading = TOGW_est / S_wing / g  # kg/m^2
                 print("No Convergence, guessed TOGW smaller than 2700 N")
-                return TOGW_guess, power_loading, disk_loading
+                return TOGW_guess, power_loading, disk_loading, wing_loading, P_req
 
         iter_num += 1
 
@@ -120,8 +123,8 @@ def sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent
 if __name__ == "__main__":
 
     # Efficiencies:
-    eta_mech = 0.9
-    eta_p = 0.85
+    eta_mech = 0.7
+    eta_p = 0.8
 
     # Velocities:
     V_hover_climb = 2.54  # m/s (equivalent to 500 ft/min)
@@ -131,7 +134,7 @@ if __name__ == "__main__":
 
     # Rotor Stuff:
     f = 0.1 # "adjustment for downwash of fuselage"
-    M = 0.8 # measure of merit
+    M = 0.6 # measure of merit
 
     # Reference Areas:
     S_disk = 6  # m^2 (ROUGH APPROXIMATION, no actual aircraft to compare to)
@@ -149,7 +152,7 @@ if __name__ == "__main__":
 
 
     # Forward flight climb angle
-    gam_climb = numpy.arctan( 1 /20) # Based on mission requirements
+    gam_climb = numpy.arctan(1 / 20)     # Based on mission requirements
 
     # Distribution between battery and H2 fuel
     distr = 0 # fully H2, no battery
@@ -158,24 +161,35 @@ if __name__ == "__main__":
     rho_battery = 260  # Wh/kg for high performance battery
     battery_reserve = 0.2 # 20% battery reserve
 
-
+    climb_1 = 4 * 1609.34       # m
+    climb_2 = 2 * 1609.34       # m
+    climb_3_time = 4 * 60       # s
+    cruise_1 = 7 * 1609.34      # m
+    cruise_2 = 15 * 1609.34     # m
+    cruise_3 = 30 * 1609.34     # m
     # Distances:
-    dist_climb = ((4 + 2) * 1609.34 + 44 * 4 * 60)          # m
-    dist_cruise = (7 + 15 + 30) * 1609.34                   # m
+    dist_climb = ((climb_1 + climb_2) + V_climb * climb_3_time)     # m, horizontal dist of climb
+    dist_cruise = (cruise_1 + cruise_2 + cruise_3)                  # m
 
     # Times:
-    time_climb = dist_climb / 44
-    time_hover_climb = 60 * 2    # s, included hovering when landing aborted
-    time_cruise = dist_cruise / 44 + 2600   # included Sac to Davis
-    time_hover_descent = 120
+    dist_sac_davis = 24462.03       # m
+    time_climb = dist_climb / V_climb
+    time_hover_climb = 60 * 2      # s, included hovering when landing aborted
+    time_cruise = dist_cruise / V_cruise + dist_sac_davis / V_cruise   # s, included Sac to Davis
+    time_hover_descent = 60 * 2
 
     payload = 300
 
     print("Running the test of \"sizing_process\" function")
-    TOGW, _, _ = sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent,
+    TOGW, power_loading, disk_loading = sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent,
                                 eta_mech, eta_p, V_hover_climb,
                                 V_hover_descent, V_climb, V_cruise,
                                 f, M, rho, e, AR, CD0, gam_climb, distr,
                                 S_disk, S_wing, S_wetted_fuse,
                                 rho_battery, battery_reserve, payload)
+    print("========================================")
     print("The converged TOGW is " + str(TOGW) + " N")
+    print(power_loading)
+    print(disk_loading)
+
+

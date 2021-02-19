@@ -2,17 +2,46 @@
 import numpy
 import matplotlib.pyplot as plt
 from sizing_process import sizing_process
-#import sys
+import os
+import sys
 #sys.path.append("../Utilities")
 #import formatfigures
 #formatfigures.formatfigures()
 
-# Initial input (as tested in sizing_process.py)
+'''
+Script to plot and save the required figures for the sizing purpose
+
+Calls:
+    sizing_process.py
+    
+Note:
+    1. ***Thrust-to-weight ratio needs to be updated with the propulsion design from Yihui and Gloria
+    2. ***Figures need to be decorated with latex
+    3. The values align with progress report. If there is any change, please make sure to
+       change the values in this script as well
+    4. All figures are stored in the folder: sizing_figures
+    
+History:
+    02.17.2021: Created, XT
+                    TOGW vs. wing area
+                    TOGW vs. disk area
+                    power loading vs. disk loading
+    02.18.2021: Added figures, XT
+                    power loading vs. wing loading
+                    thrust-to-weight ratio vs. wing loading
+                    TOGW vs. wing loading (subplot)
+                    TOGW vs. disk loading (subplot)
+    02.18.2021: Debugged, XT & TVG
+
+'''
 
 
+
+
+############## Assumed values ##############
 # Efficiencies:
-eta_mech = 0.9
-eta_p = 0.85
+eta_mech = 0.7
+eta_p = 0.8
 
 # Velocities:
 V_hover_climb = 2.54    #m/s (equivalent to 500 ft/min)
@@ -22,7 +51,7 @@ V_cruise = 62           #m/s (equivalent to 120.52 knots)
 
 # Rotor Stuff:
 f = 0.1 # "adjustment for downwash of fuselage"
-M = 0.8 # measure of merit
+M = 0.6 # measure of merit
 
 # Reference Areas:
 S_disk = 6      #m^2 (ROUGH APPROXIMATION, no actual aircraft to compare to)
@@ -44,101 +73,284 @@ gam_climb = numpy.arctan(1/20) # Based on mission requirements
 distr = 0 # fully H2, no battery
 
 # Battery info
-rho_battery = 260 #Wh/kg for high performance battery
+rho_battery = 260  # Wh/kg for high performance battery
 battery_reserve = 0.2 # 20% battery reserve
 
-
+climb_1 = 4 * 1609.34       # m
+climb_2 = 2 * 1609.34       # m
+climb_3_time = 4 * 60       # s
+cruise_1 = 7 * 1609.34      # m
+cruise_2 = 15 * 1609.34     # m
+cruise_3 = 30 * 1609.34     # m
 # Distances:
-dist_climb = ((4 + 2) * 1609.34 + 44 * 4 * 60)          # m
-dist_cruise = (7 + 15 + 30) * 1609.34                   # m
+dist_climb = ((climb_1 + climb_2) + V_climb * climb_3_time)     # m, horizontal dist of climb
+dist_cruise = (cruise_1 + cruise_2 + cruise_3)                  # m
 
 # Times:
-time_climb = dist_climb / 44
-time_hover_climb = 60 * 2    # s, included hovering when landing aborted
-time_cruise = dist_cruise / 44 + 2600   # included Sac to Davis
-time_hover_descent = 120
+dist_sac_davis = 24462.03       # m
+time_climb = dist_climb / V_climb
+time_hover_climb = 60 * 2      # s, included hovering when landing aborted
+time_cruise = dist_cruise / V_cruise + dist_sac_davis / V_cruise   # s, included Sac to Davis
+time_hover_descent = 60 * 2
 
-# Payload:
-payload = 3*100 #kg
+# Payload mass
+payload = 300       # kg
 
 
 
-###########################################
+############## Making directory ##############
+my_folder = 'sizing_figures'
+if not os.path.exists(my_folder):
+    os.makedirs(my_folder)
+
+fig_type = '.png'   # saves as png
+
+print("Plotting figures...")
+sys.stdout = open(os.devnull, 'w')
+
+
+
+############## Plotting figures ##############
 num = 101
 # TOGW vs. S_ref, reference area is the wing area
 S_ref_list = numpy.linspace(10, 20, num)
 TOGW_S_ref = [0] * num
+power_loading_1 = [0] * num     # N/W
+wing_loading_1 = [0] * num      # kg/m^2
+P_list = [0] * num
 
 for i in range(num):
-    TOGW_S_ref[i], _, _ = sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent,
+    TOGW_S_ref[i], power_loading_1[i], _, wing_loading_1[i], P_list[i] = sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent,
                 eta_mech, eta_p, V_hover_climb,
                 V_hover_descent, V_climb, V_cruise,
                 f, M, rho, e, AR, CD0, gam_climb, distr,
                 S_disk, S_ref_list[i], S_wetted_fuse,
                 rho_battery, battery_reserve, payload)
 
-# Plot
-plt.figure(1)
-plt.plot(S_ref_list, TOGW_S_ref)
-plt.ylabel("TOGW (N)")
-plt.xlabel("Wing reference area (m^2)")
+S_ref_list_IM = [0] * num
+TOGW_S_ref_IM = [0] * num
+wing_loading_1_IM = [0] * num
+power_loading_1_IM = [0] * num
+for i in range(num):
+    S_ref_list_IM[i] = S_ref_list[i] * 10.7639
+    TOGW_S_ref_IM[i] = TOGW_S_ref[i] * 0.224809
+    wing_loading_1_IM[i] = wing_loading_1[i] / 10.7639 * 2.20462   # lb/ft^2
+    power_loading_1_IM[i] = power_loading_1[i] / 745.7 * 4.44822   # lb/hp
 
-# TOGW vs. S_disk
-S_disk_list = numpy.linspace(1, 15, num)
+
+### TOGW vs S_wing (S_ref) & wing loading
+# Plot in imperial units
+fig1 = plt.figure(1)
+ax1 = fig1.add_subplot(111)
+ax2 = ax1.twiny()
+ax1.yaxis.grid()
+ax1.xaxis.grid()
+title = "TOGW vs. wing area & wing loading in imperial units"
+plt.title(title)
+ax1.plot(S_ref_list_IM, TOGW_S_ref_IM, 'b-', label="Wing area")
+ax1.set_xlabel("Wing reference area (ft^2)")
+ax2.plot(wing_loading_1_IM, TOGW_S_ref_IM, 'r-', label="Wing loading")
+ax2.set_xlabel("Wing loading (lb/ft^2)")
+plt.ylabel("TOGW (lbf)")
+ax1.legend(loc="upper left")
+ax2.legend(loc="upper right")
+pathway = './' + my_folder + '/' + title + fig_type
+plt.savefig(pathway, bbox_inches='tight')
+
+# Plot in SI units
+fig2 = plt.figure(2)
+ax1 = fig2.add_subplot(111)
+ax2 = ax1.twiny()
+ax1.yaxis.grid()
+ax1.xaxis.grid()
+title = "TOGW vs. wing area & wing loading in SI units"
+plt.title(title)
+ax1.plot(S_ref_list, TOGW_S_ref, 'b-', label="Wing area")
+ax1.set_xlabel("Wing reference area (m^2)")
+ax2.plot(wing_loading_1, TOGW_S_ref, 'r-', label="Wing loading")
+ax2.set_xlabel("Wing loading (kg/m^2)")
+plt.ylabel("TOGW (N)")
+ax1.legend(loc="upper left")
+ax2.legend(loc="upper right")
+pathway = './' + my_folder + '/' + title + fig_type
+plt.savefig(pathway, bbox_inches='tight')
+
+
+### Power loading vs. wing loading
+# Plot in imperial units
+plt.figure(3)
+plt.plot(wing_loading_1_IM, power_loading_1_IM, 'b-', label="Initial Sizing")
+plt.ylabel("Power loading (lbf/hp)")
+plt.grid()
+plt.xlabel("Wing loading (lb/ft^2)")
+title = "Power loading vs. wing loading in imperial units"
+plt.title(title)
+plt.legend(loc="upper left")
+pathway = './' + my_folder + '/' + title + fig_type
+plt.savefig(pathway, bbox_inches='tight')
+
+# Plot in imperial units
+plt.figure(4)
+plt.plot(wing_loading_1, power_loading_1, 'b-', label="Initial Sizing")
+plt.ylabel("Power loading (N/W)")
+plt.grid()
+plt.xlabel("Wing loading (kg/m^2)")
+title = "Power loading vs. wing loading in SI units"
+plt.title(title)
+plt.legend(loc="upper left")
+pathway = './' + my_folder + '/' + title + fig_type
+plt.savefig(pathway, bbox_inches='tight')
+
+
+### TOGW vs. S_disk & disk loading
+S_disk_list = numpy.linspace(1.5, 25, num)
 TOGW_S_disk = [0] * num
-power_loading_list = [0] * num
-disk_loading_list = [0] * num
+power_loading_list_SI = [0] * num
+disk_loading_list_SI = [0] * num
+wing_loading_2 = [0] * num
+power = [0] * num
 
 for i in range(num):
-    TOGW_S_disk[i], power_loading_list[i], disk_loading_list[i] = sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent,
+    TOGW_S_disk[i], power_loading_list_SI[i], disk_loading_list_SI[i], wing_loading_2[i], power[i] = sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent,
                 eta_mech, eta_p, V_hover_climb,
                 V_hover_descent, V_climb, V_cruise,
                 f, M, rho, e, AR, CD0, gam_climb, distr,
                 S_disk_list[i], S_wing, S_wetted_fuse,
                 rho_battery, battery_reserve, payload)
 
-# Plot
-plt.figure(2)
-plt.plot(S_disk_list, TOGW_S_disk)
+S_disk_list_IM = [0] * num
+TOGW_S_disk_IM = [0] * num
+disk_loading_list_IM = [0] * num
+for i in range(num):
+    S_disk_list_IM[i] = S_disk_list[i] * 10.7639
+    TOGW_S_disk_IM[i] = TOGW_S_disk[i] * 0.224809
+    disk_loading_list_IM[i] = disk_loading_list_SI[i] / 10.7639 * 0.224809
+
+# Plot in imperial unit
+fig5 = plt.figure(5)
+ax1 = fig5.add_subplot(111)
+ax2 = ax1.twiny()
+ax1.xaxis.grid()
+ax1.yaxis.grid()
+ax1.plot(S_disk_list_IM, TOGW_S_disk_IM, 'b-', label="Disk area")
+ax1.set_xlabel("Disk area (ft^2)")
+ax2.plot(disk_loading_list_IM, TOGW_S_disk_IM, 'r-', label="Disk loading")
+ax2.set_xlabel("Disk loading (lbf/ft^2)")
+title = "TOGW vs. disk area & disk loading in imperial units"
+plt.title(title)
+plt.ylabel("TOGW (lbf)")
+ax1.legend(loc="upper left")
+ax2.legend(loc="upper right")
+pathway = './' + my_folder + '/' + title + fig_type
+plt.savefig(pathway, bbox_inches='tight')
+
+# Plot in SI unit
+fig6 = plt.figure(6)
+ax1 = fig6.add_subplot(111)
+ax2 = ax1.twiny()
+ax1.xaxis.grid()
+ax1.yaxis.grid()
+ax1.plot(S_disk_list, TOGW_S_disk, 'b-', label="Disk area")
+ax1.set_xlabel("Disk area (m^2)")
+ax2.plot(disk_loading_list_SI, TOGW_S_disk, 'r-', label="Disk loading")
+ax2.set_xlabel("Disk loading (N/m^2)")
+title = "TOGW vs. disk area & disk loading in SI units"
+plt.title(title)
 plt.ylabel("TOGW (N)")
-plt.xlabel("Disk area (m^2)")
+ax1.legend(loc="upper left")
+ax2.legend(loc="upper right")
+pathway = './' + my_folder + '/' + title + fig_type
+plt.savefig(pathway, bbox_inches='tight')
 
-# Power loading vs. disk loading
-power_loading_list_new = [0] * num
-disk_loading_list_new = [0] * num
+
+### Thrust-to-weight ratio vs. wing loading
+V_num = 5
+rows, cols = (V_num, num)
+T_W = [[0 for i in range(cols)] for j in range(rows)]
+V = numpy.linspace(V_hover_climb, V_cruise, V_num)
+V_IM = numpy.linspace(V_hover_climb * 1.94384, V_cruise * 1.94384, V_num)
+for i in range(rows):
+    for j in range(cols):
+        T_W[i][j] = eta_p * power[j] / V[i] / TOGW_S_disk[j]
+
+wing_loading_2_IM = [0] * num
 for i in range(num):
-    power_loading_list_new[i] = power_loading_list[i] * 167.64
-    disk_loading_list_new[i] = disk_loading_list[i] * 0.0208854
+    wing_loading_2_IM[i] = wing_loading_2[i] / 10.7639 * 2.20462    # lb/ft^2
 
-disk_loading_limit = numpy.linspace(min(disk_loading_list_new), max(disk_loading_list_new), num)
-power_loading_limit = [0] * num
+# Plot in Imperial units
+plt.figure(7)
+for i in range(rows):
+    label_val = "V_inf = " + str(round(V_IM[i], 1)) + " knots"
+    plt.semilogy(wing_loading_2_IM, T_W[i], label=label_val)
+title = "Thrust-to-weight ratio vs. wing loading in imperial units"
+plt.title(title)
+plt.grid()
+plt.ylabel("Thrust-to-weight ratio")
+plt.xlabel("Wing loading (lb/ft^2)")
+plt.legend(loc="best")
+plt.legend()
+pathway = './' + my_folder + '/' + title + fig_type
+plt.savefig(pathway, bbox_inches='tight')
+
+# Plot in SI units
+plt.figure(8)
+for i in range(rows):
+    label_val = "V_inf = " + str(round(V[i], 1)) + " m/s"
+    plt.semilogy(wing_loading_2, T_W[i], label=label_val)
+title = "Thrust-to-weight ratio vs. wing loading in SI units"
+plt.title(title)
+plt.grid()
+plt.ylabel("Thrust-to-weight ratio")
+plt.xlabel("Wing loading (kg/m^2)")
+plt.legend(loc="best")
+plt.legend()
+pathway = './' + my_folder + '/' + title + fig_type
+plt.savefig(pathway, bbox_inches='tight')
+
+
+### Power loading vs. disk loading
+power_loading_list_IM = [0] * num
+disk_loading_list_IM = [0] * num
 for i in range(num):
-    power_loading_limit[i] = 53.3 / numpy.sqrt(disk_loading_limit[i])
+    power_loading_list_IM[i] = (power_loading_list_SI[i] * 167.64)
+    disk_loading_list_IM[i] = disk_loading_list_SI[i] * 0.0208854
 
-plt.figure(3)
-plt.plot(disk_loading_list_new, power_loading_list_new)
-plt.plot(disk_loading_limit, power_loading_limit)
-plt.title("Power loading vs. disk loading in imperial units")
+disk_loading_limit_IM = numpy.linspace(min(disk_loading_list_IM), max(disk_loading_list_IM), num)
+disk_loading_limit_SI = [0] * num
+power_loading_limit_IM = [0] * num
+power_loading_limit_SI = [0] * num
+for i in range(num):
+    power_loading_limit_IM[i] = (53.3 / numpy.sqrt(disk_loading_limit_IM[i]))
+    disk_loading_limit_SI[i] = disk_loading_limit_IM[i] / 0.092903 * 4.44822
+    power_loading_limit_SI[i] = power_loading_limit_IM[i] / 745.7 * 4.44822
+
+# Plot in Imperial unit
+plt.figure(9)
+plt.semilogx(disk_loading_list_IM, power_loading_list_IM, 'b-', label="Initial Sizing")
+plt.plot(disk_loading_limit_IM, power_loading_limit_IM, 'r-', label="Theoretical Limit")
+title = "Power loading vs. disk loading in imperial units"
+plt.title(title)
 plt.grid()
 plt.ylabel("Power loading (lbf/hp)")
 plt.xlabel("Disk loading (lbf/ft^2)")
-plt.show()
+plt.legend(loc="upper right")
+pathway = './' + my_folder + '/' + title + fig_type
+plt.savefig(pathway, bbox_inches='tight')
 
+# Plot in SI unit
+plt.figure(10)
+plt.semilogx(disk_loading_list_SI, power_loading_list_SI, 'b-', label="Initial Sizing")
+plt.plot(disk_loading_limit_SI, power_loading_limit_SI, 'r-', label="Theoretical Limit")
+title = "Power loading vs. disk loading in SI units"
+plt.title(title)
+plt.grid()
+plt.ylabel("Power loading (N/W)")
+plt.xlabel("Disk loading (N/m^2)")
+plt.legend(loc="upper right")
+pathway = './' + my_folder + '/' + title + fig_type
+plt.savefig(pathway, bbox_inches='tight')
 
-
-
-
-
-
-
-
-'''
-print("Running the test of \"sizing_process\" function")
-TOGW = sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent,
-                eta_mech, eta_p, V_hover_climb, 
-                V_hover_descent, V_climb, V_cruise, 
-                f, M, rho, e, AR, CD0, gam_climb, distr,
-                S_disk, S_wing, S_wetted_fuse, 
-                rho_battery, battery_reserve)
-print("The converged TOGW is " + str(TOGW) + " N")
-'''
+############## End ##############
+sys.stdout = sys.__stdout__
+print("All figures are successfully stored in the folder: \"" + my_folder + "\"")
+print("Ending program...")
