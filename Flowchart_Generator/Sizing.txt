@@ -1,0 +1,11 @@
+INPUT Set Configuration and Parameters
+Apply: Requirements
+Guess: TOGW
+WHILE ESTIMATED TOGW Not Equal GUESSED TOGW DO
+    Estimate: Power Required
+    Estimate: Power System Weight and Size
+    Estimate: Component Weights
+    Check: Whether Initial Estimate Was Over or Under
+    Adjust: TOGW
+ENDWHILE
+OUTPUT TOGW
