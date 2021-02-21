@@ -181,7 +181,7 @@ if __name__ == "__main__":
     payload = 300
 
     print("Running the test of \"sizing_process\" function")
-    TOGW, power_loading, disk_loading = sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent,
+    TOGW, power_loading, disk_loading, wing_loading, P_req = sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent,
                                 eta_mech, eta_p, V_hover_climb,
                                 V_hover_descent, V_climb, V_cruise,
                                 f, M, rho, e, AR, CD0, gam_climb, distr,
@@ -189,7 +189,5 @@ if __name__ == "__main__":
                                 rho_battery, battery_reserve, payload)
     print("========================================")
     print("The converged TOGW is " + str(TOGW) + " N")
-    print(power_loading)
-    print(disk_loading)
 
 
