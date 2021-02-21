@@ -156,6 +156,7 @@ def power_requirements(eta_mech, eta_p, V_hover_climb, V_climb, V_cruise, W_TOGW
     '''
 
     P_hover_climb = (1/eta_mech)*((W_TOGW*V_hover_climb)/2 + f*W_TOGW/M)*numpy.sqrt(f*(W_TOGW/S_disk)/(2*rho))
+    P_hover_descent = (1/eta_mech)*(f*W_TOGW/M)*numpy.sqrt(f*(W_TOGW/S_disk)/(2*rho))
     
     L = W_TOGW
     K = 1/(numpy.pi*e*AR)
@@ -179,7 +180,7 @@ def power_requirements(eta_mech, eta_p, V_hover_climb, V_climb, V_cruise, W_TOGW
     P_cruise = (D_cruise*V_cruise/eta_p)/eta_mech
     P_climb = V_climb/eta_p*(D_climb+W_TOGW*numpy.sin(gam_climb))*(1/eta_mech)
 
-    return P_cruise, P_climb, P_hover_climb
+    return P_cruise, P_climb, P_hover_climb, P_hover_descent
 
 if __name__ == "__main__":
 

@@ -59,13 +59,10 @@ def sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent
 
     while True:
         # Power in W
-        P_cruise, P_climb, P_hover_climb = component_sizing.power_requirements(
+        P_cruise, P_climb, P_hover_climb, P_hover_descent = component_sizing.power_requirements(
             eta_mech, eta_p, V_hover_climb, V_climb, V_cruise,
             TOGW_guess, f, M, S_disk, S_wing, rho, CD0, AR, e, gam_climb
         )
-
-        # Assume 50% power in descent than power
-        P_hover_descent = P_hover_climb
 
         # Energy calculation
         E_cruise = P_cruise * time_cruise
@@ -130,17 +127,17 @@ if __name__ == "__main__":
 
     # Velocities:
     V_hover_climb = 2.54  # m/s (equivalent to 500 ft/min)
-    V_hover_descent = -1.52  # m/s (equivalent to 300 ft/min descent)
+    V_hover_descent = 0  # m/s (equivalent to 300 ft/min descent)
     V_climb = 44  # m/s (equivalent to 85.53 knots)
-    V_cruise = 62  # m/s (equivalent to 120.52 knots)
+    V_cruise = 62  # m/s (equivalent to 120.52 knots) // Increase later
 
     # Rotor Stuff:
     f = 0.1 # "adjustment for downwash of fuselage"
     M = 0.6 # measure of merit
 
     # Reference Areas:
-    S_disk = 6  # m^2 (ROUGH APPROXIMATION, no actual aircraft to compare to)
-    S_wing = 16.2  # m^2 (taken from Cessna 172)
+    S_disk = 20  # m^2 (ROUGH APPROXIMATION, no actual aircraft to compare to)
+    S_wing = 26  # m^2 (taken from Cessna 172)
     S_wetted_fuse = 24.3  # m^2 (taken from Cessna 182RG)
 
     # Air Properties:
@@ -148,7 +145,7 @@ if __name__ == "__main__":
 
     # Geometric and Drag Properties:
     e = 0.75
-    AR = 9
+    AR = 10
     CD0 = 0.02 # Assumed, slightly smaller than C182RG CD0 with landing gear retracted
 
 
