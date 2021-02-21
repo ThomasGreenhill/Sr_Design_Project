@@ -94,6 +94,7 @@ class Wing:
         self.AR = span ** 2 / area      # wing aspect ratio
         self.CD_i = CL ** 2 / (e * Wing.AR * numpy.pi)
 
+
 # Fuel cell information
 class FuelCell:
     # All in base SI units
@@ -114,9 +115,48 @@ class FuelCell:
         self.fuel_efficiency = fuel_efficiency
         self.sound_level = sound_level
 
+
+# Simplified fuel cell information
 class SimpleFuelCell:
     # All in base SI units
     def __init__(self, rated_power, cell_weight, cell_efficiency):
         self.rated_power = rated_power
         self.cell_weight = cell_weight
         self.cell_efficiency = cell_efficiency
+
+
+# Class for sizing purpose
+class Sizing:
+    # All in base SI units
+    def __init__(self, eta_mech, eta_p, V_hover_climb, V_hover_descent, V_climb, V_cruise,
+                 f, M, S_disk, S_wing, S_wetted_fuse, rho, e, AR, CD0, gam_climb, distr,
+                 rho_battery, battery_reserve, dist_climb, dist_cruise, payload,
+                 time_climb, time_hover_climb, time_cruise, time_hover_descent):
+        self.eta_mech = eta_mech
+        self.eta_p = eta_p
+        self.V_hover_climb = V_hover_climb
+        self.V_hover_descent = V_hover_descent
+        self.V_climb = V_climb
+        self.V_cruise = V_cruise
+        self.f = f
+        self.M = M
+        self.S_disk = S_disk
+        self.S_wing = S_wing
+        self.S_wetted_fuse = S_wetted_fuse
+        self.rho = rho
+        self.e = e
+        self.AR = AR
+        self.CD0 = CD0
+        self.gam_climb = gam_climb
+        self.distr = distr
+        self.rho_battery = rho_battery
+        self.battery_reserve = battery_reserve
+        self.dist_climb = dist_climb
+        self.dist_cruise = dist_cruise
+        self.payload = payload
+        self.time_climb = time_climb
+        self.time_hover_climb = time_hover_climb
+        self.time_cruise = time_cruise
+        self.time_hover_descent = time_hover_descent
+
+

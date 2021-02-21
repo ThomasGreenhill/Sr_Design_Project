@@ -49,3 +49,9 @@ if __name__ == "__main__":
     print("\n Testing Weight Estimate Function \n")
     TOGM = mass_estimate(S_exposed, S_wetted, motors_mass, power_system_mass, payload)
     print("\t Estimated Aircraft Weight", TOGM)
+
+    rows, cols = (5, 2)
+    T_W = [[0 for i in range(cols)] for j in range(rows)]
+
+    a = [[1,2], [3,4], [5,6]]
+    print(a[0][0])
