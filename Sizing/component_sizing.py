@@ -82,10 +82,15 @@ def power_system_mass_sizing(distr, rho_battery, E, P_req_H2, battery_reserve):
     rho_H2 = 120e6  #J/kg 
     cell_efficiency = 0.57 # This is an approximation
     # Assume 11.3% of the weight of the hydrogen fuel storage system is actually hydrogen, rest is storage system
+    ratio = 0.05
     H2_energy = E*(1-distr)
-    H2_mass = ((H2_energy/rho_H2)/cell_efficiency)/0.113
+    H2_mass = ((H2_energy/rho_H2)/cell_efficiency)/ratio
 
     power_system_mass = H2_mass+battery_mass
+
+    misc_elec_mass = 20
+
+    power_system_mass += misc_elec_mass
 
     return power_system_mass
 
