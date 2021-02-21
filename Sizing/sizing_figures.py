@@ -99,19 +99,19 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
 
 
         ### TOGW vs S_wing (S_ref) & wing loading
-        # Plot in imperial units
+        # Plot in Imperial Units
         fig1 = plt.figure(1)
         ax1 = fig1.add_subplot(111)
         ax2 = ax1.twiny()
         # ax1.yaxis.grid()
         # ax1.xaxis.grid()
-        title = "TOGW vs. wing area and wing loading in imperial units"
+        title = "TOGW vs. Wing Area and Wing Loading in Imperial Units"
         plt.title(title)
         ax1.plot(S_ref_list_IM, TOGW_S_ref_IM, 'b-', label="Wing area")
         ax1.set_xlabel("Wing reference area (ft$^2$)")
         ax2.plot(wing_loading_1_IM, TOGW_S_ref_IM, 'r-', label="Wing loading")
         ax2.set_xlabel("Wing loading (lb/ft$^2$)")
-        plt.ylabel("TOGW (lbf)")
+        ax1.set_ylabel("TOGW (lbf)")
         ax1.legend(loc="upper left")
         ax2.legend(loc="upper right")
         pathway = './' + my_folder + '/' + title + fig_type
@@ -123,39 +123,39 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
         ax2 = ax1.twiny()
         # ax1.yaxis.grid()
         # ax1.xaxis.grid()
-        title = "TOGW vs. wing area and wing loading in SI units"
+        title = "TOGW vs. Wing Area and Wing Loading in SI units"
         plt.title(title)
         ax1.plot(S_ref_list, TOGW_S_ref, 'b-', label="Wing area")
         ax1.set_xlabel("Wing reference area (m$^2$)")
         ax2.plot(wing_loading_1, TOGW_S_ref, 'r-', label="Wing loading")
         ax2.set_xlabel("Wing loading (kg/m$^2$)")
-        plt.ylabel("TOGW (N)")
+        ax1.set_ylabel("TOGW (N)")
         ax1.legend(loc="upper left")
         ax2.legend(loc="upper right")
         pathway = './' + my_folder + '/' + title + fig_type
         plt.savefig(pathway, bbox_inches='tight')
 
 
-        ### Power loading vs. wing loading
-        # Plot in imperial units
+        ### Power Loading vs. Wing Loading
+        # Plot in Imperial Units
         plt.figure(3)
         plt.plot(wing_loading_1_IM, power_loading_1_IM, 'b-', label="Initial Sizing")
         plt.ylabel("Power loading (lbf/hp)")
         # plt.grid()
         plt.xlabel("Wing loading (lb/ft$^2$)")
-        title = "Power loading vs. wing loading in imperial units"
+        title = "Power Loading vs. Wing Loading in Imperial Units"
         plt.title(title)
         plt.legend(loc="upper left")
         pathway = './' + my_folder + '/' + title + fig_type
         plt.savefig(pathway, bbox_inches='tight')
 
-        # Plot in imperial units
+        # Plot in Imperial Units
         plt.figure(4)
         plt.plot(wing_loading_1, power_loading_1, 'b-', label="Initial Sizing")
         plt.ylabel("Power loading (N/W)")
         # plt.grid()
         plt.xlabel("Wing loading (kg/m$^2$)")
-        title = "Power loading vs. wing loading in SI units"
+        title = "Power Loading vs. Wing Loading in SI units"
         plt.title(title)
         plt.legend(loc="upper left")
         pathway = './' + my_folder + '/' + title + fig_type
@@ -196,9 +196,9 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
         ax1.set_xlabel("Disk area (ft$^2$)")
         ax2.plot(disk_loading_list_IM, TOGW_S_disk_IM, 'r-', label="Disk loading")
         ax2.set_xlabel("Disk loading (lbf/ft$^2$)")
-        title = "TOGW vs. disk area and disk loading in imperial units"
+        title = "TOGW vs. Disk Area and Disk Loading in Imperial Units"
         plt.title(title)
-        plt.ylabel("TOGW (lbf)")
+        ax1.set_ylabel("TOGW (lbf)")
         ax1.legend(loc="upper left")
         ax2.legend(loc="upper right")
         pathway = './' + my_folder + '/' + title + fig_type
@@ -214,9 +214,9 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
         ax1.set_xlabel("Disk area (m$^2$)")
         ax2.plot(disk_loading_list_SI, TOGW_S_disk, 'r-', label="Disk loading")
         ax2.set_xlabel("Disk loading (N/m$^2$)")
-        title = "TOGW vs. disk area and disk loading in SI units"
+        title = "TOGW vs. Disk Area and Disk Loading in SI units"
         plt.title(title)
-        plt.ylabel("TOGW (N)")
+        ax1.set_ylabel("TOGW (N)")
         ax1.legend(loc="upper left")
         ax2.legend(loc="upper right")
         pathway = './' + my_folder + '/' + title + fig_type
@@ -242,7 +242,7 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
         for i in range(rows):
             label_val = "$V_\infty$ = " + str(round(V_IM[i], 1)) + " knots"
             plt.semilogy(wing_loading_2_IM, T_W[i], label=label_val)
-        title = "Thrust-to-weight ratio vs. wing loading in imperial units"
+        title = "Thrust-to-Weight Ratio vs. Wing Loading in Imperial Units"
         plt.title(title)
         # plt.grid()
         plt.ylabel("Thrust-to-weight ratio")
@@ -257,7 +257,7 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
         for i in range(rows):
             label_val = "$V_\infty$ = " + str(round(V[i], 1)) + " m/s"
             plt.semilogy(wing_loading_2, T_W[i], label=label_val)
-        title = "Thrust-to-weight ratio vs. wing loading in SI units"
+        title = "Thrust-to-Weight Ratio vs. Wing Loading in SI units"
         plt.title(title)
         # plt.grid()
         plt.ylabel("Thrust-to-weight ratio")
@@ -286,9 +286,9 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
 
         # Plot in Imperial unit
         plt.figure(9)
-        plt.semilogx(disk_loading_list_IM, power_loading_list_IM, 'b-', label="Initial Sizing")
+        plt.plot(disk_loading_list_IM, power_loading_list_IM, 'b-', label="Initial Sizing")
         plt.plot(disk_loading_limit_IM, power_loading_limit_IM, 'r-', label="Theoretical Limit")
-        title = "Power loading vs. disk loading in imperial units"
+        title = "Power Loading vs. Disk Loading in Imperial Units"
         plt.title(title)
         # plt.grid()
         plt.ylabel("Power loading (lbf/hp)")
@@ -299,9 +299,9 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
 
         # Plot in SI unit
         plt.figure(10)
-        plt.semilogx(disk_loading_list_SI, power_loading_list_SI, 'b-', label="Initial Sizing")
+        plt.plot(disk_loading_list_SI, power_loading_list_SI, 'b-', label="Initial Sizing")
         plt.plot(disk_loading_limit_SI, power_loading_limit_SI, 'r-', label="Theoretical Limit")
-        title = "Power loading vs. disk loading in SI units"
+        title = "Power Loading vs. Disk Loading in SI units"
         plt.title(title)
         # plt.grid()
         plt.ylabel("Power loading (N/W)")
@@ -338,13 +338,13 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
 
 
         ### TOGW vs S_wing (S_ref) & wing loading
-        # Plot in imperial units
+        # Plot in Imperial Units
         fig1 = plt.figure(1)
         ax1 = fig1.add_subplot(111)
         ax2 = ax1.twiny()
         ax1.yaxis.grid()
         ax1.xaxis.grid()
-        title = "TOGW vs. wing area & wing loading in imperial units"
+        title = "TOGW vs. Wing Area & Wing Loading in Imperial Units"
         plt.title(title)
         ax1.plot(S_ref_list_IM, TOGW_S_ref_IM, 'b-', label="Wing area")
         ax1.set_xlabel("Wing reference area (ft^2)")
@@ -362,7 +362,7 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
         ax2 = ax1.twiny()
         ax1.yaxis.grid()
         ax1.xaxis.grid()
-        title = "TOGW vs. wing area & wing loading in SI units"
+        title = "TOGW vs. Wing Area & Wing Loading in SI units"
         plt.title(title)
         ax1.plot(S_ref_list, TOGW_S_ref, 'b-', label="Wing area")
         ax1.set_xlabel("Wing reference area (m^2)")
@@ -375,26 +375,26 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
         plt.savefig(pathway, bbox_inches='tight')
 
 
-        ### Power loading vs. wing loading
-        # Plot in imperial units
+        ### Power Loading vs. Wing Loading
+        # Plot in Imperial Units
         plt.figure(3)
         plt.plot(wing_loading_1_IM, power_loading_1_IM, 'b-', label="Initial Sizing")
         plt.ylabel("Power loading (lbf/hp)")
         plt.grid()
         plt.xlabel("Wing loading (lb/ft^2)")
-        title = "Power loading vs. wing loading in imperial units"
+        title = "Power Loading vs. Wing Loading in Imperial Units"
         plt.title(title)
         plt.legend(loc="upper left")
         pathway = './' + my_folder + '/' + title + fig_type
         plt.savefig(pathway, bbox_inches='tight')
 
-        # Plot in imperial units
+        # Plot in Imperial Units
         plt.figure(4)
         plt.plot(wing_loading_1, power_loading_1, 'b-', label="Initial Sizing")
         plt.ylabel("Power loading (N/W)")
         plt.grid()
         plt.xlabel("Wing loading (kg/m^2)")
-        title = "Power loading vs. wing loading in SI units"
+        title = "Power Loading vs. Wing Loading in SI units"
         plt.title(title)
         plt.legend(loc="upper left")
         pathway = './' + my_folder + '/' + title + fig_type
@@ -435,7 +435,7 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
         ax1.set_xlabel("Disk area (ft^2)")
         ax2.plot(disk_loading_list_IM, TOGW_S_disk_IM, 'r-', label="Disk loading")
         ax2.set_xlabel("Disk loading (lbf/ft^2)")
-        title = "TOGW vs. disk area & disk loading in imperial units"
+        title = "TOGW vs. disk area & disk loading in Imperial Units"
         plt.title(title)
         plt.ylabel("TOGW (lbf)")
         ax1.legend(loc="upper left")
@@ -481,7 +481,7 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
         for i in range(rows):
             label_val = "V_inf = " + str(round(V_IM[i], 1)) + " knots"
             plt.semilogy(wing_loading_2_IM, T_W[i], label=label_val)
-        title = "Thrust-to-weight ratio vs. wing loading in imperial units"
+        title = "Thrust-to-weight ratio vs. wing loading in Imperial Units"
         plt.title(title)
         plt.grid()
         plt.ylabel("Thrust-to-weight ratio")
@@ -525,9 +525,9 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
 
         # Plot in Imperial unit
         plt.figure(9)
-        plt.semilogx(disk_loading_list_IM, power_loading_list_IM, 'b-', label="Initial Sizing")
+        plt.plot(disk_loading_list_IM, power_loading_list_IM, 'b-', label="Initial Sizing")
         plt.plot(disk_loading_limit_IM, power_loading_limit_IM, 'r-', label="Theoretical Limit")
-        title = "Power loading vs. disk loading in imperial units"
+        title = "Power loading vs. disk loading in Imperial Units"
         plt.title(title)
         plt.grid()
         plt.ylabel("Power loading (lbf/hp)")
@@ -538,7 +538,7 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
 
         # Plot in SI unit
         plt.figure(10)
-        plt.semilogx(disk_loading_list_SI, power_loading_list_SI, 'b-', label="Initial Sizing")
+        plt.plo(disk_loading_list_SI, power_loading_list_SI, 'b-', label="Initial Sizing")
         plt.plot(disk_loading_limit_SI, power_loading_limit_SI, 'r-', label="Theoretical Limit")
         title = "Power loading vs. disk loading in SI units"
         plt.title(title)
@@ -565,7 +565,7 @@ if __name__ == "__main__":
 
     # Velocities:
     V_hover_climb = 2.54    #m/s (equivalent to 500 ft/min)
-    V_hover_descent = -1.52 #m/s (equivalent to 300 ft/min descent)
+    V_hover_descent = 0 #m/s (equivalent to 300 ft/min descent)
     V_climb = 44            #m/s (equivalent to 85.53 knots)
     V_cruise = 62           #m/s (equivalent to 120.52 knots)
 
@@ -573,17 +573,16 @@ if __name__ == "__main__":
     f = 0.1 # "adjustment for downwash of fuselage"
     M = 0.6 # measure of merit
 
-    # Reference Areas:
-    S_disk = 6      #m^2 (ROUGH APPROXIMATION, no actual aircraft to compare to)
-    S_wing = 16.2   #m^2 (taken from Cessna 172)
-    S_wetted_fuse = 24.3 #m^2 (taken from Cessna 182RG)
+    S_disk = 20  # m^2 (ROUGH APPROXIMATION, no actual aircraft to compare to)
+    S_wing = 26  # m^2 
+    S_wetted_fuse = 24.3  # m^2
 
     # Air Properties:
     rho = 1.05 # Assumed as a kind of "average" over the flight trajectory
 
     # Geometric and Drag Properties:
     e = 0.75
-    AR = 9
+    AR = 10
     CD0 = 0.02 # Assumed, slightly smaller than C182RG CD0 with landing gear retracted
 
     # Forward flight climb angle
@@ -624,9 +623,9 @@ if __name__ == "__main__":
 
     # Setting boundaries
     S_wing_LO = 10
-    S_wing_HI = 20
+    S_wing_HI = 40
     S_disk_LO = 3
-    S_dist_HI = 20
+    S_dist_HI = 22
     num = 201
 
     # Calling function
