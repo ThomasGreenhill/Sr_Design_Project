@@ -36,7 +36,7 @@ def formatfigures():
         # AXIS PROPERTIES
         'axes.titlepad': 2*6.0,  # title spacing from axis
         'axes.grid': True,  # grid on plot
-        'figure.figsize': (8, 8),  # square plots
+        'figure.figsize': (14, 9), 
         'savefig.bbox': 'tight',  # reduce whitespace in saved figures
 
         # LEGEND PROPERTIES
