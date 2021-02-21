@@ -50,3 +50,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Airfoil Plotting/__pycache__/
+Airfoil Plotting/Data/
