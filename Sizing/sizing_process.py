@@ -154,7 +154,7 @@ if __name__ == "__main__":
 
 
     # Forward flight climb angle
-    gam_climb = numpy.arctan(1 / 20)     # Based on mission requirements
+    gam_climb = numpy.arctan(1 / 16)     # Based on mission requirements
 
     # Distribution between battery and H2 fuel
     distr = 0 # fully H2, no battery

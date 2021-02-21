@@ -80,6 +80,18 @@ def power_system_mass_sizing(distr, rho_battery, E, P_req_H2, battery_reserve):
         SimpleFuelCell.rated_power = 100e3   #W
         SimpleFuelCell.cell_weight = 385    #kg 
         SimpleFuelCell.name = "100kW fcmovetm"
+    elif P_req_H2 > 100e3 and P_req_H2 <= 140e3:
+        SimpleFuelCell.rated_power = 70e3*2   #W
+        SimpleFuelCell.cell_weight = 250*2    #kg
+        SimpleFuelCell.name = "Two 70kW fcvelocity-hd"
+    elif P_req_H2 > 140e3 and P_req_H2 <= 170e3:
+        SimpleFuelCell.rated_power = 85e3*2   #W
+        SimpleFuelCell.cell_weight = 361*2    #kg
+        SimpleFuelCell.name =  "Two 85kW fcmovetm"
+    elif P_req_H2 > 170e3 and P_req_H2 <= 200e3:
+        SimpleFuelCell.rated_power = 100e3*2   #W
+        SimpleFuelCell.cell_weight = 385*2    #kg 
+        SimpleFuelCell.name =  "Two 100kW fcmovetm"
     else:
         SimpleFuelCell.name = "No Single Suitable Fuel Cell"
 

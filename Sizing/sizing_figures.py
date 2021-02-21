@@ -587,7 +587,7 @@ if __name__ == "__main__":
     CD0 = 0.02 # Assumed, slightly smaller than C182RG CD0 with landing gear retracted
 
     # Forward flight climb angle
-    gam_climb = numpy.arctan(1/20) # Based on mission requirements
+    gam_climb = numpy.arctan(1/16) # Based on mission requirements
 
     # Distribution between battery and H2 fuel
     distr = 0 # fully H2, no battery
@@ -625,8 +625,8 @@ if __name__ == "__main__":
     # Setting boundaries
     S_wing_LO = 10
     S_wing_HI = 20
-    S_disk_LO = 1.5
-    S_dist_HI = 10
+    S_disk_LO = 3
+    S_dist_HI = 20
     num = 201
 
     # Calling function
