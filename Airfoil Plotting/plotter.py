@@ -11,6 +11,7 @@ import os
 import numpy
 import matplotlib.pyplot as plt
 import shutil
+import sys
 
 # Better Matplotlib parameters
 params = {
@@ -30,18 +31,33 @@ params = {
 }
 plt.rcParams.update(params) #update matplotlib defaults
 
+sys.path.append("../Utilities/")
+import formatfigures
+
+try:
+    formatfigures.formatfigures()
+    latex = True
+except ValueError:
+    print("Not using latex formatting")
+    latex = False
+
 ##############################################################################
 
 # Select airfoil and parameters
-# foils = ['2412', '4412', 'NLF(1)-0416', 'NLF(1)-0115', 'NLF 0414F', 'p51d']
-# alfs = numpy.linspace(-5,10,60)
-# NACA = [True, True, False, False, False, False]
+# foils = ['2412', '4412', 'NLF(1)-0416', 'NLF(1)-0115', 'p51d']
+# alfs = numpy.linspace(-5,20,60)
+# NACA = [True, True, False, False, False]
 # Re = 5e5
 
-foils = ['0012', '23012', 'p51d', 'NACA 66(1)-212']
-alfs = numpy.linspace(-5,14,301)
+# foils = ['2412', '4412']
+# alfs = numpy.linspace(-5,20,60)
+# NACA = [True, True]
+# Re = 5.8e6
+
+foils = ['2412', '23012', 'p51d', 'AH 88-K-130-20']
+alfs = numpy.linspace(-5,10,101)
 NACA = [True, True, False, False]
-Re = 5e6
+Re = 5.8e6
 
 # Choose to plot Cl or Cd
 # Type = 'Cl-a'
@@ -80,8 +96,8 @@ for foil,N in zip(foils,NACA):
         plt.plot(d.alpha,d.Cd,label=lab)
     elif Type == 'Cd-Cl':
         plt.plot(d.Cl,d.Cd,label=lab)
-        plt.xlim((0, 0.8))
-        plt.ylim((0, 0.02))
+        # plt.xlim((0, 0.8))
+        # plt.ylim((0, 0.02))
     
 # Plot Labelling
 if Type == 'Cl-a':
