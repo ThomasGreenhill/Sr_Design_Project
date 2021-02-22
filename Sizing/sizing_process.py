@@ -127,7 +127,7 @@ if __name__ == "__main__":
     eta_p = 0.8
 
     # Velocities:
-    V_hover_climb = 2.54  # m/s (equivalent to 500 ft/min)
+    V_hover_climb = 2.54  # m/s (equivalent to 500 ft/min)     
     V_hover_descent = -1.52  # m/s (equivalent to 300 ft/min descent)
     V_climb = 44  # m/s (equivalent to 85.53 knots)
     V_cruise = 62  # m/s (equivalent to 120.52 knots)
