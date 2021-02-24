@@ -13,24 +13,6 @@ import matplotlib.pyplot as plt
 import shutil
 import sys
 
-# Better Matplotlib parameters
-params = {
-        'axes.labelsize' : 20, #Axis Labels
-        'axes.titlesize' : 20, #Title
-        'font.size'      : 20, #Textbox
-        'xtick.labelsize': 20, #Axis tick labels
-        'ytick.labelsize': 20, #Axis tick labels
-        'legend.fontsize': 20, #Legend font size
-        'axes.titlepad'  : 2*6.0, #title spacing from axis
-        'axes.grid'      : True,  #grid on plot
-        'figure.figsize' : (8,8),   #square plots
-        'figure.dpi'     : 150,
-        'axes.axisbelow' : True,
-        'lines.linewidth': 1.8,
-        'axes.linewidth' : 1
-}
-plt.rcParams.update(params) #update matplotlib defaults
-
 sys.path.append("../Utilities/")
 import formatfigures
 
@@ -44,20 +26,10 @@ except ValueError:
 ##############################################################################
 
 # Select airfoil and parameters
-# foils = ['2412', '4412', 'NLF(1)-0416', 'NLF(1)-0115', 'p51d']
-# alfs = numpy.linspace(-5,20,60)
-# NACA = [True, True, False, False, False]
-# Re = 5e5
-
-# foils = ['2412', '4412']
-# alfs = numpy.linspace(-5,20,60)
-# NACA = [True, True]
-# Re = 5.8e6
-
-foils = ['2412', '23012', 'p51d', 'AH 88-K-130-20']
-alfs = numpy.linspace(-5,10,101)
-NACA = [True, True, False, False]
-Re = 5.8e6
+foils = ['NLF 0414F']
+alfs = numpy.linspace(-3,20,100)
+NACA = [False]
+Re = 1e7
 
 # Choose to plot Cl or Cd
 # Type = 'Cl-a'
