@@ -1,5 +1,8 @@
 # Prerequisites
 *.d
+*.MATLABDriveTag
+.DS_Store
+*.pyc
 
 # Object files
 *.o
