@@ -1,5 +1,0 @@
-INPUT Aircraft operation condition and Aircraft geometry
-Determine Power required under normal condition
-Determine Parameters related to power generation (XXX, remember to put methods here later)
-Test the design under extreme operation condition
-OUTPUT Parameters related to power generation
