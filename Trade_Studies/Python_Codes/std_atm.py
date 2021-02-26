@@ -123,12 +123,15 @@ def std_atm(h, is_SI):
         h *= 0.3048
 
     # Check valid height
-    if (h < -5000) and (h >= 86000):     # Limit of this model
+    if (h < -5000) or (h >= 86000):     # Limit of this model
         if is_SI:
             print("At height " + str(h) + "m, the function \"std_atm\" is not valid")
+            print("Valid altitude range is " + str(-5000) + " m to " + str(86000) + " m")
+            return None, None, None, None, None, None,
         else:
             print("At height " + str(h * 3.28084) + "ft, the function \"std_atm\" is not valid")
-        return
+            print("Valid altitude range is " + str(-5000 * 3.28084) + " ft to " + str(86000 * 3.28084) + " ft")
+            return None, None, None, None, None, None,
 
     # Geopotential height
     H: float = (Gam * r_o * h) / (r_o + h)
@@ -180,40 +183,52 @@ def std_atm(h, is_SI):
 # Checks
 if __name__ == "__main__":
 
-    is_SI = True
-    h_SF = 1.3208       # m
-    h_SAC = 0.762       # m
-    h_cruise_1 = 1828.8     # m
-    h_cruise_2 = 914.4      # m
-    h_cruise_3 = 457.2      # m
-    print("At SF and Davis")
-    temp, press, dens, _, _, _ = std_atm(h_SF, is_SI)
-    print(temp)
-    print(press)
-    print(dens)
-    print("============")
-    print("At Sac")
-    temp, press, dens, _, _, _ = std_atm(h_SAC, is_SI)
-    print(temp)
-    print(press)
-    print(dens)
-    print("============")
-    print("In cruise phase 1")
-    temp, press, dens, _, _, _ = std_atm(h_cruise_1, is_SI)
-    print(temp)
-    print(press)
-    print(dens)
-    print("============")
-    print("In cruise phase 2")
-    temp, press, dens, _, _, _ = std_atm(h_cruise_2, is_SI)
-    print(temp)
-    print(press)
-    print(dens)
-    print("============")
-    print("In cruise phase 3")
-    temp, press, dens, _, _, _ = std_atm(h_cruise_3, is_SI)
-    print(temp)
-    print(press)
-    print(dens)
+    while True:
+        str_input = input("Would the unit be in SI? (y/n): ")
+        str_in = str_input.lower()
+        if (str_in == "yes") or (str_in == "y"):
+            is_SI = True
+            print("SI unit selected")
+            h = float(input("Please enter the altitude in meter: "))
+            break
+        elif (str_in == "no") or (str_in == "n"):
+            is_SI = False
+            print("Imperial unit selected")
+            h = float(input("Please enter the altitude in feet: "))
+            break
+
+    #if is_SI:
+    #    if h < -5000 or h > 86000:
+    #        print("Height range is -5000 m to 86000 m")
+    #else:
+    #    if h < (-5000 * 3.28084) or h > (86000 * 3.28084):
+    #        print("Height range is " + str(-5000 * 3.28084) + " m to " + str(86000 * 3.28084) + " m")
+
+    print("\n")
+    temp, press, dens, c_sound, visc, g = std_atm(h, is_SI)
+
+    if temp != None:
+        if is_SI:
+            print("==================================================")
+            print("Atmospheric data at the altitude of " + str(h) + " m:")
+            print("==================================================")
+            print("Temperature     [K]              " + "{:.5f}".format(temp))
+            print("Pressure        [Pa]             " + "{:.5f}".format(press))
+            print("Air density     [kg/m^3]         " + "{:.10f}".format(dens))
+            print("Speed of sound  [m/s]            " + "{:.5f}".format(c_sound))
+            print("Viscosity       [(Ns)/m^2]       " + "{:.10f}".format(visc))
+            print("Grav. accel.    [m/s^2]          " + "{:.5f}".format(g))
+
+        else:
+            print("==================================================")
+            print("Data at the altitude of " + str(h) + " ft")
+            print("==================================================")
+            print("Temperature     [R]              " + "{:.5f}".format(temp))
+            print("Pressure        [psia]           " + "{:.5f}".format(press))
+            print("Air density     [slug/ft^3]      " + "{:.10f}".format(dens))
+            print("Speed of sound  [ft/s]           " + "{:.5f}".format(c_sound))
+            print("Viscosity       [(lbfs)/ft^2]    " + "{:.10f}".format(visc))
+            print("Grav. accel.    [ft/s^2]         " + "{:.5f}".format(g))
+
 
 
