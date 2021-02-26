@@ -1,0 +1,13 @@
+INPUT Aircraft geometry
+INPUT Aircraft operation condition (normal)
+Initial design: The structure details (number of beams, materials and so on)
+WHILE Design is Not Functional and Not Optimal DO
+    IF First Iteration THEN
+        Use: Initial design
+    ELSE
+        Adjust: Change the previous design from previous analysis
+    ENDIF
+Determine the stress performance under uniform load (Safety factor)
+Test the stress performance under cyclic load (the available time of operation)
+Test the stress performance under irregular load (the available time of operation)
+Test the performance with crack initiation (the available time of operation)
