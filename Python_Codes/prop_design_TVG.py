@@ -210,21 +210,71 @@ if __name__ == "__main__":
     plt.xlabel("RPM")
     plt.ylabel("Torque (Nm)")
     plt.title("Torque vs. RPM for Propeller Design at 62 m/s Design Condition")
-    plt.savefig('./Torque_vs_RPM.jpg', bbox_inches='tight')
+    plt.savefig('./Torque_vs_RPM_cruise.jpg', bbox_inches='tight')
 
     plt.figure()
     plt.plot(RPM,eta_P)
     plt.xlabel("RPM")
     plt.ylabel("$\eta_p$")
     plt.title("Efficiency vs. RPM for Propeller Design at 62 m/s Design Condition")
-    plt.savefig('./Efficiency_vs_RPM.jpg', bbox_inches='tight')
+    plt.savefig('./Efficiency_vs_RPM_cruise.jpg', bbox_inches='tight')
 
     plt.figure()
     plt.plot(RPM,P_design)
     plt.xlabel("RPM")
     plt.ylabel("Power (W)")
     plt.title("Power vs. RPM for Propeller Design at 62 m/s Design Condition")
-    plt.savefig('./Power_vs_RPM.jpg', bbox_inches='tight')
+    plt.savefig('./Power_vs_RPM_cruise.jpg', bbox_inches='tight')
+    # plt.show()
+
+
+    v_inf = 1
+    temp = 272.31667
+    pres = 8.988e4
+    dens = 1.112
+    visc = 1.758e-5
+    k = 1.4
+    R = 287
+    is_SI = True
+    atm = AtmData(v_inf, temp, pres, dens, visc, k, R, is_SI)
+
+    radius = 1.78/2
+    RPM = numpy.linspace(500,2950,nn)
+    LD = 15
+    T_req = 13000/8 #N (TOGW/(L/D))
+    Cl = 0.4
+    numB = 3
+    alp0 = numpy.radians(-2)
+    
+    P_design = [0] * nn
+    T_design = [0] * nn
+    Q_design = [0] * nn
+    eta_P = [0] * nn
+
+    for ii in range(0,nn):
+        prop = Propeller(radius, RPM[ii], Cl, "chord", numB, alp0)
+        [_, _, _, P_design[ii], T_design[ii], Q_design[ii], eta_P[ii], _] = prop_design(atm, prop, T_req)
+    
+    plt.figure()
+    plt.plot(RPM,Q_design)
+    plt.xlabel("RPM")
+    plt.ylabel("Torque (Nm)")
+    plt.title("Torque vs. RPM for Propeller Design at 1 m/s Design Condition")
+    plt.savefig('./Torque_vs_RPM_hover.jpg', bbox_inches='tight')
+
+    plt.figure()
+    plt.plot(RPM,eta_P)
+    plt.xlabel("RPM")
+    plt.ylabel("$\eta_p$")
+    plt.title("Efficiency vs. RPM for Propeller Design at 1 m/s Design Condition")
+    plt.savefig('./Efficiency_vs_RPM_hover.jpg', bbox_inches='tight')
+
+    plt.figure()
+    plt.plot(RPM,P_design)
+    plt.xlabel("RPM")
+    plt.ylabel("Power (W)")
+    plt.title("Power vs. RPM for Propeller Design at 1 m/s Design Condition")
+    plt.savefig('./Power_vs_RPM_hover.jpg', bbox_inches='tight')
     plt.show()
 
     
