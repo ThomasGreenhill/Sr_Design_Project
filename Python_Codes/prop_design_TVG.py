@@ -228,7 +228,7 @@ if __name__ == "__main__":
     # plt.show()
 
 
-    v_inf = 2
+    v_inf = 1
     temp = 272.31667
     pres = 8.988e4
     dens = 1.112
