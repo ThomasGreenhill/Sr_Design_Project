@@ -26,12 +26,12 @@ def mass_estimate(S_exposed, S_wetted_fuse, motors_mass, power_system_mass, payl
     '''
 
     wing_mass = 12 * S_exposed
-    ht_mass = 10 * S_exposed
-    vt_mass = 10 * S_exposed
+    ht_mass = 10 * S_exposed * 0.17
+    vt_mass = 10 * S_exposed * 0.13
 
     fuse_mass = 7 * S_wetted_fuse
 
-    subtotal = fuse_mass + wing_mass + ht_mass + vt_mass + motors_mass * 2 * 1.4 + power_system_mass + payload  # See note 1 for motor weight factor
+    subtotal = fuse_mass + wing_mass + ht_mass + vt_mass + motors_mass * 3 * 1.4 + power_system_mass + payload  # See note 1 for motor weight factor
 
     TOGM = subtotal / (1 - 0.157)  # TOGM = subtotal + 0.157*TOGM
 

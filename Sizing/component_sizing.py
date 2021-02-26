@@ -44,6 +44,7 @@ def power_system_mass_sizing(distr, rho_battery, E, P_req_H2, battery_reserve):
 
     Outputs:
         power_system_mass: power system mass
+        fuel_cell_name: model of fuel cell required 
            
     Calls:
         {none}
@@ -66,15 +67,33 @@ def power_system_mass_sizing(distr, rho_battery, E, P_req_H2, battery_reserve):
     if P_req_H2 <= 30e3:
         SimpleFuelCell.rated_power = 30e3   #W
         SimpleFuelCell.cell_weight = 175    #kg
+        SimpleFuelCell.name = "30kW fcvelocity-md30"
     elif P_req_H2 > 30e3 and P_req_H2 <= 70e3:
         SimpleFuelCell.rated_power = 70e3   #W
         SimpleFuelCell.cell_weight = 250    #kg
+        SimpleFuelCell.name = "70kW fcvelocity-hd"
     elif P_req_H2 > 70e3 and P_req_H2 <= 85e3:
         SimpleFuelCell.rated_power = 85e3   #W
         SimpleFuelCell.cell_weight = 361    #kg
+        SimpleFuelCell.name =  "85kW fcmovetm"
     elif P_req_H2 > 85e3 and P_req_H2 <= 100e3:
         SimpleFuelCell.rated_power = 100e3   #W
         SimpleFuelCell.cell_weight = 385    #kg 
+        SimpleFuelCell.name = "100kW fcmovetm"
+    elif P_req_H2 > 100e3 and P_req_H2 <= 140e3:
+        SimpleFuelCell.rated_power = 70e3*2   #W
+        SimpleFuelCell.cell_weight = 250*2    #kg
+        SimpleFuelCell.name = "Two 70kW fcvelocity-hd"
+    elif P_req_H2 > 140e3 and P_req_H2 <= 170e3:
+        SimpleFuelCell.rated_power = 85e3*2   #W
+        SimpleFuelCell.cell_weight = 361*2    #kg
+        SimpleFuelCell.name =  "Two 85kW fcmovetm"
+    elif P_req_H2 > 170e3 and P_req_H2 <= 200e3:
+        SimpleFuelCell.rated_power = 100e3*2   #W
+        SimpleFuelCell.cell_weight = 385*2    #kg 
+        SimpleFuelCell.name =  "Two 100kW fcmovetm"
+    else:
+        SimpleFuelCell.name = "No Single Suitable Fuel Cell"
 
     battery_energy = E*distr/(1-battery_reserve)
     battery_mass = battery_energy/rho_battery
@@ -88,11 +107,15 @@ def power_system_mass_sizing(distr, rho_battery, E, P_req_H2, battery_reserve):
 
     power_system_mass = H2_mass+battery_mass
 
+
     misc_elec_mass = 20
 
     power_system_mass += misc_elec_mass
 
-    return power_system_mass
+    fuel_cell_name = SimpleFuelCell.name
+
+    return power_system_mass, fuel_cell_name
+
 
 def power_requirements(eta_mech, eta_p, V_hover_climb, V_climb, V_cruise, W_TOGW, f, M, S_disk, S_wing, rho, CD0, AR, e, gam_climb):
     '''
@@ -133,6 +156,7 @@ def power_requirements(eta_mech, eta_p, V_hover_climb, V_climb, V_cruise, W_TOGW
     '''
 
     P_hover_climb = (1/eta_mech)*((W_TOGW*V_hover_climb)/2 + f*W_TOGW/M)*numpy.sqrt(f*(W_TOGW/S_disk)/(2*rho))
+    P_hover_descent = (1/eta_mech)*(f*W_TOGW/M)*numpy.sqrt(f*(W_TOGW/S_disk)/(2*rho))
     
     L = W_TOGW
     K = 1/(numpy.pi*e*AR)
@@ -156,7 +180,7 @@ def power_requirements(eta_mech, eta_p, V_hover_climb, V_climb, V_cruise, W_TOGW
     P_cruise = (D_cruise*V_cruise/eta_p)/eta_mech
     P_climb = V_climb/eta_p*(D_climb+W_TOGW*numpy.sin(gam_climb))*(1/eta_mech)
 
-    return P_cruise, P_climb, P_hover_climb
+    return P_cruise, P_climb, P_hover_climb, P_hover_descent
 
 if __name__ == "__main__":
 
@@ -167,8 +191,9 @@ if __name__ == "__main__":
 
     # Test 
     print("\n Testing Power System Mass Function \n")
-    power_system_mass = power_system_mass_sizing(0.5, 260, 70e3, 70e3, 0.2)
+    power_system_mass, power_system_name = power_system_mass_sizing(0.5, 260, 70e3, 70e3, 0.2)
     print("\t Power System Mass", power_system_mass)
+    print("\t Power System Model:", power_system_name)
 
     # Test power_requirements
     print("\n Testing Power Requirements Function \n")

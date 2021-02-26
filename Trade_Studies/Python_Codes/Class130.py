@@ -191,6 +191,7 @@ class SimpleFuelCell:
         self.rated_power = rated_power
         self.cell_weight = cell_weight
         self.cell_efficiency = cell_efficiency
+        self.name = name
 
 
 # Class for sizing purpose
@@ -226,7 +227,7 @@ class Sizing:
         self.time_hover_climb = time_hover_climb
         self.time_cruise = time_cruise
         self.time_hover_descent = time_hover_descent
-
+        
 
 if __name__ == "__main__":
     h = 3000
