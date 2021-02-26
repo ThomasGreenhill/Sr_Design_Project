@@ -1,3 +1,0 @@
-INPUT Aircraft dimensions, weight and balance
-XXXX (Remember to put the methods here)
-OUTPUT Aircraft Geometry

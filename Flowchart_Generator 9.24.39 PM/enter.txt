@@ -1,7 +1,0 @@
-OUTPUT "are we insane?"
-INPUT ans
-IF ans = "yes" THEN
-	OUTPUT "correct"
-ELSE
-	OUTPUT "incorrect"
-ENDIF

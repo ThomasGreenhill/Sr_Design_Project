@@ -1,2 +1,0 @@
-This folder includes the MATLAB code for stress-strain curve (two different methods for cross-reference), crack analysis (not uploaded yet) and other tools (still in preparation).
-Also, my previous note for structural analysis is included.
