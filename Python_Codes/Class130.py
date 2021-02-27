@@ -42,7 +42,7 @@ class AtmData:
 # Propeller information
 class Propeller:
     # All in base SI units
-    def __init__(self, radius, RPM, eta_P, CP, CT, CQ, Cl = 0.4, chord = 1, numB = 3, alp0 = 0,
+    def __init__(self, radius, numB, RPM, eta_P, CP, CT, CQ, Cl, chord = 1, alp0 = 0,
                  alpha = None, beta = None, theta = None, phi = None):
         self.radius = radius       # propeller radius (m)
         self.RPM = RPM             # rotation per minute
