@@ -1,5 +1,12 @@
 import numpy
 import std_atm
+import matplotlib.pyplot as plt
+import pandas as pd
+#Import pyxfoil from a different folder as a module
+import sys
+sys.path.append('../Utilities')
+import pyxfoil
+
 
 '''
 Useful Python classes in senior design project
@@ -138,17 +145,29 @@ class Propeller:
 # Airfoil information
 class Airfoil:
     # All in base SI units
-    # Will possibly be used with XFOIL
-    def __init__(self, name, chord, alp0, alpha, Cla, Cl_max, Cl, Cd, Cm):
-        self.name = name  # name
-        self.chord = chord  # chord length list (m)
-        self.alp0 = alp0  # zero lift AoA (rad)
-        self.alpha = alpha  # AoA list
-        self.Cla = Cla  # lift curve slope
-        self.Cl_max = Cl_max  # max Cl
+    # Used with XFOIL.exe
+    '''
+    def __init__(self, foil, NACA: bool, chord, alp0, alpha, Cla, Cl_max, Cl, Cd, Cm):
+        self.foil = foil        # airfoil series number
+        self.NACA = NACA        # True for NACA airfoils, False for other
+        self.chord = chord      # chord length list (m)
+        self.alp0 = alp0        # zero lift AoA (rad)
+        self.alpha = alpha      # AoA list
+        self.Cla = Cla          # lift curve slope
+        self.Cl_max = Cl_max    # max Cl
         self.Cl = Cl  # Cl list w.r.t. alpha
         self.Cd = Cd  # Cd list w.r.t. alpha
         self.Cm = Cm  # Cm list w.r.t. alpha
+    '''
+
+    def __init__(self, NACA: bool, foil):
+        self.NACA = NACA        # True for NACA airfoils, False for other
+        self.foil = foil        # Serie number for airfoil
+
+
+    def plot(self):
+        if self.name.lower() == 'naca':
+            pass
 
 
 # Wing information
