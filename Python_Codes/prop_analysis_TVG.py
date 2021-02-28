@@ -136,9 +136,6 @@ def prop_analysis(AtmData, Propeller, m0_fn, Cd_fn):
     Qdesign = CQ * rho * n**2 * D**5
         
     return J, Pdesign, CP, Tdesign, CT, etap
-    
-
-
 
 
 if __name__ == "__main__":

@@ -129,7 +129,7 @@ class AtmData:
 class Propeller:
     # All in base SI units
     def __init__(self, radius, numB, RPM, eta_P, CP, CT, CQ, Cl, chord = 1, alp0 = 0,
-                 alpha = None, beta = None, theta = None, phi = None):
+                 alp = None, bet = None, the = None, phi = None):
         self.radius = radius  # propeller radius (m)
         self.RPM = RPM  # rotation per minute
         self.eta_P = eta_P  # propeller efficiency
@@ -140,9 +140,9 @@ class Propeller:
         self.chord = chord  # chord distr. (m)
         self.numB = numB  # number of blades
         self.alp0 = alp0  # zero-lift AoA (rad)
-        self.alp = alpha  # AoA distr. (rad)
-        self.bet = beta  # pitch angle distr. (rad)
-        self.the = theta  # induced angle distr. (rad)
+        self.alp = alp  # AoA distr. (rad)
+        self.bet = bet  # pitch angle distr. (rad)
+        self.the = the  # induced angle distr. (rad)
         self.phi = phi  # blade angle distr. (rad)
 
 # Airfoil information
