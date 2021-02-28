@@ -103,6 +103,7 @@ import glob
 print('The first is the inviscid polar from our first XFOIL run')
 print('The second is the viscous polar from our latest XFOIL run')
 
+'''
 viscpolar = pyxfoil.ReadXfoilPolar('Data/naca0012/naca0012_polar_Re5.00e+08a0.0-10.0.dat')
 print('\nViscous polar from file saved by XFOIL/pyxfoil the second time:')
 print(viscpolar)
@@ -121,3 +122,4 @@ plt.legend()
 plt.xlabel('$\\alpha$')
 plt.ylabel('$C_l$')
 plt.show()
+'''

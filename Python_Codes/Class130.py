@@ -1,12 +1,14 @@
+from typing import Union
+import string
 import numpy
 import std_atm
 import matplotlib.pyplot as plt
 import pandas as pd
-#Import pyxfoil from a different folder as a module
+# Import pyxfoil from a different folder as a module
 import sys
+
 sys.path.append('../Utilities')
 import pyxfoil
-
 
 '''
 Useful Python classes in senior design project
@@ -36,7 +38,7 @@ History:
 class AtmData:
     # In either base SI of British units
     def __init__(self, vel, h, is_SI):
-        self.alt = h    # altitude (m) or (ft)
+        self.alt = h  # altitude (m) or (ft)
         self.vel = vel  # freestream velocity (m/s) or (ft/s)
         self.is_SI = is_SI  # is_SI = True for SI units, is_SI = False for British units
         temp, pres, dens, c_sound, visc, g = std_atm.std_atm(h, is_SI)
@@ -159,15 +161,116 @@ class Airfoil:
         self.Cd = Cd  # Cd list w.r.t. alpha
         self.Cm = Cm  # Cm list w.r.t. alpha
     '''
+    iter_num = 100  # default
 
-    def __init__(self, NACA: bool, foil):
-        self.NACA = NACA        # True for NACA airfoils, False for other
-        self.foil = foil        # Serie number for airfoil
+    def __init__(self, foilname: str):
+        """
+        :param is_NACA: True for NACA airfoil, false for other airfoild
+        :param foil: If NACA, input series number (2412, etc)
+                     If not NACA, input geometry file directory
+        """
+        cur_name = []
+        cur_series = []
+
+        for letter in range(len(foilname)):
+            if letter.isalpha():
+                cur_series.append(letter)
+            elif letter.isspace():
+                pass
+            elif letter.isnumeric():
+                cur_name.append(letter)
+            else:
+                raise NameError
+
+        if cur_name.lower() == 'naca':
+            self.NACA = True        # True for NACA airfoils, False for other
+        else:
+            self.NACA = False
+        self.foil = cur_series          # Serie number for airfoil
+        self.foilname = foilname        # Name of airfoil
+        self.file_exist = False         # Turns True if the method polar has run at least once
 
 
-    def plot(self):
-        if self.name.lower() == 'naca':
-            pass
+
+
+
+
+    @staticmethod
+    def iter_num(new_iter_num):
+        Airfoil.iter_num = new_iter_num
+        return
+
+    def polar(self, Re, alf_start, alf_end):
+        """
+        :param Re: Reynold's number
+        :param alf_start: (deg) first AoA
+        :param alf_end: (deg) last AoA
+        :return: Polar plots
+        """
+        alfs = numpy.linspace(numpy.radians(alf_start), numpy.radians(alf_end), Airfoil.iter_num)
+        if self.NACA:   # NACA airfoil
+            self.foilname: str = 'naca' + str(self.foil)
+            foil_path: str = './Data/' + self.foilname + '/' + self.foilname + '.dat'
+            pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=Airfoil.iter_num, quiet=True)
+            self.geom = pyxfoil.ReadXfoilAirfoilGeom(foil_path)
+            polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
+            polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
+            polar = pyxfoil.ReadXfoilPolar(polar_path)
+            self.file_exist = True
+            return polar
+        else:           # Not NACA airfoil
+            self.file_exist = True
+            self.foilname = self.foil
+            pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=Airfoil.iter_num, quiet=True)
+            polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
+
+
+
+
+
+
+
+
+
+
+
+    def plot(self, save=False, show=True):
+        """
+        Plots the airfoil geometry
+        :return:
+        """
+        if not self.file_exist:
+            Re = 0
+            alf_start = 0
+            alf_end = 5
+            self.polar(self, Re, alf_start, alf_end)
+
+        geom_fig = plt.figure()
+        plt.title('Airfoil Geometry')
+        plt.plot(self.geom['x'], self.geom['z'])
+        plt.axis('equal')
+        plt.xlabel('x/c')
+        plt.ylabel('z/c')
+        if show:
+            plt.show()
+        if save:
+            fig_type: str = '.png'
+            save_path: str = './Geom/' + self.foilname + fig_type
+            geom_fig.save(save_path)
+    return
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Wing information

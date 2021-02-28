@@ -5,7 +5,7 @@ CREATED: 12 NOV 2015
 MODIFIY: 4 OCT 2019
 
 
-DESCRIPTION: Provides functions for manimulating MSES closed-curve data files.
+DESCRIPTION: Provides functions for manipulating MSES closed-curve data files.
 Split an MSES file into separate upper and lower surfaces.
     Determine splitting location based on reversal of x-coordinate.
 Merge separate surface data into single MSES data set.
