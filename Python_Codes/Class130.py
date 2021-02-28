@@ -147,20 +147,6 @@ class Propeller:
 class Airfoil:
     # All in base SI units
     # Used with XFOIL.exe
-    '''
-    def __init__(self, foil, NACA: bool, chord, alp0, alpha, Cla, Cl_max, Cl, Cd, Cm):
-        self.foil = foil        # airfoil series number
-        self.NACA = NACA        # True for NACA airfoils, False for other
-        self.chord = chord      # chord length list (m)
-        self.alp0 = alp0        # zero lift AoA (rad)
-        self.alpha = alpha      # AoA list
-        self.Cla = Cla          # lift curve slope
-        self.Cl_max = Cl_max    # max Cl
-        self.Cl = Cl  # Cl list w.r.t. alpha
-        self.Cd = Cd  # Cd list w.r.t. alpha
-        self.Cm = Cm  # Cm list w.r.t. alpha
-    '''
-    iter_num = 100  # default
 
     def __init__(self, foilname: str):
         """
@@ -168,17 +154,19 @@ class Airfoil:
         :param foil: If NACA, input series number (2412, etc)
                      If not NACA, input geometry file directory
         """
-        cur_name = []
-        cur_series = []
-        for letter in range(len(foilname)):
+        if type(foilname) != str:
+            raise TypeError("Please input type: str for airfoil name")
+        cur_name = ""
+        cur_series = ""
+        for letter in foilname:
             if letter.isalpha():
-                cur_series.append(letter.lower())
+                cur_name += letter.lower()
             elif letter.isspace():
                 pass
             elif letter.isnumeric():
-                cur_name.append(letter)
+                cur_series += letter.lower()
             else:
-                raise NameError
+                raise NameError("Airfoil name only excepts letters, numbers, or whitespaces")
 
         if cur_name == 'naca':
             self.NACA = True        # True for NACA airfoils, False for other
@@ -188,15 +176,25 @@ class Airfoil:
         self.foilname = foilname.replace(" ", "")        # Name of airfoil
         self.geom_file_exist = False    # Turns True if the geom file exists
         self.geom_file_path = None
+        self.iter_num = 100             # Default
+        self.num_alfs = 100             # Default
 
-    @staticmethod
-    def iter_num(new_iter_num: int):
+    def iter_num(self, new_iter_num: int):
         """
-        Changes the class iteration number
+        Changes the attribute iteration number
         :param new_iter_num: number to update
         :return: None
         """
-        Airfoil.iter_num = new_iter_num
+        self.iter_num = new_iter_num
+        return
+
+    def num_alfs(self, new_num_alfs: int):
+        """
+        Changes the attribute number of AoA's
+        :param new_num_alfs: number to update
+        :return: None
+        """
+        self.num_alfs = new_num_alfs
         return
 
     def add_geom_file(self, geom_file_path: str):
@@ -219,12 +217,13 @@ class Airfoil:
         :param alf_end: (deg) last AoA
         :return: None
         """
-        alfs = numpy.linspace(numpy.radians(alf_start), numpy.radians(alf_end), Airfoil.iter_num)
+        alfs = numpy.linspace(numpy.radians(alf_start), numpy.radians(alf_end), self.num_alfs)
         if self.NACA:   # NACA airfoil
             self.foilname: str = 'naca' + str(self.foil)
             foil_path: str = './Data/' + self.foilname + '/' + self.foilname + '.dat'
-            pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=Airfoil.iter_num, quiet=True)
+            pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=self.iter_num, quiet=True)
             self.geom = pyxfoil.ReadXfoilAirfoilGeom(foil_path)
+
             polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
             polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
             polar = pyxfoil.ReadXfoilPolar(polar_path)
@@ -234,18 +233,11 @@ class Airfoil:
             if not self.geom_file_exist:
                 raise Exception("Please use Airfoil.add_geom_file func to add file path first.")
             else:
-                pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=Airfoil.iter_num, quiet=True)
+                pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=self.iter_num, quiet=True)
                 polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
                 polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
-
-
-
-
-
-
-
-
-
+                polar = pyxfoil.ReadXfoilPolar(polar_path)
+                return polar
 
 
     def plot(self, save=False, show=True):
@@ -271,7 +263,7 @@ class Airfoil:
             fig_type: str = '.png'
             save_path: str = './Geom/' + self.foilname + fig_type
             geom_fig.save(save_path)
-    return
+        return
 
 
 
