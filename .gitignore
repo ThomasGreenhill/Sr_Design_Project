@@ -1,5 +1,8 @@
 # Prerequisites
 *.d
+*.MATLABDriveTag
+.DS_Store
+*.pyc
 
 # Object files
 *.o
@@ -52,4 +55,7 @@ Mkfile.old
 dkms.conf
 Airfoil Plotting/__pycache__/
 Airfoil Plotting/Data/
-*.pyc
+Trade_Studies/Python_Codes/.idea/.MATLABDriveTag
+Trade_Studies/Python_Codes/.idea/inspectionProfiles/.MATLABDriveTag
+Trade_Studies/Python_Codes/.MATLABDriveTag
+Trade_Studies/Python_Codes/__pycache__/.MATLABDriveTag

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sizing_process import sizing_process
 import os
 import sys
-sys.path.append("../Trade_Studies")
+sys.path.append("../Python_Codes")
 import Class130
 sys.path.append("../Utilities")
 import formatfigures
