@@ -168,16 +168,15 @@ class Airfoil:
             else:
                 raise NameError("Airfoil name only excepts letters, numbers, or whitespaces")
         if cur_name == 'naca':
-            self.NACA = True        # True for NACA airfoils, False for other
+            self.NACA = True  # True for NACA airfoils, False for other
         else:
             self.NACA = False
-        self.foil = cur_series          # Serie number for airfoil
-        self.foilname = foilname.replace(" ", "")        # Name of airfoil
-        self.geom_file_exist = False    # Turns True if the geom file exists
+        self.foil = cur_series  # Serie number for airfoil
+        self.foilname = foilname.replace(" ", "")  # Name of airfoil
         self.geom_file_path = None
-        self.iter_num = 100             # Default
-        self.num_alfs = 10              # Default
-        self.polar = None               # Initialized to store polar data
+        self.iter_num = 100  # Default
+        self.num_alfs = 10  # Default
+        self.polar = None  # Initialized to store polar data
 
     def iter_num(self, new_iter_num: int):
         """
@@ -205,55 +204,49 @@ class Airfoil:
         """
         if os.path.isfile(geom_file_path):
             self.geom_file_path = geom_file_path
-            self.geom_file_exist = True
             print("Geometry file successfully attached")
         else:
             raise FileExistsError
 
-    def polar(self, Re, alf_start, alf_end):
+    def get_polar(self, Re, alf_start, alf_end):
         """
         :param Re: Reynold's number !!! Shall not be 0 otherwise have unknown problems
         :param alf_start: (deg) first AoA
         :param alf_end: (deg) last AoA
         :return: None
         """
+        self.Re = Re
         self.num_alfs = (alf_end - alf_start + 1) * 2
         alfs = numpy.linspace(alf_start, alf_end, self.num_alfs)
-        if self.NACA:   # NACA airfoil
+        if self.NACA:  # NACA airfoil
             self.foilname: str = 'naca' + str(self.foil)
-            foil_path: str = './Data/' + self.foilname + '/' + self.foilname + '.dat'
+            self.geom_file_path: str = './Data/' + self.foilname + '/' + self.foilname + '.dat'
             pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=self.iter_num, quiet=True)
-            self.geom = pyxfoil.ReadXfoilAirfoilGeom(foil_path)
-
             polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
             polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
             self.polar = pyxfoil.ReadXfoilPolar(polar_path)
-            self.geom_file_exist = True
-            return polar
-        else:           # Not NACA airfoil
-            if not self.geom_file_exist:
+            return self.polar
+        else:  # Not NACA airfoil
+            if self.geom_file_path is None:
                 raise Exception("Please use obj.add_geom_file func to add file path first.")
             else:
                 pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=self.iter_num, quiet=True)
                 polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
                 polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
                 self.polar = pyxfoil.ReadXfoilPolar(polar_path)
-                return polar
+                return self.polar
 
     def geom_plot(self, save=False, show=True):
         """
         Plots the airfoil geometry
         :return: None
         """
-        if not self.geom_file_exist:
-            Re = 100
-            alf_start = 0
-            alf_end = 5
-            self.polar(self, Re, alf_start, alf_end)
+        if self.geom_file_path is None:
+            raise FileNotFoundError("Please attach geom files using obj.add_geom_file or call obj.polar first")
 
+        self.geom = pyxfoil.ReadXfoilAirfoilGeom(self.geom_file_path)
         geom_fig = plt.figure()
-        print(self.foilname)
-        plt.title('Airfoil Geometry of {}'.format(self.foilname))
+        plt.title('Airfoil geometry of {}'.format(self.foilname))
         plt.plot(self.geom['x'], self.geom['z'])
         plt.axis('equal')
         plt.xlabel('x/c')
@@ -262,9 +255,8 @@ class Airfoil:
         if show:
             plt.show()
         if save:
-            fig_type: str = '.png'
-            save_path: str = './Geom/' + self.foilname + fig_type
-            geom_fig.save(save_path)
+            save_path: str = 'Data/{}/{}_geom'.format(self.foilname, self.foilname)
+            geom_fig.savefig(save_path, bbox_inches='tight')
         return
 
     def lift_curve(self, save=False, show=True):
@@ -273,11 +265,20 @@ class Airfoil:
         :return: alfs: list of AoA
                  Cls: list of Cl
         """
-        if self.polar == None:
-            raise Exception("Please call obj.polar first.\nFunc call: polar(Re, alf_start, alf_end)")
-        alfs = self.polar["alpha"]
-        cls = self.polar["CL"]
-        fig_lift_curve =
+        if self.polar is None:
+            raise Exception("Please call obj.polar first.\nFunc call hint: polar(Re, alf_start, alf_end)")
+        lift_curve_fig = plt.figure()
+        plt.title('Lift curve of {} at Re = {:.2e}'.format(self.foilname, self.Re))
+        plt.plot(self.polar['alpha'], self.polar['Cl'])
+        plt.xlabel('Angle of attack (alpha)')
+        plt.grid()
+        plt.ylabel('Lift coefficient (Cl)')
+        if show:
+            plt.show()
+        if save:
+            save_path: str = 'Data/{}/{}_lift_curve'.format(self.foilname, self.foilname)
+            lift_curve_fig.savefig(save_path, bbox_inches='tight')
+        return self.polar['alpha'], self.polar['Cl']
 
     def drag_polar(self, save=False, show=True):
         """
@@ -285,21 +286,20 @@ class Airfoil:
         :return: alfs: list of AoA in deg
                  Cds: list of cd
         """
-        if self.polar == None:
-            raise Exception("Please call obj.polar first.\nFunc call: polar(Re, alf_start, alf_end)")
-        alfs = self.polar["alpha"]
-        cds = self.polar["CD"]
-
-
-
-
-
-
-
-
-
-
-
+        if self.polar is None:
+            raise Exception("Please call obj.polar first.\nFunc call hint: polar(Re, alf_start, alf_end)")
+        drag_polar_fig = plt.figure()
+        plt.title('Drag polar of {} at Re = {:.2e}'.format(self.foilname, self.Re))
+        plt.plot(self.polar['Cl'], self.polar['Cd'])
+        plt.xlabel('Lift coefficient (Cl)')
+        plt.grid()
+        plt.ylabel('Drag coefficient (Cd)')
+        if show:
+            plt.show()
+        if save:
+            save_path: str = 'Data/{}/{}_drag_polar'.format(self.foilname, self.foilname)
+            drag_polar_fig.savefig(save_path, bbox_inches='tight')
+        return self.polar['Cl'], self.polar['Cd']
 
 
 # Wing information

@@ -52,6 +52,7 @@ import numpy as np
 import subprocess
 import pandas as pd
 
+
 ########################################################################
 ### GENERAL FILE AND PROCESS UTILITIES #################################
 ########################################################################
@@ -60,7 +61,7 @@ def MakeOutputDir(savedir):
     """make results output directory if it does not already exist.
     instring --> directory path from script containing folder
     """
-    #split individual directories
+    # split individual directories
     splitstring = savedir.split('/')
     prestring = ''
     for string in splitstring:
@@ -70,15 +71,17 @@ def MakeOutputDir(savedir):
         except Exception:
             pass
 
+
 def GetParentDir(savename):
     """Get parent directory from path of file"""
-    #split individual directories
+    # split individual directories
     splitstring = savename.split('/')
     parent = ''
-    #concatenate all dirs except bottommost
+    # concatenate all dirs except bottommost
     for string in splitstring[:-1]:
         parent += string + '/'
     return parent
+
 
 def FindBetween(string, before='^', after=None):
     """Search 'string' for characters between 'before' and 'after' characters
@@ -98,18 +101,21 @@ def FindBetween(string, before='^', after=None):
         else:
             return 'No Match'
 
+
 def IsItWindows():
     """Return true if operating system is windows"""
     return True if os.name == 'nt' else False
+
 
 def ErrorMessage(text):
     """Format an error output message
     """
     return "\n\n" \
-    "********************************************************************\n" \
-    "{}\n" \
-    "********************************************************************" \
-    "\n\n".format(text)
+           "********************************************************************\n" \
+           "{}\n" \
+           "********************************************************************" \
+           "\n\n".format(text)
+
 
 ########################################################################
 ### XFOIL AUTOMATION CLASS #############################################
@@ -117,7 +123,7 @@ def ErrorMessage(text):
 
 class Xfoil:
     def __init__(self, foil='0012', naca=True, Re=0, Iter=100,
-        xfoilpath=None, headless=True):
+                 xfoilpath=None, headless=True):
         """Initialize class for specific airfoil.
         foil --> airfoil name, either NACA digits or path to geometry file
         naca --> True for naca digits, False for geometry file
@@ -127,24 +133,24 @@ class Xfoil:
         headless  --> run xfoil without graphical output (avoids X11/XQuartz dependency)
         """
 
-        #DETERMINE OPERATING SYSTEM
+        # DETERMINE OPERATING SYSTEM
         self.win = IsItWindows()
 
-        #SET PATH TO XFOIL FOR CURRENT OPERATING SYSTEM
+        # SET PATH TO XFOIL FOR CURRENT OPERATING SYSTEM
         if xfoilpath != None:
-            #Manually specify path to Xfoil
+            # Manually specify path to Xfoil
             self.xfoilpath = xfoilpath
         elif self.win:
-            #Windows default location is in same folder as python script
+            # Windows default location is in same folder as python script
             self.xfoilpath = 'xfoil.exe'
-            #check dependencies
+            # check dependencies
             if not os.path.isfile(self.xfoilpath):
                 txt = "PYXFOIL ERROR: Put xfoil.exe in same folder as pyxfoil.py"
                 sys.exit(ErrorMessage(txt))
         else:
-            #Mac Install location
+            # Mac Install location
             self.xfoilpath = "/Applications/Xfoil.app/Contents/Resources/xfoil"
-            #check dependencies
+            # check dependencies
             if not os.path.isfile(self.xfoilpath):
                 txt = "PYXFOIL ERROR: Xfoil.app is not installed"
                 sys.exit(ErrorMessage(txt))
@@ -152,36 +158,35 @@ class Xfoil:
                 txt = "PYXFOIL ERROR: X11/xquartz not installed"
                 print(ErrorMessage(txt))
 
-
-        #SAVE RUN PARAMETERS
-        #Reynolds number
+        # SAVE RUN PARAMETERS
+        # Reynolds number
         self.Re = Re
-        #Maximum iteration
+        # Maximum iteration
         self.Iter = Iter
-        #MAKE AIRFOIL NAME
+        # MAKE AIRFOIL NAME
         self.naca = naca
         if self.naca:
-            #4-digit NACA to be loaded from equation
+            # 4-digit NACA to be loaded from equation
             self.name = 'naca' + foil
         else:
-            #Load airfoil from file
-            #airfoil name is between parent path and file extension
+            # Load airfoil from file
+            # airfoil name is between parent path and file extension
             parent = GetParentDir(foil)
             self.name = FindBetween(foil, parent, '\.')
-        #CREATE SAVE DIRECTORY
-            #Save in Data/airfoilname/
+        # CREATE SAVE DIRECTORY
+        # Save in Data/airfoilname/
         self.savepath = 'Data/{}'.format(self.name)
         MakeOutputDir(self.savepath)
 
-        #INITIALIZE COMMAND INPUT LIST
+        # INITIALIZE COMMAND INPUT LIST
         self.input = ''
 
-        #TURN OFF GRAPHICS (MAKE XFOIL "HEADLESS")
-            #avoids XQuartz incompatibility
+        # TURN OFF GRAPHICS (MAKE XFOIL "HEADLESS")
+        # avoids XQuartz incompatibility
         if headless:
             self.TurnOffGraphics()
 
-        #LOAD AIRFOIL (AND START INPUT LIST)
+        # LOAD AIRFOIL (AND START INPUT LIST)
         self.foil = foil
         self.LoadGeom()
 
@@ -195,19 +200,19 @@ class Xfoil:
         """Once input command list has been built, run all commands with this
         quiet --> true for no XFOIL output to screen
         """
-        #Supress output if quiet option, otherwise write XFOIl output to screen
+        # Supress output if quiet option, otherwise write XFOIl output to screen
         stdout = open(os.devnull, 'wb') if quiet else None
 
-        #START XFOIL
+        # START XFOIL
         xf = subprocess.Popen(self.xfoilpath,
                               stdin=subprocess.PIPE,
                               stdout=stdout,
-                              stderr=None,)
-        #XFOIL SUBPROCESS
+                              stderr=None, )
+        # XFOIL SUBPROCESS
         self.xf = xf
-        #Pipe inputs into xfoil
-        res = xf.communicate( self.input.encode('utf-8') )
-        #Space output with a few newlines
+        # Pipe inputs into xfoil
+        res = xf.communicate(self.input.encode('utf-8'))
+        # Space output with a few newlines
         if not quiet:
             print('\n\n\n')
 
@@ -215,21 +220,21 @@ class Xfoil:
         """Load given airfoil, either NACA number or file path
         """
         if self.naca:
-            #Load NACA airfoil based on given digits
-            self.AddInput( 'naca {}'.format(self.foil) )
+            # Load NACA airfoil based on given digits
+            self.AddInput('naca {}'.format(self.foil))
         else:
-            #check dependencies
+            # check dependencies
             if not os.path.isfile(self.foil):
                 txt = "PYXFOIL ERROR: Geometry input file does not exist/" \
-                "in wrong location\n({})".format(self.foil)
+                      "in wrong location\n({})".format(self.foil)
                 sys.exit(ErrorMessage(txt))
             if len([l for l in open(self.foil, 'r')]) < 2:
                 txt = "PYXFOIL ERROR: Geometry input file is empty (no data)" \
-                "\nDownload or create new file: ({})".format(self.foil)
+                      "\nDownload or create new file: ({})".format(self.foil)
                 sys.exit(ErrorMessage(txt))
 
-            #Load geometry from file path
-            self.AddInput('load {}'.format( self.foil) )
+            # Load geometry from file path
+            self.AddInput('load {}'.format(self.foil))
 
     def SaveGeom(self, overwrite=True):
         """Save airfoil geometry. MUST BE CALLED IN TOP MENU.
@@ -237,19 +242,19 @@ class Xfoil:
         """
         savename = self.SaveNameGeom()
         if not os.path.isfile(savename) and overwrite:
-            self.AddInput( 'save {}'.format( savename ) )
+            self.AddInput('save {}'.format(savename))
 
     def EnterOperMenu(self):
         """Set up 'oper' menu for inviscid or viscous operations.
         Call from top menu after loading geometry.
         """
-        #ENTER OPERATIONS MENU
+        # ENTER OPERATIONS MENU
         self.AddInput('oper')
         if self.Re != 0:
-            #VISCOULS SIMULATION WITH GIVEN REYNOLDS NUMBER
-            self.AddInput('visc {}'.format( self.Re ) )
-        #SET ITERATION NUMBER
-        self.AddInput('iter\n{}'.format( self.Iter ))
+            # VISCOULS SIMULATION WITH GIVEN REYNOLDS NUMBER
+            self.AddInput('visc {}'.format(self.Re))
+        # SET ITERATION NUMBER
+        self.AddInput('iter\n{}'.format(self.Iter))
 
     def SingleAlfa(self, alf, SaveCP=True):
         """Simulate airfoil at a single angle of attack.
@@ -257,10 +262,10 @@ class Xfoil:
         alf --> angle of attack to simulate
         SaveCP --> Save individual surface pressure distributions
         """
-        self.AddInput('alfa {}'.format( alf ) )
+        self.AddInput('alfa {}'.format(alf))
         if SaveCP:
             savename = self.SaveNameSurfCp(alf)
-            self.AddInput('cpwr {}'.format(savename) )
+            self.AddInput('cpwr {}'.format(savename))
 
     def Polar(self, alfs, SaveCP=True, overwrite=True):
         """Create and save polar for airfoil. Call in top menu after
@@ -270,35 +275,35 @@ class Xfoil:
         overwrite --> overwrite polar file (otherwise append new alphas)
         """
 
-        #STORE RUN INFO
+        # STORE RUN INFO
         if type(alfs) == float or type(alfs) == int:
-            #angle of attack input must be array-like
+            # angle of attack input must be array-like
             alfs = [alfs]
         self.alfs = alfs
-        #SET REYNOLDS NUMBER
+        # SET REYNOLDS NUMBER
         self.EnterOperMenu()
 
-        #SET UP POLAR ACCUMULATION
+        # SET UP POLAR ACCUMULATION
         # if len(alfs) > 1:
         savename = self.SaveNamePolar(alfs)
 
         if os.path.isfile(savename) and overwrite:
-            os.remove(savename) #Remove polar file if starting new
-        #TURN POLAR ACCUMULATION ON
+            os.remove(savename)  # Remove polar file if starting new
+        # TURN POLAR ACCUMULATION ON
         self.AddInput('pacc')
-        #Submit Polar File Name
+        # Submit Polar File Name
         self.AddInput(savename)
-        #Skip Polar Dumpfile Name
+        # Skip Polar Dumpfile Name
         self.AddInput('')
         # self.AddInput(self.savename + 'dump.dat')
         # self.AddInput('pacc'; savename; self.savename + 'dump.dat')
 
-        #SIMULATE EACH ANGLE OF ATTACK
+        # SIMULATE EACH ANGLE OF ATTACK
         for alf in alfs:
             self.SingleAlfa(alf, SaveCP)
 
         # if len(alfs) > 1:
-        #TURN POLAR ACCUMULATION OFF
+        # TURN POLAR ACCUMULATION OFF
         self.AddInput('pacc')
 
     def Quit(self):
@@ -310,18 +315,18 @@ class Xfoil:
         self.AddInput('')
         self.AddInput('quit')
 
-    def TurnOffGraphics(self,):
+    def TurnOffGraphics(self, ):
         """ Turn off XFOIL graphical output so that XFOIL can run 'headless'.
         Use this to avoid XQuartz compatibility issues and to simplify output to screen.
         """
-        #Enter Plotting Options Menu
+        # Enter Plotting Options Menu
         self.AddInput('plop')
-        #Turn graphics option to False
+        # Turn graphics option to False
         self.AddInput('g f')
-        #Return to main menu
+        # Return to main menu
         self.AddInput('')
 
-    def SaveNameGeom(self,):
+    def SaveNameGeom(self, ):
         """Make save filename for airfoil geometry
         """
         return '{}/{}.dat'.format(self.savepath, self.name)
@@ -332,7 +337,7 @@ class Xfoil:
         alf --> current angle of attack
         """
         return '{}/{}_surfCP_Re{:1.2e}a{:1.1f}.dat'.format(
-                        self.savepath, self.name, self.Re, alf)
+            self.savepath, self.name, self.Re, alf)
 
     def SaveNamePolar(self, alfs):
         """Make save filename for airfoil polar based on
@@ -340,17 +345,16 @@ class Xfoil:
         alfs --> Range of angles of attack to run
         """
         if type(alfs) == float or type(alfs) == int:
-            #angle of attack input must be array-like
+            # angle of attack input must be array-like
             alfs = [alfs]
         if len(alfs) == 1:
-            #only one provided angle of attack
+            # only one provided angle of attack
             alfrange = 'a{:1.2f}'.format(alfs[0])
         else:
-            #use least and greatest angle of attack for name
+            # use least and greatest angle of attack for name
             alfrange = 'a{:1.1f}-{:1.1f}'.format(alfs[0], alfs[-1])
         return '{}/{}_polar_Re{:1.2e}{}.dat'.format(
-                        self.savepath, self.name, self.Re, alfrange)
-
+            self.savepath, self.name, self.Re, alfrange)
 
 
 ########################################################################
@@ -365,29 +369,32 @@ def ReadXfoilAirfoilGeom(filename):
                      names=['x', 'z'])
     return df
 
+
 def ReadXfoilSurfPress(filename):
     """Read in XFOIL surface pressure coefficient data, skipping title lines
     filename --> path to file
     """
     if IsItWindows():
-        #Windows file format
+        # Windows file format
         names = ['x', 'y', 'Cp']
         skip = 3
     else:
-        #Mac file format
+        # Mac file format
         names = ['x', 'Cp']
         skip = 1
-    #read file
+    # read file
     df = pd.read_csv(filename, delim_whitespace=True, skiprows=skip, names=names)
     return df
+
 
 def ReadXfoilPolar(filename):
     """Read in XFOIL polar file data, skipping title lines
     filename --> path to polar data file
     """
     df = pd.read_csv(filename, delim_whitespace=True, skiprows=12,
-            names=['alpha', 'Cl', 'Cd', 'Cdp', 'Cm', 'Top_Xtr', 'Bot_Xtr'])
+                     names=['alpha', 'Cl', 'Cd', 'Cdp', 'Cm', 'Top_Xtr', 'Bot_Xtr'])
     return df
+
 
 def WriteXfoilFile(name, x, z):
     """Write 2-column XFOIL file with fixed-width separation.
@@ -396,21 +403,22 @@ def WriteXfoilFile(name, x, z):
     ofile = open(name, 'w')
     ofile.write('foil\n')
     for xx, zz in zip(x, z):
-        #XYZ POINTS FORMATED IN 3, 16-WIDE COLUMNS
-        #<  : left-aligned,
-        #14 : 14 spaces reserved in column,
-        #.7 : 7 spaces reserved after decimal point,
-        #f  : float
+        # XYZ POINTS FORMATED IN 3, 16-WIDE COLUMNS
+        # <  : left-aligned,
+        # 14 : 14 spaces reserved in column,
+        # .7 : 7 spaces reserved after decimal point,
+        # f  : float
         ofile.write('    {:<14.7f}{:<14.7f}\n'.format(xx, zz))
     ofile.close()
+
 
 ########################################################################
 ### MAIN ###############################################################
 ########################################################################
 
 def GetPolar(foil='0012', naca=True, alfs=[0], Re=0,
-                SaveCP=True, Iter=100, pane=False,
-                overwrite=True, quiet=True):
+             SaveCP=True, Iter=100, pane=False,
+             overwrite=True, quiet=True):
     """For a single airfoil at a single Reynolds number,
     create a polar with given alphas.
     foil --> naca digits or path to geom file
@@ -422,24 +430,22 @@ def GetPolar(foil='0012', naca=True, alfs=[0], Re=0,
     overwrite --> overwrite existing save files
     quiet --> Supress XFOIL output
     """
-    #INITIALIZE XFOIL OBJECT
+    # INITIALIZE XFOIL OBJECT
     obj = Xfoil(foil, naca, Re, Iter=Iter)
-    #GEOMETRY
-    #condition panel geometry (use for rough shapes, not on smooth shapes)
+    # GEOMETRY
+    # condition panel geometry (use for rough shapes, not on smooth shapes)
     if pane:
         obj.AddInput('pane')
-    #Save geometry for later slope calculations
+    # Save geometry for later slope calculations
     obj.SaveGeom()
-    #RUN AND SAVE ALL POLAR CASES
+    # RUN AND SAVE ALL POLAR CASES
     obj.Polar(alfs, SaveCP=SaveCP, overwrite=overwrite)
-    #Quit XFOIL
+    # Quit XFOIL
     obj.Quit()
-    #Run Input List In XFOIL
+    # Run Input List In XFOIL
     obj.RunXfoil(quiet=quiet)
 
     return obj
-
-
 
 
 def main(foil, naca, alfs, Re, Iter=30):
@@ -451,37 +457,34 @@ def main(foil, naca, alfs, Re, Iter=30):
     Iter --> maximum number of iterations for each simulation
     """
 
-    obj = Xfoil(foil, naca, Re, Iter) #initialize xfoil
-    obj.SaveGeom() #save airfoil geometry
-    obj.EnterOperMenu() #set up operations, reynolds, iteration number
-    obj.SingleAlfa(alfs[0]) #command to run single alpha case
-    obj.Polar(alfs) #Command to run polar case
-    obj.Quit() #command to quit XFOIL when done
+    obj = Xfoil(foil, naca, Re, Iter)  # initialize xfoil
+    obj.SaveGeom()  # save airfoil geometry
+    obj.EnterOperMenu()  # set up operations, reynolds, iteration number
+    obj.SingleAlfa(alfs[0])  # command to run single alpha case
+    obj.Polar(alfs)  # Command to run polar case
+    obj.Quit()  # command to quit XFOIL when done
 
-    obj.RunXfoil() #Run all commands at once
+    obj.RunXfoil()  # Run all commands at once
 
     print('done')
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     #### Pyxfoil doesn't work well with inviscid, but should be fine as our project consideres real life cases.
 
     import numpy
+
     foil = '0012'
     naca = True
-    alfs = numpy.linspace(0,5,3)
+    alfs = numpy.linspace(0, 5, 3)
     Re = 0
 
-    #main(foil, naca, alfs, Re)
+    # main(foil, naca, alfs, Re)
     obj = Xfoil(foil='0012', naca=True, Re=Re, Iter=100)
     obj.SaveGeom()
     obj.Polar(alfs)
     obj.Quit()
     obj.RunXfoil()
-    #Polar(self, alfs, SaveCP=True, overwrite=True)
-
+    # Polar(self, alfs, SaveCP=True, overwrite=True)
 
     print(obj.input)
-
-
-
