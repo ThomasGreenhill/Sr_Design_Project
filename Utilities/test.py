@@ -1,7 +1,8 @@
 import string
 
-a = 'a'
-b = '2'
-c = ' '
 
-print(b.isnumeric())
+
+
+a = "ASDASD"
+for letter in a:
+    print(letter.lower())

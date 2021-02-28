@@ -1,5 +1,4 @@
-from typing import Union
-import string
+import os
 import numpy
 import std_atm
 import matplotlib.pyplot as plt
@@ -171,10 +170,9 @@ class Airfoil:
         """
         cur_name = []
         cur_series = []
-
         for letter in range(len(foilname)):
             if letter.isalpha():
-                cur_series.append(letter)
+                cur_series.append(letter.lower())
             elif letter.isspace():
                 pass
             elif letter.isnumeric():
@@ -182,30 +180,44 @@ class Airfoil:
             else:
                 raise NameError
 
-        if cur_name.lower() == 'naca':
+        if cur_name == 'naca':
             self.NACA = True        # True for NACA airfoils, False for other
         else:
             self.NACA = False
         self.foil = cur_series          # Serie number for airfoil
-        self.foilname = foilname        # Name of airfoil
-        self.file_exist = False         # Turns True if the method polar has run at least once
-
-
-
-
-
+        self.foilname = foilname.replace(" ", "")        # Name of airfoil
+        self.geom_file_exist = False    # Turns True if the geom file exists
+        self.geom_file_path = None
 
     @staticmethod
-    def iter_num(new_iter_num):
+    def iter_num(new_iter_num: int):
+        """
+        Changes the class iteration number
+        :param new_iter_num: number to update
+        :return: None
+        """
         Airfoil.iter_num = new_iter_num
         return
+
+    def add_geom_file(self, geom_file_path: str):
+        """
+        Attaches the geometry file to the class
+        :param geom_file_path: (str) path to attach
+        :return: None
+        """
+        if os.path.isfile(geom_file_path):
+            self.geom_file_path = geom_file_path
+            self.geom_file_exist = True
+            print("Geometry file successfully attached")
+        else:
+            raise FileExistsError
 
     def polar(self, Re, alf_start, alf_end):
         """
         :param Re: Reynold's number
         :param alf_start: (deg) first AoA
         :param alf_end: (deg) last AoA
-        :return: Polar plots
+        :return: None
         """
         alfs = numpy.linspace(numpy.radians(alf_start), numpy.radians(alf_end), Airfoil.iter_num)
         if self.NACA:   # NACA airfoil
@@ -216,13 +228,15 @@ class Airfoil:
             polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
             polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
             polar = pyxfoil.ReadXfoilPolar(polar_path)
-            self.file_exist = True
+            self.geom_file_exist = True
             return polar
         else:           # Not NACA airfoil
-            self.file_exist = True
-            self.foilname = self.foil
-            pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=Airfoil.iter_num, quiet=True)
-            polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
+            if not self.geom_file_exist:
+                raise Exception("Please use Airfoil.add_geom_file func to add file path first.")
+            else:
+                pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=Airfoil.iter_num, quiet=True)
+                polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
+                polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
 
 
 
@@ -237,9 +251,9 @@ class Airfoil:
     def plot(self, save=False, show=True):
         """
         Plots the airfoil geometry
-        :return:
+        :return: None
         """
-        if not self.file_exist:
+        if not self.geom_file_exist:
             Re = 0
             alf_start = 0
             alf_end = 5
