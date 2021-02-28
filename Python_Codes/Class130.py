@@ -234,6 +234,7 @@ class Airfoil:
         :param alf_end: (deg) last AoA
         :return: None
         """
+        Print('Running XFoil...')
         self.Re = Re
         self.num_alfs = (alf_end - alf_start + 1) * 2
         alfs = numpy.linspace(alf_start, alf_end, self.num_alfs)
@@ -244,17 +245,17 @@ class Airfoil:
             polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
             polar_path: str = 'Data/{}/{}'.format(self.foilname, polar_file)
             self.polar = pyxfoil.ReadXfoilPolar(polar_path)
+            print('Ending XFoil, polar obtained.')
             return self.polar
         else:  # Not NACA airfoil
             if self.geom_file_path is None:
                 raise Exception("Please use obj.add_geom_file func to add file path first.")
             else:
-                print(self.geom_file_path)
-                print(self.foilname)
                 pyxfoil.GetPolar(self.geom_file_path, self.NACA, alfs, Re, SaveCP=False, Iter=self.iter_num, quiet=True)
                 polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
                 polar_path: str = 'Data/{}/{}'.format(self.foilname, polar_file)
                 self.polar = pyxfoil.ReadXfoilPolar(polar_path)
+                print('Ending XFoil, polar obtained.')
                 return self.polar
 
     def geom_plot(self, save=False, show=True):
@@ -278,6 +279,7 @@ class Airfoil:
         if save:
             save_path: str = 'Data/{}/{}_geom'.format(self.foilname, self.foilname)
             geom_fig.savefig(save_path, bbox_inches='tight')
+            print('Geometry plot successfully saved at: {}'.format(save_path))
         return
 
     def lift_curve(self, save=False, show=True):
@@ -299,6 +301,7 @@ class Airfoil:
         if save:
             save_path: str = 'Data/{}/{}_lift_curve'.format(self.foilname, self.foilname)
             lift_curve_fig.savefig(save_path, bbox_inches='tight')
+            print('Lift curve plot successfully saved at: {}'.format(save_path))
         return self.polar['alpha'], self.polar['Cl']
 
     def drag_polar(self, save=False, show=True):
@@ -320,6 +323,7 @@ class Airfoil:
         if save:
             save_path: str = 'Data/{}/{}_drag_polar'.format(self.foilname, self.foilname)
             drag_polar_fig.savefig(save_path, bbox_inches='tight')
+            print('Drag polar plot successfully saved at: {}'.format(save_path))
         return self.polar['Cl'], self.polar['Cd']
 
 
