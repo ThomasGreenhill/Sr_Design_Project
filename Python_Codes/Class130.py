@@ -32,6 +32,7 @@ History:
         02.14.2021, Added Wing & Airfoil. XT
         02.14.2021, Minor change: added attributes. XT
         02.16.2021, Added class for H2 fuel cells. TVG
+        02.28.2021, Changed alpha --> alp and similar for propeller design. TVG
 '''
 
 
@@ -127,8 +128,8 @@ class AtmData:
 # Propeller information
 class Propeller:
     # All in base SI units
-    def __init__(self, radius, RPM, eta_P, CP, CT, CQ, Cl=0.4, chord=1, numB=3, alp0=0,
-                 alpha=None, beta=None, theta=None, phi=None):
+    def __init__(self, radius, numB, RPM, eta_P, CP, CT, CQ, Cl, chord = 1, alp0 = 0,
+                 alp = None, bet = None, the = None, phi = None):
         self.radius = radius  # propeller radius (m)
         self.RPM = RPM  # rotation per minute
         self.eta_P = eta_P  # propeller efficiency
@@ -139,11 +140,10 @@ class Propeller:
         self.chord = chord  # chord distr. (m)
         self.numB = numB  # number of blades
         self.alp0 = alp0  # zero-lift AoA (rad)
-        self.alpha = alpha  # AoA distr. (rad)
-        self.beta = beta  # pitch angle distr. (rad)
-        self.theta = theta  # induced angle distr. (rad)
+        self.alp = alp  # AoA distr. (rad)
+        self.bet = bet  # pitch angle distr. (rad)
+        self.the = the  # induced angle distr. (rad)
         self.phi = phi  # blade angle distr. (rad)
-
 
 # Airfoil information
 class Airfoil:
