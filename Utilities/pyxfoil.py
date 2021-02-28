@@ -474,13 +474,13 @@ if __name__ == "__main__":
 
     import numpy
 
-    foil = '0012'
-    naca = True
+    foil = "./Data/p51d/p51d_geom.dat"
+    naca = False
     alfs = numpy.linspace(0, 5, 3)
-    Re = 0
+    Re = 500
 
     # main(foil, naca, alfs, Re)
-    obj = Xfoil(foil='0012', naca=True, Re=Re, Iter=100)
+    obj = Xfoil(foil=foil, naca=False, Re=Re, Iter=100)
     obj.SaveGeom()
     obj.Polar(alfs)
     obj.Quit()

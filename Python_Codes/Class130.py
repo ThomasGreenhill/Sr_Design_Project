@@ -221,7 +221,7 @@ class Airfoil:
         if self.NACA:  # NACA airfoil
             self.foilname: str = 'naca' + str(self.foil)
             self.geom_file_path: str = './Data/' + self.foilname + '/' + self.foilname + '.dat'
-            pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=self.iter_num, quiet=True)
+            pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=False, Iter=self.iter_num, quiet=True)
             polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
             polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
             self.polar = pyxfoil.ReadXfoilPolar(polar_path)
@@ -230,7 +230,7 @@ class Airfoil:
             if self.geom_file_path is None:
                 raise Exception("Please use obj.add_geom_file func to add file path first.")
             else:
-                pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=self.iter_num, quiet=True)
+                pyxfoil.GetPolar(self.geom_file_path, self.NACA, alfs, Re, SaveCP=False, Iter=self.iter_num, quiet=True)
                 polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
                 polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
                 self.polar = pyxfoil.ReadXfoilPolar(polar_path)
@@ -390,6 +390,8 @@ class Sizing:
 
 
 if __name__ == '__main__':
+    # AtmData
+    '''
     is_SI = True
     vel = 300
     h = 0
@@ -397,3 +399,21 @@ if __name__ == '__main__':
     atm.convert()
     atm.expand(1.4, 53.35)
     atm.print()
+    '''
+
+    # Airfoil
+    #foil = Airfoil("NACA 2412")
+    Re = 5e6
+    alf_start = 0
+    alf_end = 5
+    #foil.get_polar(Re, alf_start, alf_end)
+    #foil.geom_plot(save=True, show=False)
+    #foil.lift_curve(save=True, show=False)
+    #foil.drag_polar(save=True, show=False)
+
+    foil = Airfoil("P51D")
+    foil.add_geom_file("./Data/p51d/p51d.dat")
+    foil.get_polar(Re, alf_start, alf_end)
+    #foil.geom_plot(save=True, show=False)
+    #foil.lift_curve(save=True, show=False)
+    #foil.drag_polar(save=True, show=False)
