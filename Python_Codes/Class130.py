@@ -209,7 +209,7 @@ class Airfoil:
             print("Geometry file successfully attached")
         else:
             raise FileExistsError
-        '''
+
         x_geom, y_geom = mses.ReadXfoilGeometry(geom_file_path)
         x_list = numpy.linspace(0, 1, self.iter_num)
         y_up = [0] * self.iter_num
@@ -219,10 +219,13 @@ class Airfoil:
         x, y = mses.MsesMerge(x_list, x_list, y_lo, y_up)
         # Updating geom file path
         self.geom_file_path = 'Data/{}/{}.dat'.format(self.foilname, self.foilname)
-        with open(self.geom_file_path, 'w', newline='') as f:
-            writer = csv.writer(f, delimiter='\t')
-            writer.writerows(zip(x, y))
-        '''
+        with open(self.geom_file_path, 'w', newline='') as new_file:
+            writer = csv.writer(new_file, delimiter=' ')
+            writer.writerow('{}'.format(self.foilname))
+            row = []
+            for x_val, y_val in zip(x, y):
+                row = [x_val, y_val]
+                writer.writerow(row)
 
     def get_polar(self, Re, alf_start, alf_end):
         """
@@ -430,7 +433,7 @@ if __name__ == '__main__':
     #foil.drag_polar(save=True, show=False)
 
     foil = Airfoil("P51D")
-    foil.add_geom_file("Data/p51d/p51d.dat")
+    foil.add_geom_file("Data/p51d/p51d_geom.dat")
     foil.get_polar(Re, alf_start, alf_end)
     foil.lift_curve(save=True, show=False)
     foil.drag_polar(save=True, show=False)
