@@ -12,20 +12,11 @@ try:
     formatfigures.formatfigures()
     latex = True
 except ValueError:
-    print("Not using latex formatting")
+    print("Not using latex figure formatting")
     latex = False
 
 
-def prop_design(AtmData, Propeller, T_req):
-
-    def m0_fn(Ma):
-        if Ma <= 0.9:
-            return (2 * math.pi) / numpy.sqrt(1 - Ma ** 2)
-        else:
-            return (2 * math.pi) / numpy.sqrt(1 - 0.9 ** 2)
-
-    def Cd_fn(Cl):
-        return 0.0095 + 0.0040 * (Cl - 0.2) ** 2
+def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
 
     '''
     prop_design_TVG
@@ -72,7 +63,9 @@ def prop_design(AtmData, Propeller, T_req):
         02.13.2021 translated and editted by XTang
         02.13.2021 briefly debugged by XTang
         02.15.2021 verified by TVG and improved iteration tolerance from 0 decimal places to 12 decimal places
-        02.25.2021 added initial propeller design as: if __name__ = "main"
+        02.25.2021 added initial propeller design as: if __name__ == "main", TVG
+        02.27.2021 basic design in if __name__ == "main"
+        02.28.2021 added Cd_fn and m0_fn as inputs to function
     '''
 
     if not AtmData.is_SI:
@@ -90,7 +83,7 @@ def prop_design(AtmData, Propeller, T_req):
 
     num = 201
     D = 2 * R
-    r = numpy.linspace(0.15 * R, R, num)
+    r = numpy.linspace(0, R, num)
     x = r / R
     t_c = 0.04 / x ** 1.2
     a = numpy.sqrt(AtmData.k * AtmData.R * AtmData.temp)
@@ -179,7 +172,17 @@ def prop_design(AtmData, Propeller, T_req):
 
 
 if __name__ == "__main__":
-    nn = 11
+
+    def m0_fn(Ma):
+        if Ma <= 0.9:
+            return (2 * math.pi) / numpy.sqrt(1 - Ma ** 2)
+        else:
+            return (2 * math.pi) / numpy.sqrt(1 - 0.9 ** 2)
+
+    def Cd_fn(Cl):
+        return 0.0095 + 0.0040 * (Cl - 0.2) ** 2
+
+    nn = 101
 
     # v_inf = 62
     # temp = 272.31667
@@ -231,8 +234,8 @@ if __name__ == "__main__":
     # # plt.show()
 
 
-    # v_inf = 44
     temp = 272.31667
+    h = 1828
     pres = 8.988e4
     dens = 1.112
     visc = 1.758e-5
@@ -254,9 +257,10 @@ if __name__ == "__main__":
         Q_design = [0] * nn
         eta_P = [0] * nn
         for ii in range(0,nn):
-            atm = AtmData(v_inf, temp, pres, dens, visc, k, R, is_SI)
-            prop = Propeller(radius, numB, RPM[ii], eta_P, CP = 0, CT = 0, CQ = 0, Cl = 0.4,)
-            [_, _, _, P_design[ii], T_design[ii], Q_design[ii], eta_P[ii], _] = prop_design(atm, prop, T_req)
+            atm = AtmData(v_inf, h, is_SI)
+            atm.expand(1.4, 287)
+            prop = Propeller(radius, numB, RPM[ii], eta_P, CP = 0, CT = 0, CQ = 0, Cl = 0.4)
+            [_, _, _, P_design[ii], T_design[ii], Q_design[ii], eta_P[ii], _] = prop_design(atm, prop, T_req, m0_fn, Cd_fn)
         label = "$V_\infty$ = " + str(v_inf) + " (m/s)"
         plt.figure(4)
         plt.plot(RPM,Q_design,label=label)    
@@ -264,27 +268,36 @@ if __name__ == "__main__":
         plt.plot(RPM,eta_P,label=label)
         plt.figure(6)
         plt.plot(RPM,P_design,label=label)
+        # plt.figure(7)
+        # plt.plot(RPM,T_design,label=label)
     
     plt.figure(4)
     plt.legend()    
     plt.xlabel("RPM")
     plt.ylabel("Torque (Nm)")
-    plt.title("Torque vs. RPM for Propeller Design With Different Inlet Velocity Design Condition")
-    plt.savefig('./Torque_vs_RPM_hover.jpg', bbox_inches='tight')
+    plt.title("Torque vs. RPM for Propeller Design \n With Different Inlet Velocity Design Condition")
+    plt.savefig('./Figures/Torque_vs_RPM_hover.jpg', bbox_inches='tight')
 
     plt.figure(5)
     plt.legend() 
     plt.xlabel("RPM")
     plt.ylabel("$\eta_p$")
-    plt.title("Efficiency vs. RPM for Propeller Design With Different Inlet Velocity Design Condition")
-    plt.savefig('./Efficiency_vs_RPM_hover.jpg', bbox_inches='tight')
+    plt.title("Efficiency vs. RPM for Propeller Design \n With Different Inlet Velocity Design Condition")
+    plt.savefig('./Figures/Efficiency_vs_RPM_hover.jpg', bbox_inches='tight')
 
     plt.figure(6)
     plt.legend() 
     plt.xlabel("RPM")
     plt.ylabel("Power (W)")
-    plt.title("Power vs. RPM for Propeller Design With Different Inlet Velocity Design Condition")
-    plt.savefig('./Power_vs_RPM_hover.jpg', bbox_inches='tight')
+    plt.title("Power vs. RPM for Propeller Design \n With Different Inlet Velocity Design Condition")
+    plt.savefig('./Figures/Power_vs_RPM_hover.jpg', bbox_inches='tight')
+
+    # plt.figure(7)
+    # plt.legend() 
+    # plt.xlabel("RPM")
+    # plt.ylabel("Thrust (N)")
+    # plt.title("Thrust vs. RPM for Propeller Design \n With Different Inlet Velocity Design Condition")
+    # plt.savefig('./Figures/Thrust_vs_RPM_hover.jpg', bbox_inches='tight')
     plt.show()
 
     

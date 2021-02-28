@@ -32,6 +32,7 @@ History:
         02.14.2021, Added Wing & Airfoil. XT
         02.14.2021, Minor change: added attributes. XT
         02.16.2021, Added class for H2 fuel cells. TVG
+        02.28.2021, Changed alpha --> alp and similar for propeller design. TVG
 '''
 
 
@@ -139,9 +140,9 @@ class Propeller:
         self.chord = chord  # chord distr. (m)
         self.numB = numB  # number of blades
         self.alp0 = alp0  # zero-lift AoA (rad)
-        self.alpha = alpha  # AoA distr. (rad)
-        self.beta = beta  # pitch angle distr. (rad)
-        self.theta = theta  # induced angle distr. (rad)
+        self.alp = alpha  # AoA distr. (rad)
+        self.bet = beta  # pitch angle distr. (rad)
+        self.the = theta  # induced angle distr. (rad)
         self.phi = phi  # blade angle distr. (rad)
 
 # Airfoil information
