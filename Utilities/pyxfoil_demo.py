@@ -72,6 +72,8 @@ plt.ylabel('z/c')
 plt.show()
 
 #Read and print polar data
+
+
 polar = pyxfoil.ReadXfoilPolar('Data/naca0012/naca0012_polar_Re0.00e+00a0.0-10.0.dat')
 print('\nPolar from file saved by XFOIL/pyxfoil:')
 print(polar)

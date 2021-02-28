@@ -249,7 +249,7 @@ class Xfoil:
             #VISCOULS SIMULATION WITH GIVEN REYNOLDS NUMBER
             self.AddInput('visc {}'.format( self.Re ) )
         #SET ITERATION NUMBER
-        self.AddInput('iter {}'.format( self.Iter ))
+        self.AddInput('iter\n{}'.format( self.Iter ))
 
     def SingleAlfa(self, alf, SaveCP=True):
         """Simulate airfoil at a single angle of attack.
@@ -464,17 +464,24 @@ def main(foil, naca, alfs, Re, Iter=30):
 
 if __name__ == "__main__":
 
-    foils = ['0012', 'Data/s1223.dat']
-    nacas = [True, False]
-    alfs = [0, 10]
-    Re = 2e5
+    #### Pyxfoil doesn't work well with inviscid, but should be fine as our project consideres real life cases.
 
-    for foil, naca in zip(foils, nacas):
-        main(foil, naca, alfs, Re)
+    import numpy
+    foil = '0012'
+    naca = True
+    alfs = numpy.linspace(0,5,3)
+    Re = 0
+
+    #main(foil, naca, alfs, Re)
+    obj = Xfoil(foil='0012', naca=True, Re=Re, Iter=100)
+    obj.SaveGeom()
+    obj.Polar(alfs)
+    obj.Quit()
+    obj.RunXfoil()
+    #Polar(self, alfs, SaveCP=True, overwrite=True)
 
 
-
-
+    print(obj.input)
 
 
 

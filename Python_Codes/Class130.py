@@ -167,7 +167,6 @@ class Airfoil:
                 cur_series += letter.lower()
             else:
                 raise NameError("Airfoil name only excepts letters, numbers, or whitespaces")
-
         if cur_name == 'naca':
             self.NACA = True        # True for NACA airfoils, False for other
         else:
@@ -177,7 +176,8 @@ class Airfoil:
         self.geom_file_exist = False    # Turns True if the geom file exists
         self.geom_file_path = None
         self.iter_num = 100             # Default
-        self.num_alfs = 100             # Default
+        self.num_alfs = 10              # Default
+        self.polar = None               # Initialized to store polar data
 
     def iter_num(self, new_iter_num: int):
         """
@@ -212,12 +212,13 @@ class Airfoil:
 
     def polar(self, Re, alf_start, alf_end):
         """
-        :param Re: Reynold's number
+        :param Re: Reynold's number !!! Shall not be 0 otherwise have unknown problems
         :param alf_start: (deg) first AoA
         :param alf_end: (deg) last AoA
         :return: None
         """
-        alfs = numpy.linspace(numpy.radians(alf_start), numpy.radians(alf_end), self.num_alfs)
+        self.num_alfs = (alf_end - alf_start + 1) * 2
+        alfs = numpy.linspace(alf_start, alf_end, self.num_alfs)
         if self.NACA:   # NACA airfoil
             self.foilname: str = 'naca' + str(self.foil)
             foil_path: str = './Data/' + self.foilname + '/' + self.foilname + '.dat'
@@ -226,36 +227,37 @@ class Airfoil:
 
             polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
             polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
-            polar = pyxfoil.ReadXfoilPolar(polar_path)
+            self.polar = pyxfoil.ReadXfoilPolar(polar_path)
             self.geom_file_exist = True
             return polar
         else:           # Not NACA airfoil
             if not self.geom_file_exist:
-                raise Exception("Please use Airfoil.add_geom_file func to add file path first.")
+                raise Exception("Please use obj.add_geom_file func to add file path first.")
             else:
                 pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=True, Iter=self.iter_num, quiet=True)
                 polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
                 polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
-                polar = pyxfoil.ReadXfoilPolar(polar_path)
+                self.polar = pyxfoil.ReadXfoilPolar(polar_path)
                 return polar
 
-
-    def plot(self, save=False, show=True):
+    def geom_plot(self, save=False, show=True):
         """
         Plots the airfoil geometry
         :return: None
         """
         if not self.geom_file_exist:
-            Re = 0
+            Re = 100
             alf_start = 0
             alf_end = 5
             self.polar(self, Re, alf_start, alf_end)
 
         geom_fig = plt.figure()
-        plt.title('Airfoil Geometry')
+        print(self.foilname)
+        plt.title('Airfoil Geometry of {}'.format(self.foilname))
         plt.plot(self.geom['x'], self.geom['z'])
         plt.axis('equal')
         plt.xlabel('x/c')
+        plt.grid()
         plt.ylabel('z/c')
         if show:
             plt.show()
@@ -265,7 +267,28 @@ class Airfoil:
             geom_fig.save(save_path)
         return
 
+    def lift_curve(self, save=False, show=True):
+        """
+        Plots the lift curve of the airfoil.
+        :return: alfs: list of AoA
+                 Cls: list of Cl
+        """
+        if self.polar == None:
+            raise Exception("Please call obj.polar first.\nFunc call: polar(Re, alf_start, alf_end)")
+        alfs = self.polar["alpha"]
+        cls = self.polar["CL"]
+        fig_lift_curve =
 
+    def drag_polar(self, save=False, show=True):
+        """
+        Plots the drag polar of the airfoil.
+        :return: alfs: list of AoA in deg
+                 Cds: list of cd
+        """
+        if self.polar == None:
+            raise Exception("Please call obj.polar first.\nFunc call: polar(Re, alf_start, alf_end)")
+        alfs = self.polar["alpha"]
+        cds = self.polar["CD"]
 
 
 
