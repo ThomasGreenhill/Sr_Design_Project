@@ -1,0 +1,15 @@
+  
+       XFOIL         Version 6.94
+  
+ Calculated polar for: P-51D TIP (BL215) AIRFOIL                       
+  
+ 1 1 Reynolds number fixed          Mach number fixed         
+  
+ xtrf =   1.000 (top)        1.000 (bottom)  
+ Mach =   0.000     Re =     0.001 e 6     Ncrit =   9.000
+  
+  alpha     CL        CD       CDp       CM    Top_Xtr Bot_Xtr
+ ------- -------- --------- --------- -------- ------- -------
+   0.000  -0.0053   0.16805   0.03943  -0.0106  1.0000  1.0000
+   2.500   0.1220   0.16901   0.04027  -0.0016  1.0000  1.0000
+   5.000   0.2482   0.17447   0.05065   0.0066  1.0000  1.0000

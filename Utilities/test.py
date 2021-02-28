@@ -1,15 +1,23 @@
 import sys
-
+import numpy
+import csv
 sys.path.append("../Python_Codes")
 from Class130 import Airfoil
+import mses
 
-foil = Airfoil("NACA   2412")
+path = "./Data/p51d/p51d_geom.dat"
+xgeom, ygeom = mses.ReadXfoilGeometry(path)
+num = 501
+x_list = numpy.linspace(0, 1, num)
+yup = [0]*num
+ylo = [0]*num
+for i, xout in enumerate(x_list):
+    yup[i], ylo[i] = mses.MsesInterp(xout, xgeom, ygeom)
 
-Re = 5e6
-alf_start = 0
-alf_end = 5
+x, y = mses.MsesMerge(x_list, x_list, ylo, yup)
 
-plr = foil.get_polar(Re, alf_start, alf_end)
-foil.geom_plot(save=True, show=False)
-foil.lift_curve(save=True, show=False)
-foil.drag_polar(save=True, show=False)
+with open('././Data/p51d/p51d.dat', 'w', newline='') as f:
+    writer = csv.writer(f, delimiter = '\t')
+    writer.writerows(zip(x,y))
+
+quit()

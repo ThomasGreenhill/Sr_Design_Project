@@ -1,5 +1,6 @@
 import os
 import numpy
+import csv
 import std_atm
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -8,6 +9,7 @@ import sys
 
 sys.path.append('../Utilities')
 import pyxfoil
+import mses
 
 '''
 Useful Python classes in senior design project
@@ -172,13 +174,13 @@ class Airfoil:
         else:
             self.NACA = False
         self.foil = cur_series  # Serie number for airfoil
-        self.foilname = foilname.replace(" ", "")  # Name of airfoil
+        self.foilname = foilname.lower().replace(" ", "")  # Name of airfoil
         self.geom_file_path = None
         self.iter_num = 100  # Default
         self.num_alfs = 10  # Default
         self.polar = None  # Initialized to store polar data
 
-    def iter_num(self, new_iter_num: int):
+    def set_iter_num(self, new_iter_num: int):
         """
         Changes the attribute iteration number
         :param new_iter_num: number to update
@@ -187,7 +189,7 @@ class Airfoil:
         self.iter_num = new_iter_num
         return
 
-    def num_alfs(self, new_num_alfs: int):
+    def set_num_alfs(self, new_num_alfs: int):
         """
         Changes the attribute number of AoA's
         :param new_num_alfs: number to update
@@ -207,6 +209,16 @@ class Airfoil:
             print("Geometry file successfully attached")
         else:
             raise FileExistsError
+        x_geom, y_geom = mses.ReadXfoilGeometry(geom_file_path)
+        x_list = numpy.linspace(0, 1, self.iter_num)
+        y_up = [0] * self.iter_num
+        y_lo = [0] * self.iter_num
+        for i, x_local in enumerate(x_list):
+            y_up[i], y_lo[i] = mses.MsesInterp(x_local, x_geom, y_geom)
+        x, y = mses.MsesMerge(x_list, x_list, y_lo, y_up)
+        with open('././Data/p51d/p51d.dat', 'w', newline='') as f:
+            writer = csv.writer(f, delimiter='\t')
+            writer.writerows(zip(x, y))
 
     def get_polar(self, Re, alf_start, alf_end):
         """
@@ -403,17 +415,18 @@ if __name__ == '__main__':
 
     # Airfoil
     #foil = Airfoil("NACA 2412")
-    Re = 5e6
+    Re = 3e6
     alf_start = 0
-    alf_end = 5
+    alf_end = 30
     #foil.get_polar(Re, alf_start, alf_end)
     #foil.geom_plot(save=True, show=False)
     #foil.lift_curve(save=True, show=False)
     #foil.drag_polar(save=True, show=False)
 
     foil = Airfoil("P51D")
-    foil.add_geom_file("./Data/p51d/p51d.dat")
+    foil.add_geom_file("./Data/p51d/p51d_geom.dat")
+    foil.set_iter_num(1000)
     foil.get_polar(Re, alf_start, alf_end)
-    #foil.geom_plot(save=True, show=False)
-    #foil.lift_curve(save=True, show=False)
-    #foil.drag_polar(save=True, show=False)
+    foil.geom_plot(save=True, show=False)
+    foil.lift_curve(save=True, show=False)
+    foil.drag_polar(save=True, show=False)

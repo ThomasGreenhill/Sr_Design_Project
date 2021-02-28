@@ -474,17 +474,19 @@ if __name__ == "__main__":
 
     import numpy
 
-    foil = "./Data/p51d/p51d_geom.dat"
+    foil = "./Data/p51d/p51d.dat"
     naca = False
     alfs = numpy.linspace(0, 5, 3)
     Re = 500
 
     # main(foil, naca, alfs, Re)
     obj = Xfoil(foil=foil, naca=False, Re=Re, Iter=100)
+
     obj.SaveGeom()
     obj.Polar(alfs)
     obj.Quit()
     obj.RunXfoil()
-    # Polar(self, alfs, SaveCP=True, overwrite=True)
-
     print(obj.input)
+    Polar(self, alfs, SaveCP=True, overwrite=True)
+
+
