@@ -209,6 +209,7 @@ class Airfoil:
             print("Geometry file successfully attached")
         else:
             raise FileExistsError
+        '''
         x_geom, y_geom = mses.ReadXfoilGeometry(geom_file_path)
         x_list = numpy.linspace(0, 1, self.iter_num)
         y_up = [0] * self.iter_num
@@ -216,9 +217,12 @@ class Airfoil:
         for i, x_local in enumerate(x_list):
             y_up[i], y_lo[i] = mses.MsesInterp(x_local, x_geom, y_geom)
         x, y = mses.MsesMerge(x_list, x_list, y_lo, y_up)
-        with open('././Data/p51d/p51d.dat', 'w', newline='') as f:
+        # Updating geom file path
+        self.geom_file_path = 'Data/{}/{}.dat'.format(self.foilname, self.foilname)
+        with open(self.geom_file_path, 'w', newline='') as f:
             writer = csv.writer(f, delimiter='\t')
             writer.writerows(zip(x, y))
+        '''
 
     def get_polar(self, Re, alf_start, alf_end):
         """
@@ -232,19 +236,21 @@ class Airfoil:
         alfs = numpy.linspace(alf_start, alf_end, self.num_alfs)
         if self.NACA:  # NACA airfoil
             self.foilname: str = 'naca' + str(self.foil)
-            self.geom_file_path: str = './Data/' + self.foilname + '/' + self.foilname + '.dat'
+            self.geom_file_path: str = 'Data/' + self.foilname + '/' + self.foilname + '.dat'
             pyxfoil.GetPolar(self.foil, self.NACA, alfs, Re, SaveCP=False, Iter=self.iter_num, quiet=True)
             polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
-            polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
+            polar_path: str = 'Data/{}/{}'.format(self.foilname, polar_file)
             self.polar = pyxfoil.ReadXfoilPolar(polar_path)
             return self.polar
         else:  # Not NACA airfoil
             if self.geom_file_path is None:
                 raise Exception("Please use obj.add_geom_file func to add file path first.")
             else:
+                print(self.geom_file_path)
+                print(self.foilname)
                 pyxfoil.GetPolar(self.geom_file_path, self.NACA, alfs, Re, SaveCP=False, Iter=self.iter_num, quiet=True)
                 polar_file: str = '{}_polar_Re{:.2e}a{:.1f}-{:.1f}.dat'.format(self.foilname, Re, alf_start, alf_end)
-                polar_path: str = './Data/{}/{}'.format(self.foilname, polar_file)
+                polar_path: str = 'Data/{}/{}'.format(self.foilname, polar_file)
                 self.polar = pyxfoil.ReadXfoilPolar(polar_path)
                 return self.polar
 
@@ -424,9 +430,7 @@ if __name__ == '__main__':
     #foil.drag_polar(save=True, show=False)
 
     foil = Airfoil("P51D")
-    foil.add_geom_file("./Data/p51d/p51d_geom.dat")
-    foil.set_iter_num(1000)
+    foil.add_geom_file("Data/p51d/p51d.dat")
     foil.get_polar(Re, alf_start, alf_end)
-    foil.geom_plot(save=True, show=False)
     foil.lift_curve(save=True, show=False)
     foil.drag_polar(save=True, show=False)

@@ -474,7 +474,7 @@ if __name__ == "__main__":
 
     import numpy
 
-    foil = "./Data/p51d/p51d.dat"
+    foil = "Data/p51d/p51d.dat"
     naca = False
     alfs = numpy.linspace(0, 5, 3)
     Re = 500
@@ -487,6 +487,6 @@ if __name__ == "__main__":
     obj.Quit()
     obj.RunXfoil()
     print(obj.input)
-    Polar(self, alfs, SaveCP=True, overwrite=True)
+    #Polar(self, alfs, SaveCP=True, overwrite=True)
 
 
