@@ -7,6 +7,10 @@ from Class130 import AtmData, Propeller
 import sys
 sys.path.append("../Utilities")
 import formatfigures
+# Ignore warnings because runtime warnings pop up due to division by almost zero (propeller properties at the blade root)
+import warnings
+warnings.filterwarnings("ignore")
+
 
 try:
     formatfigures.formatfigures()

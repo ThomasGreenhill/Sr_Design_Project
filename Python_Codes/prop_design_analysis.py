@@ -13,7 +13,7 @@ History:
 '''
 
 from prop_design_TVG import prop_design
-from prop_analysis_TVG import prop_analysis
+from prop_analysis_fix_pitch import prop_analysis
 import numpy
 import matplotlib.pyplot as plt
 from Class130 import AtmData, Propeller

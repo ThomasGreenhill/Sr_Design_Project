@@ -33,8 +33,8 @@ def prop_analysis(AtmData, Propeller, m0_fn, Cd_fn):
 
     #     return x_zero, iter
     '''
-    prop_analysis_TVG
-    Version of prop_analysis from TGreenhill
+    prop_analysis_fix_pitch
+    Version of variable pitch propeller analysis code from TGreenhill
     Code to analyze a propeller (fixed or variable pitch), based on EAE 130A project 2
 
     Outer function:
