@@ -38,7 +38,7 @@ T_req = CT*dens*(RPM/60)**2*(radius*2)**4
 Cl = 0.4
 numB = 3
 alp0 = numpy.radians(-2)
-prop_check = Propeller(radius, numB, RPM, eta_P = 0, CP = 0, CT = 0, CQ = 0, Cl = 0.4)
+prop_check = Propeller(radius, numB, RPM, eta_P=0, CP=0, CT=0, CQ=0, Cl=0.4)
 
 [r, prop_check.chord, prop_check.beta, P_design, T_design, Q_design, eta_P, prop_check.theta] = prop_design_TVG.prop_design(atm_check, prop_check, T_req, m0_fn, Cd_fn)
 print(P_design * 0.00134102)
