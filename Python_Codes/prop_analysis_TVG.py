@@ -7,31 +7,6 @@ from prop_design_TVG import prop_design
 
 def prop_analysis(AtmData, Propeller, m0_fn, Cd_fn):
 
-    # def newton(f, fprime, guess, tolerance)
-
-    #     xx(1:2) = [0, guess]
-
-    #     ii = 2;
-    #     iter = 1;
-
-    #     while abs(tolerance) < abs(xx(ii)-xx(ii - 1)) || iter == 1
-    #         ffprime = fprime(xx(ii));
-
-    #         ff = f(xx(ii));
-
-
-    #         if ffprime == 0
-    #             fprintf('Error, slope at point = 0. Choose a different initial condition')
-    #             break
-    #         end
-
-    #         xx(ii+1) = xx(ii) - ff / ffprime;
-    #         ii = ii + 1;
-    #         iter = iter + 1;
-    #     end
-    #     x_zero = xx(end);
-
-    #     return x_zero, iter
     '''
     prop_analysis_TVG
     Version of prop_analysis from TGreenhill
