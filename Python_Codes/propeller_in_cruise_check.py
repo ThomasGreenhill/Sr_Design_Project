@@ -25,7 +25,7 @@ e = 1
 atm = AtmData(vel, 'temp', 'pres', 'dens', 'visc', 'k', 'R', 'is_SI')
 wing = Wing(area, span, e, 'alpha', 'chord', 'c_bar', CL, 'CL_max', CD, CD_0, 'airfoil')
 prop = Propeller('radius', 'RPM', eta_P, 'CP', 'CT', 'CQ', 'Cl = 0.4', 'chord = 1', 'numB = 3', 'alp0 = 0',
-'alpha = None', 'beta = None', 'theta = None', 'phi = None')
+                 'alpha = None', 'beta = None', 'theta = None', 'phi = None')
 
 R, E = propeller_in_cruise(W_initial, W_final, c_p, atm, prop, wing, const_logic)
 
@@ -57,7 +57,7 @@ e = 1
 atm = AtmData(vel, 'temp', 'pres', dens, 'visc', 'k', 'R', 'is_SI')
 wing = Wing(area, span, e, 'alpha', 'chord', 'c_bar', CL, 'CL_max', CD, CD_0, 'airfoil')
 prop = Propeller('radius', 'RPM', eta_P, 'CP', 'CT', 'CQ', 'Cl = 0.4', 'chord = 1', 'numB = 3', 'alp0 = 0',
-'alpha = None', 'beta = None', 'theta = None', 'phi = None')
+                 'alpha = None', 'beta = None', 'theta = None', 'phi = None')
 
 R, E = propeller_in_cruise(W_initial, W_final, c_p, atm, prop, wing, const_logic)
 
@@ -88,7 +88,7 @@ e = 1
 atm = AtmData(vel, 'temp', 'pres', dens, 'visc', 'k', 'R', 'is_SI')
 wing = Wing(area, span, e, 'alpha', 'chord', 'c_bar', CL, 'CL_max', CD, CD_0, 'airfoil')
 prop = Propeller('radius', 'RPM', eta_P, 'CP', 'CT', 'CQ', 'Cl = 0.4', 'chord = 1', 'numB = 3', 'alp0 = 0',
-'alpha = None', 'beta = None', 'theta = None', 'phi = None')
+                 'alpha = None', 'beta = None', 'theta = None', 'phi = None')
 
 R, E = propeller_in_cruise(W_initial, W_final, c_p, atm, prop, wing, const_logic)
 

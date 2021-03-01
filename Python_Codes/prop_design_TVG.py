@@ -7,6 +7,10 @@ from Class130 import AtmData, Propeller
 import sys
 sys.path.append("../Utilities")
 import formatfigures
+# Ignore warnings because runtime warnings pop up due to division by almost zero (propeller properties at the blade root)
+import warnings
+warnings.filterwarnings("ignore")
+
 
 try:
     formatfigures.formatfigures()
@@ -259,7 +263,7 @@ if __name__ == "__main__":
         for ii in range(0,nn):
             atm = AtmData(v_inf, h, is_SI)
             atm.expand(1.4, 287)
-            prop = Propeller(radius, numB, RPM[ii], eta_P, CP = 0, CT = 0, CQ = 0, Cl = 0.4)
+            prop = Propeller(radius, numB, RPM[ii], eta_P, CP=0, CT=0, CQ=0, Cl=0.4)
             [_, _, _, P_design[ii], T_design[ii], Q_design[ii], eta_P[ii], _] = prop_design(atm, prop, T_req, m0_fn, Cd_fn)
         label = "$V_\infty$ = " + str(v_inf) + " (m/s)"
         plt.figure(4)

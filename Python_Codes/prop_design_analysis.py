@@ -13,7 +13,7 @@ History:
 '''
 
 from prop_design_TVG import prop_design
-from prop_analysis_TVG import prop_analysis
+from prop_analysis_fix_pitch import prop_analysis
 import numpy
 import matplotlib.pyplot as plt
 from Class130 import AtmData, Propeller
@@ -56,7 +56,7 @@ for v_inf in range(22,72,10):
     for ii in range(0,nn):
         atm = AtmData(v_inf, h, is_SI)
         atm.expand(1.4, 287)
-        prop = Propeller(radius, numB, RPM[ii], eta_P, CP = 0, CT = 0, CQ = 0, Cl = 0.4,)
+        prop = Propeller(radius, numB, RPM[ii], eta_P, CP=0, CT=0, CQ=0, Cl=0.4)
         [_, _, _, P_design[ii], T_design[ii], Q_design[ii], eta_P[ii], _] = prop_design(atm, prop, T_req, m0_fn, Cd_fn)
     label = "$V_\infty$ = " + str(v_inf) + " (m/s)"
     plt.figure(1)
@@ -106,7 +106,7 @@ except ValueError:
     latex = False
 m = numpy.argmax(eta_P)
 
-prop = Propeller(radius, numB, RPM[m], eta_P, CP = 0, CT = 0, CQ = 0, Cl = 0.4,)
+prop = Propeller(radius, numB, RPM[m], eta_P, CP=0, CT=0, CQ=0, Cl=0.4)
 r, prop.chord, prop.bet, P_design, T_design, Q_design, eta_P, prop.theta = prop_design(atm, prop, T_req, m0_fn, Cd_fn)
 ll = 101
 Vseq = numpy.linspace(0,70,ll)
@@ -149,7 +149,7 @@ for RPM in range(1500, 3500, 500):
     for ii in range(0,ll):
         atm = AtmData(Vseq[ii], h, is_SI)
         atm.expand(k, R)
-        prop = Propeller(radius, numB, RPM, eta_P, CP = 0, CT = 0, CQ = 0, Cl = 0.4, bet=prop.bet, chord = prop.chord)
+        prop = Propeller(radius, numB, RPM, eta_P, CP=0, CT=0, CQ=0, Cl=0.4, chord=prop.chord, bet=prop.bet)
         J[ii], Pdesign[ii], CP[ii], Tdesign[ii], CT[ii], etap[ii] = prop_analysis(atm, prop, m0_fn, Cd_fn)
     
     sp1.plot(Vseq,Pdesign,label='RPM = {}'.format(RPM))
