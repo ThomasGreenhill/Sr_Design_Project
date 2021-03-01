@@ -85,7 +85,7 @@ def prop_analysis(AtmData, Propeller, m0_fn, Cd_fn):
     bet = Propeller.bet
     a0 = Propeller.alp0
 
-    nn = bet.size
+    nn = len(bet)
     
     D = 2*R
     r = numpy.linspace(0, R, nn)
@@ -165,7 +165,7 @@ if __name__ == "__main__":
     Cl = 0.4
     numB = 3
     alp0 = numpy.radians(-2)
-    prop_check = Propeller(radius, numB, RPM, eta_P = 0, CP = 0, CT = 0, CQ = 0, Cl = 0.4)
+    prop_check = Propeller(radius, numB, RPM, eta_P=0, CP=0, CT=0, CQ=0, Cl=0.4)
 
     [r, prop_check.chord, prop_check.bet, P_design, T_design, Q_design, eta_P, prop_check.theta] = prop_design(atm_check, prop_check, T_req, m0_fn, Cd_fn)
 
