@@ -59,10 +59,12 @@ def prop_analysis_var_pitch(v_in, P_eng_data, is_HP, AtmData, Propeller, m0_fn, 
 
     Notes:
             1. For a single input velocity
+            2. Not fully debugged yet
 
     History:
             02.28.2021, XT. Translated to python
             03.01.2021, TG. Refined
+            03.02.2021, XT. Debugged (Not fully, awaits further testings)
     """
     tol = 1e-3  ### Changed to debug by XT
     iter_lim = 1e3

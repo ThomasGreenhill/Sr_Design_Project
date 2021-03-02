@@ -1,4 +1,4 @@
-'''
+"""
 prop_design_analysis_varpitch
 Propeller design and analysis (variable pitch, variable airspeed)
 
@@ -8,9 +8,10 @@ Calls:
 Notes:
 
 History:
-    02.28.2021: 
+    02.28.2021: TG. Created
+    03.02.2021: XT. Changed for the purpose of debugging
 
-'''
+"""
 
 from prop_design_TVG import prop_design
 from prop_analysis_var_pitch import prop_analysis_var_pitch
