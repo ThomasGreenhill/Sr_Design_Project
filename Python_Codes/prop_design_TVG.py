@@ -6,18 +6,20 @@ from typing import Any, Union
 from Class130 import AtmData, Propeller
 import sys
 sys.path.append("../Utilities")
-import formatfigures
+import formatfigures        ### Commented out by XT
 # Ignore warnings because runtime warnings pop up due to division by almost zero (propeller properties at the blade root)
 import warnings
 warnings.filterwarnings("ignore")
 
-
+'''
 try:
     formatfigures.formatfigures()
     latex = True
 except ValueError:
     print("Not using latex figure formatting")
     latex = False
+'''
+latex = False
 
 
 def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):

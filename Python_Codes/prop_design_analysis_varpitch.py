@@ -20,15 +20,16 @@ import matplotlib.pyplot as plt
 from Class130 import AtmData, Propeller
 import sys
 sys.path.append("../Utilities")
-import formatfigures
-
+#import formatfigures
+'''
 try:
     formatfigures.formatsubfigures()
     latex = True
 except ValueError:
     print("Not using latex formatting")
     latex = False
-
+'''
+latex = False
 # Emrax 188 Engine data (continuous performance)
 # Nomeclature: enginename_voltagelevel_coolingtype
 Emrax188_HV_CC = numpy.flip(numpy.array([[0, 0],
@@ -81,6 +82,42 @@ RPM_fix = numpy.zeros((ll,))
 for ii in range(ll):
     J_var[ii], P_design_Var[ii], T_design_var[ii], eta_P_var[ii], deta_P[ii], dT[ii], delta_bet[ii], RPM_fix[ii] = prop_analysis_var_pitch(v_seq[ii], Emrax188_HV_CC, is_HP, atm, prop, m0_fn, Cd_fn)
 
+### Following is changed by XT
+plt.figure(figsize=(13, 19.5))
+plt.subplot(4,1,1)
+plt.plot(v_seq,P_design_Var)
+plt.xlabel("Airspeed (m/s)")
+plt.ylabel("Propeller Power (W)")
+plt.gca().set_title("Power vs. Airspeed")
+
+plt.subplot(4,1,2)
+plt.plot(v_seq,T_design_var)
+plt.xlabel("Airspeed (m/s)")
+plt.ylabel("Propeller Thrust (N)")
+plt.gca().set_title("Thrust vs. Airspeed")
+
+plt.subplot(4,1,3)
+plt.plot(v_seq,eta_P_var)
+plt.xlabel("Airspeed (m/s)")
+plt.ylabel("Propeller Efficiency eta_p")
+plt.gca().set_title("Propeller Efficiency vs. Airspeed")
+
+plt.subplot(4,1,4)
+plt.plot(v_seq,delta_bet*180/numpy.pi)
+plt.xlabel("Airspeed (m/s)")
+# plt.ylabel("Pitch Variation $\delta_{\beta}$")
+plt.gca().set_title("Propeller Pitch Variation vs. Airspeed")
+
+plt.tight_layout(rect=(0, 0.03, 1, 0.92))
+plt.suptitle("Analysis of Variable-Pitch Propeller Design with \n Various Airspeeds ",fontsize=24)
+plt.savefig('./Figures/variable_pitch_analysis.png', bbox_inches='tight')
+
+plt.show()
+
+
+
+### Original plot codes (I don't have latex so I pasted to avoid overwriting)
+'''
 plt.figure(figsize=(13, 19.5))
 plt.subplot(4,1,1)
 plt.plot(v_seq,P_design_Var)
@@ -111,3 +148,4 @@ plt.suptitle("Analysis of Variable-Pitch Propeller Design with \n Various Airspe
 plt.savefig('./Figures/variable_pitch_analysis.png', bbox_inches='tight')
 
 plt.show()
+'''
