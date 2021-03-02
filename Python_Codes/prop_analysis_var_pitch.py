@@ -74,7 +74,7 @@ def prop_analysis_var_pitch(v_in, P_eng_data, is_HP, AtmData, Propeller, m0_fn, 
     while res > tol and iter_num <= iter_lim:
         Pn_fix = get_P_eng(P_eng_data, n_fix * 60)
         res = numpy.absolute(Pd_fix-Pn_fix)
-        J_fix, P_design_fix, _, T_design_fix, _, eta_P_fix = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
+        J_fix, P_design_fix, _, T_design_fix, _, _, _, eta_P_fix = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
 
         if Pd_fix < Pn_fix:
             n_fix = n_fix * (1 + 0.5 * (Pn_fix - Pd_fix) / (Pn_fix + Pd_fix))
@@ -98,19 +98,20 @@ def prop_analysis_var_pitch(v_in, P_eng_data, is_HP, AtmData, Propeller, m0_fn, 
     while res > tol and iter_num <= iter_lim:
         P_eng = get_P_eng(P_eng_data, Propeller.RPM)
         Propeller.bet += d_bet
-        J_var, P_design_var, _, T_design_var, _, eta_P_var = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
+        J_var, P_design_var, _, T_design_var, _, _, _, eta_P_var = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
         Propeller.bet = copy.deepcopy(bet_original)
 
         P_design_var = P_design_var if P_design_var > 0 else 10*750
+        factor = numpy.absolute(1/d_bet*2*numpy.pi/180)*0.5
         if d_bet < 0:
-            d_bet *= (1 - 2*(P_eng - P_design_var) / (P_eng + P_design_var))
+            d_bet *= (1 - factor*(P_eng - P_design_var) / (P_eng + P_design_var))
         else:
-            d_bet *= (1 + 2*(P_eng - P_design_var) / (P_eng + P_design_var))
+            d_bet *= (1 + factor*(P_eng - P_design_var) / (P_eng + P_design_var))
             if numpy.round(d_bet, 14) <= tol:
                 break
 
         res = numpy.absolute(P_design_var-P_eng)
-        
+        # print(res)
         iter_num += 1
 
         if iter_lim == iter_num:
@@ -128,13 +129,13 @@ def prop_analysis_var_pitch(v_in, P_eng_data, is_HP, AtmData, Propeller, m0_fn, 
 
 if __name__ == '__main__':
 
-    P_eng_data = [[2400, 177],
-                  [2300, 170],
-                  [2200, 165],
-                  [2100, 158],
-                  [2000, 150],
-                  [1900, 141],
-                  [1800, 131]]
+    P_eng_data = [  [2400, 177],
+                    [2300, 170],
+                    [2200, 165],
+                    [2100, 158],
+                    [2000, 150],
+                    [1900, 141],
+                    [1800, 131]]
 
     def m0_fn(Ma):
         if numpy.any(Ma <= 0.9):

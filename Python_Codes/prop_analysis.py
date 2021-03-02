@@ -110,7 +110,7 @@ def prop_analysis(AtmData, Propeller, m0_fn, Cd_fn):
     Tdesign = CT * rho * n**2 * D**4
     Qdesign = CQ * rho * n**2 * D**5
         
-    return J, Pdesign, CP, Tdesign, CT, etap
+    return J, Pdesign, CP, Tdesign, CT, Qdesign, CQ, etap
 
 
 if __name__ == "__main__":
@@ -153,12 +153,14 @@ if __name__ == "__main__":
     CP = numpy.zeros((ll,))
     Tdesign = numpy.zeros((ll,))
     CT = numpy.zeros((ll,))
+    Qdesign = numpy.zeros((ll,))
+    CQ = numpy.zeros((ll,))
     etap = numpy.zeros((ll,))
 
     for ii in range(0,ll):
         atm_check = AtmData(Vseq[ii], h, is_SI)
         atm_check.expand(k, R)
-        J[ii], Pdesign[ii], CP[ii], Tdesign[ii], CT[ii], etap[ii] = prop_analysis(atm_check, prop_check, m0_fn, Cd_fn)
+        J[ii], Pdesign[ii], CP[ii], Tdesign[ii], CT[ii], Qdesign[ii], CQ[ii], etap[ii] = prop_analysis(atm_check, prop_check, m0_fn, Cd_fn)
 
     plt.figure(1)
     plt.plot(J,Pdesign*0.00134102)

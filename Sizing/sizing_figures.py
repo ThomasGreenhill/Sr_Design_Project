@@ -9,6 +9,7 @@ import Class130
 sys.path.append("../Utilities")
 import formatfigures
 
+
 try:
     formatfigures.formatfigures()
     latex = True
