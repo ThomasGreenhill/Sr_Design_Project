@@ -11,7 +11,7 @@ import formatfigures        ### Commented out by XT
 import warnings
 warnings.filterwarnings("ignore")
 
-'''
+''' ### Commented out by XT
 try:
     formatfigures.formatfigures()
     latex = True
