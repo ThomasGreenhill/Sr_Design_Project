@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import copy
 
 
-def prop_analysis_var_pitch(v_in, P_eng_data, is_HP, AtmData, Propeller, m0_fn, Cd_fn):
+def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, m0_fn, Cd_fn):
     # Return deta_P, dT, delta_beta, RPM_fix
 
     def get_P_eng(P_eng_data, RPM):
@@ -89,38 +89,42 @@ def prop_analysis_var_pitch(v_in, P_eng_data, is_HP, AtmData, Propeller, m0_fn, 
         iter_num += 1
 
     # Optimize the blade beta variation for v_in. Make a good initial guess; initial values for iteration:
-    v_inf = 263.29 * 0.3048
-    if v_in < v_inf:
+    P_eng = get_P_eng(P_eng_data, Propeller.RPM)
+    if v_in < v_des:
         #d_bet = -2 * numpy.pi / 180
-        d_bet = numpy.radians(-2)   ### Changed by XT
+        d_bet = numpy.radians(-3)   ### Changed by XT
+        factor = 2e-5*P_eng
     else:
         #d_bet = 2 * numpy.pi / 180
-        d_bet = numpy.radians(2)    ### Changed by XT
+        d_bet = numpy.radians(3)    ### Changed by XT
+        factor = 2
 
     iter_num = 1
     P_design_var = 0
     res = 1
+    d_bet_old = 2*d_bet
 
     while res > tol and iter_num <= iter_lim:
-        P_eng = get_P_eng(P_eng_data, Propeller.RPM)
         ###print(Propeller.bet[0])
         Propeller.bet += d_bet
         ###print(Propeller.bet[0])
         ###print(d_bet)
         J_var, P_design_var, _, T_design_var, _, _, _, eta_P_var = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
-        # Propeller.bet = copy.deepcopy(bet_original)
+        Propeller.bet = copy.deepcopy(bet_original)
         ### Instead of deepcopy, used normal assignment as deepcopy is already used for bet_original (no effect)
-        Propeller.bet = bet_original
+        # Propeller.bet = bet_original
         ###print(Propeller.bet[0])
         ###exit()
 
+        # d_bet = d_bet if P_design_var > 0 else -d_bet*0.5
+        P_design_var = P_design_var if P_design_var > 0 else 10
 
-        P_design_var = P_design_var if P_design_var > 0 else 10 * 750
         #factor = numpy.absolute(1 / d_bet * 2 * numpy.pi / 180) * 0.5
-        factor = numpy.absolute(1 / numpy.degrees(d_bet))
+        
         ### d_bet * 2 * numpy.pi / 180 simplified using numpy.degrees
         ### Do you want to use degree or radian here?
         ###print(d_bet)
+        d_bet_old = d_bet
         if d_bet < 0:
             d_bet *= (1 - factor * (P_eng - P_design_var) / (P_eng + P_design_var))
             ###print(d_bet)
@@ -131,9 +135,10 @@ def prop_analysis_var_pitch(v_in, P_eng_data, is_HP, AtmData, Propeller, m0_fn, 
             # if numpy.round(d_bet, 14) <= tol: ### Commented out by XT
             if d_bet <= tol:
                 break
+        
 
         res = numpy.absolute(P_design_var - P_eng)
-        # print(res)
+        print(res)
         iter_num += 1
 
         if iter_lim == iter_num:
@@ -175,12 +180,12 @@ if __name__ == '__main__':
 
 
     # P_eng = 177 * 745.7         # W
-    vel = 154 * 0.514444  # m/s
+    v_des = 154 * 0.514444  # m/s
     v_climb = 87 * 0.514444  # m/s
     h = 8000 * 0.3048  # m
     is_SI = True
     is_HP = True
-    atm_check = AtmData(vel, h, is_SI)
+    atm_check = AtmData(v_des, h, is_SI)
     atm_check.expand(1.4, 287)
 
     # Propeller
@@ -213,7 +218,7 @@ if __name__ == '__main__':
     RPM_fix = numpy.zeros((ll,))
     for ii in range(ll):
         J_var[ii], P_design_Var[ii], T_design_var[ii], eta_P_var[ii], deta_P[ii], dT[ii], delta_bet[ii], RPM_fix[
-            ii] = prop_analysis_var_pitch(v_seq[ii], P_eng_data, is_HP, atm_check, prop_check, m0_fn, Cd_fn)
+            ii] = prop_analysis_var_pitch(v_seq[ii], v_des, P_eng_data, is_HP, atm_check, prop_check, m0_fn, Cd_fn)
 
     plt.plot(v_seq * 1.94384, delta_bet * 180 / numpy.pi)
     plt.show()

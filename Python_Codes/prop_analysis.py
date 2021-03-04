@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 from typing import Any, Union
 from Class130 import AtmData, Propeller
 from prop_design_TVG import prop_design
+import sys
+sys.path.append('../Utilities')
+from newton import newton
 
 def prop_analysis(AtmData, Propeller, m0_fn, Cd_fn):
 
@@ -87,7 +90,12 @@ def prop_analysis(AtmData, Propeller, m0_fn, Cd_fn):
         cc = -(bet[ii] - phi[ii] - a0) * sig[ii] * m0[ii] / (8 * x[ii])
 
         # quadratic formula (this was way too slow in ML so I eventually used Newton's method):
-        the[ii] = (-bb + numpy.sqrt(bb**2-4*aa*cc))/(2*aa)
+        # the[ii] = (-bb + numpy.sqrt(bb**2-4*aa*cc))/(2*aa)
+
+        f = lambda the: aa * the**2 + bb * the + cc
+        fprime = lambda the: 2 * aa * the + bb
+
+        the[ii] = newton(f, fprime, 1e-2, 1e-10)
 
     alp = bet - phi - the
     Cl = m0*(alp-a0*pi/180)

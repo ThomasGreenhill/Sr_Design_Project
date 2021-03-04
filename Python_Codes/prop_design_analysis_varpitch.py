@@ -65,11 +65,11 @@ T_req = 13000 / 8 * 2  # N (TOGW/(L/D))
 Cl = 0.4
 alp0 = numpy.radians(-2)
 #v_design = 30  # IDK why I'm choosing this, lol. Just trying to debug since the code isn't behaving
-v_design = 60   ### changed by XT
+v_design = 10   ### changed by XT
 atm = AtmData(v_design, 6000 * 0.3048, is_SI)
 atm.expand(1.4, 287)
 #v_seq = numpy.arange(0, 72, 2)
-v_seq = numpy.arange(0, 75, 5)  ### Changed by XT
+v_seq = numpy.arange(20, 75, 5)  ### Changed by XT
 prop = Propeller(radius, numB, 3000, eta_P=0, CP=0, CT=0, CQ=0, Cl=0.4)
 r, prop.chord, prop.bet, P_design, T_design, Q_design, eta_P, prop.theta = prop_design(atm, prop, T_req, m0_fn, Cd_fn)
 
@@ -98,7 +98,7 @@ RPM_fix = [0] * ll
 # Analyze the propeller with the variable pitch propeller function
 for ii in range(ll):
     J_var[ii], P_design_Var[ii], T_design_var[ii], eta_P_var[ii], deta_P[ii], dT[ii], delta_bet[ii], RPM_fix[
-        ii] = prop_analysis_var_pitch(v_seq[ii], Emrax188_HV_CC, is_HP, atm, prop, m0_fn, Cd_fn)
+        ii] = prop_analysis_var_pitch(v_seq[ii], v_design, Emrax188_HV_CC, is_HP, atm, prop, m0_fn, Cd_fn)
 
 ### Following is changed by XT, see original commented out below
 plt.figure(figsize=(13, 19.5))
