@@ -4,34 +4,12 @@ import matplotlib.pyplot as plt
 from typing import Any, Union
 from Class130 import AtmData, Propeller
 from prop_design_TVG import prop_design
+import sys
+sys.path.append('../Utilities')
+from newton import newton
 
 def prop_analysis(AtmData, Propeller, m0_fn, Cd_fn):
 
-    # def newton(f, fprime, guess, tolerance)
-
-    #     xx(1:2) = [0, guess]
-
-    #     ii = 2;
-    #     iter = 1;
-
-    #     while abs(tolerance) < abs(xx(ii)-xx(ii - 1)) || iter == 1
-    #         ffprime = fprime(xx(ii));
-
-    #         ff = f(xx(ii));
-
-
-    #         if ffprime == 0
-    #             fprintf('Error, slope at point = 0. Choose a different initial condition')
-    #             break
-    #         end
-
-    #         xx(ii+1) = xx(ii) - ff / ffprime;
-    #         ii = ii + 1;
-    #         iter = iter + 1;
-    #     end
-    #     x_zero = xx(end);
-
-    #     return x_zero, iter
     '''
     prop_analysis_fix_pitch
     Version of variable pitch propeller analysis code from TGreenhill
@@ -112,7 +90,12 @@ def prop_analysis(AtmData, Propeller, m0_fn, Cd_fn):
         cc = -(bet[ii] - phi[ii] - a0) * sig[ii] * m0[ii] / (8 * x[ii])
 
         # quadratic formula (this was way too slow in ML so I eventually used Newton's method):
-        the[ii] = (-bb + numpy.sqrt(bb**2-4*aa*cc))/(2*aa)
+        # the[ii] = (-bb + numpy.sqrt(bb**2-4*aa*cc))/(2*aa)
+
+        f = lambda the: aa * the**2 + bb * the + cc
+        fprime = lambda the: 2 * aa * the + bb
+
+        the[ii] = newton(f, fprime, 1e-2, 1e-10)
 
     alp = bet - phi - the
     Cl = m0*(alp-a0*pi/180)
@@ -135,7 +118,7 @@ def prop_analysis(AtmData, Propeller, m0_fn, Cd_fn):
     Tdesign = CT * rho * n**2 * D**4
     Qdesign = CQ * rho * n**2 * D**5
         
-    return J, Pdesign, CP, Tdesign, CT, etap
+    return J, Pdesign, CP, Tdesign, CT, Qdesign, CQ, etap
 
 
 if __name__ == "__main__":
@@ -178,12 +161,14 @@ if __name__ == "__main__":
     CP = numpy.zeros((ll,))
     Tdesign = numpy.zeros((ll,))
     CT = numpy.zeros((ll,))
+    Qdesign = numpy.zeros((ll,))
+    CQ = numpy.zeros((ll,))
     etap = numpy.zeros((ll,))
 
     for ii in range(0,ll):
         atm_check = AtmData(Vseq[ii], h, is_SI)
         atm_check.expand(k, R)
-        J[ii], Pdesign[ii], CP[ii], Tdesign[ii], CT[ii], etap[ii] = prop_analysis(atm_check, prop_check, m0_fn, Cd_fn)
+        J[ii], Pdesign[ii], CP[ii], Tdesign[ii], CT[ii], Qdesign[ii], CQ[ii], etap[ii] = prop_analysis(atm_check, prop_check, m0_fn, Cd_fn)
 
     plt.figure(1)
     plt.plot(J,Pdesign*0.00134102)

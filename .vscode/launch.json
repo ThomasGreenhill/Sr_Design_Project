@@ -10,7 +10,8 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}/Utilities"
+            "cwd": "${workspaceFolder}/Utilities",
+            "justMyCode": false
         }
     ]
 }

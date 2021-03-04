@@ -1,6 +1,6 @@
 import numpy 
 import sys
-sys.path.append("../Trade_Studies/Python_Codes")
+sys.path.append("../Python_Codes")
 from Class130 import SimpleFuelCell
 
 def electric_motor_mass(P_continuous):
