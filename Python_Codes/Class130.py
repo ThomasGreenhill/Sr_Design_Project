@@ -128,11 +128,15 @@ class AtmData:
 # Propeller information
 class Propeller:
     # All in base SI units
-    def __init__(self, radius, numB, RPM, eta_P, CP, CT, CQ, Cl, chord = 1, alp0 = 0,
-                 alp = None, bet = None, the = None, phi = None):
+    def __init__(self, radius, numB, RPM, eta_P=None, c_bar=None, Cl_bar=None, Cd_bar=None,
+                 CP=None, CT=None, CQ=None, Cl=None, chord=1, alp0=0,
+                 alp=None, bet=None, the=None, phi=None):
         self.radius = radius  # propeller radius (m)
         self.RPM = RPM  # rotation per minute
         self.eta_P = eta_P  # propeller efficiency
+        self.c_bar = c_bar  # average chord length (m)
+        self.Cl_bar = Cl_bar    # average sectional lift coefficient
+        self.Cd_bar = Cd_bar    # average sectional drag coefficient
         self.CP = CP  # power coeff.
         self.CT = CT  # thrust coeff.
         self.CQ = CQ  # torque coeff.
@@ -144,6 +148,7 @@ class Propeller:
         self.bet = bet  # pitch angle distr. (rad)
         self.the = the  # induced angle distr. (rad)
         self.phi = phi  # blade angle distr. (rad)
+
 
 # Airfoil information
 class Airfoil:
@@ -420,14 +425,14 @@ if __name__ == '__main__':
     '''
 
     # Airfoil
-    #foil = Airfoil("NACA 2412")
+    # foil = Airfoil("NACA 2412")
     Re = 3e6
     alf_start = 0
     alf_end = 30
-    #foil.get_polar(Re, alf_start, alf_end)
-    #foil.geom_plot(save=True, show=False)
-    #foil.lift_curve(save=True, show=False)
-    #foil.drag_polar(save=True, show=False)
+    # foil.get_polar(Re, alf_start, alf_end)
+    # foil.geom_plot(save=True, show=False)
+    # foil.lift_curve(save=True, show=False)
+    # foil.drag_polar(save=True, show=False)
 
     foil = Airfoil("P51D")
     foil.add_geom_file("Data/p51d/p51d.dat")
