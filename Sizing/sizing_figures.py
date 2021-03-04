@@ -11,12 +11,12 @@ import formatfigures
 
 
 try:
-    formatfigures.formatfigures()
+    import formatfigures
+    formatfigures.formatsubfigures()
     latex = True
-except ValueError:
+except:
     print("Not using latex formatting")
     latex = False
-
 
 def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
 
