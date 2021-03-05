@@ -11,7 +11,7 @@ from prop_design_TVG import prop_design
 Plots a 3D figure of propeller, written by TVG in Matlab.
 
 Input:
-        r_list_in: list of r from 0 to 1
+        r_list_in: (m) list of r from 0 to R
         c_list_in: (m) list of chord length 
         beta_list_in: (deg) list of beta angle
         Propeller: Needs radius, numB
@@ -90,15 +90,16 @@ def plot_propeller_3D(r_list_in, c_list_in, beta_list_in, Propeller, in_line, sh
         rot_vec[:, i] = numpy.dot(Rx, vec[:, i])
 
     # Plot
+    RR = 1.2 * R
     fig = plt.figure()
     ax = Axes3D(fig)
     fig.set_label("Propeller 3D Geometry Plot")
     ax.set_xlabel('x', fontsize=10)
     ax.set_ylabel('y', fontsize=10)
     ax.set_zlabel('z', fontsize=10)
-    ax.axes.set_xlim3d(left=-1.2, right=1.2)
-    ax.axes.set_ylim3d(bottom=-1.2, top=1.2)
-    ax.axes.set_zlim3d(bottom=-1.2, top=1.2)
+    ax.axes.set_xlim3d(left=-RR, right=RR)
+    ax.axes.set_ylim3d(bottom=-RR, top=RR)
+    ax.axes.set_zlim3d(bottom=-RR, top=RR)
 
     for blades in range(numB):
         theta = 2 * numpy.pi / numB * (blades + 1)
@@ -138,7 +139,7 @@ if __name__ == '__main__':
     atm.expand(k, R)
 
     numB = 3
-    radius = 1.78 / 2
+    radius = 2 / 2
     RPM = 2400
     Cl = 0.4
     alp0 = numpy.radians(-2)
@@ -146,6 +147,5 @@ if __name__ == '__main__':
 
     T_req = 13000 / 8  # N (TOGW/(L/D))
     r_vec, c_vec, beta_vec, P_design, T_design, Q_design, eta_P, theta_vec = prop_design(atm, prop, T_req, m0_fn, Cd_fn)
-
     in_line = [0] * len(r_vec)
     plot_propeller_3D(r_vec, c_vec, beta_vec, prop, in_line)
