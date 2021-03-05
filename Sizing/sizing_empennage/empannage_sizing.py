@@ -39,11 +39,11 @@ if __name__ == '__main__':
     x_loc_h = 10.2 + 1.1585 / 4
     x_loc_v = 10.2 + 1.219 / 4
     x_h = x_loc_h - x_loc_wing
-    print(x_h)
     x_v = x_loc_v - x_loc_wing
-    print(x_v)
 
     S_h, S_v = empannage_sizing(vol_h, vol_v, x_h, x_v, wing)
+    print("Based on the current design:")
+    print("The moment arms: x_h = {:.2f} m, x_v = {:.2f} m".format(x_h, x_v))
     print("S_h: {:.4f} m^2, each is {:.4f} m^2, AR = 4.5 in total, Taper = 0.5".format(S_h, S_h/2))
     print("S_v: {:.4f} m^2, AR = 2.25, Taper = 0.6".format(S_v))
 
