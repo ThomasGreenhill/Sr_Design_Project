@@ -1,6 +1,7 @@
 import sys
 import copy
-
+import numpy
+import matplotlib.pyplot as plt
 sys.path.append("../../Python_Codes")
 import Class130
 
@@ -38,8 +39,28 @@ if __name__ == '__main__':
     x_loc_h = 10.2 + 1.1585 / 4
     x_loc_v = 10.2 + 1.219 / 4
     x_h = x_loc_h - x_loc_wing
+    print(x_h)
     x_v = x_loc_v - x_loc_wing
+    print(x_v)
 
     S_h, S_v = empannage_sizing(vol_h, vol_v, x_h, x_v, wing)
     print("S_h: {:.4f} m^2, each is {:.4f} m^2, AR = 4.5 in total, Taper = 0.5".format(S_h, S_h/2))
     print("S_v: {:.4f} m^2, AR = 2.25, Taper = 0.6".format(S_v))
+
+    # Empennage sizing plots
+    num = 101
+    x_arr = numpy.linspace(3,8,num)
+    S_h_arr = numpy.zeros(num)
+    S_v_arr = numpy.zeros(num)
+    for i in range(num):
+        S_h_arr[i], S_v_arr[i] = empannage_sizing(vol_h, vol_v, x_arr[i], x_arr[i], wing)
+
+    plt.figure()
+    plt.title("Empennage Sizes versus. Moment Arm")
+    plt.grid()
+    plt.plot(x_arr, S_h_arr / 2, 'r-', label='Horizontal Tail (One-sided)')
+    plt.plot(x_arr, S_v_arr, 'b-', label='Vertical Tail')
+    plt.xlabel('Moment Arm from Wing Root Quarter Chord (m)')
+    plt.ylabel('Platform Area Estimation')
+    plt.legend()
+    plt.show()
