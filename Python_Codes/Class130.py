@@ -5,10 +5,10 @@ import std_atm
 import matplotlib.pyplot as plt
 import pandas as pd
 # Import pyxfoil from a different folder as a module
-import sys
-sys.path.append('../Utilities')
+#import sys
+#sys.path.append('../Utilities')
 import pyxfoil
-import mses
+#import mses
 
 '''
 Useful Python classes in senior design project
