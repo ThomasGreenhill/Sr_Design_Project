@@ -66,8 +66,8 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
             03.01.2021, TG. Refined
             03.02.2021, XT. Debugged (Not fully, awaits further testings)
     """
-    tol = 1e-3  ### Changed to debug by XT
-    iter_lim = 1e3
+    tol = 1e-6  ### Changed to debug by XT
+    iter_lim = 1e2
     res = 1
     iter_num = 1
     n_fix = Propeller.RPM / 60
@@ -88,62 +88,57 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
             break
         iter_num += 1
 
-    # Optimize the blade beta variation for v_in. Make a good initial guess; initial values for iteration:
+    # Optimize the blade beta variation for v_in. Make a good initial guess:
     P_eng = get_P_eng(P_eng_data, Propeller.RPM)
     if v_in < v_des:
-        #d_bet = -2 * numpy.pi / 180
-        d_bet = numpy.radians(-3)   ### Changed by XT
-        factor = 2e-5*P_eng
+        d_bet_old = numpy.radians(-10)
+        d_bet = numpy.radians(-5)
+        factor = 1
     else:
-        #d_bet = 2 * numpy.pi / 180
-        d_bet = numpy.radians(3)    ### Changed by XT
-        factor = 2
+        d_bet_old = numpy.radians(30)
+        d_bet = numpy.radians(10)
+        factor = 1
 
+    # Initial values for iteration:
     iter_num = 1
     P_design_var = 0
     res = 1
-    d_bet_old = 2*d_bet
+
+    # before the first iteration, apply delta beta old the fixed pitch propeller and compute the power
+    Propeller.bet += d_bet_old
+    _, P_design_var_old, _, _, _, _, _, _ = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
+    Propeller.bet = copy.deepcopy(bet_original)
+
 
     while res > tol and iter_num <= iter_lim:
-        ###print(Propeller.bet[0])
+        # Apply delta beta to the fixed pitch propeller and compute the power
+        if iter_num > 1:
+            P_design_var_old = P_design_var
         Propeller.bet += d_bet
-        ###print(Propeller.bet[0])
-        ###print(d_bet)
-        J_var, P_design_var, _, T_design_var, _, _, _, eta_P_var = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
+        J_var, P_design_var, _, T_design_var, _, Q_design_var, _, eta_P_var = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
         Propeller.bet = copy.deepcopy(bet_original)
-        ### Instead of deepcopy, used normal assignment as deepcopy is already used for bet_original (no effect)
-        # Propeller.bet = bet_original
-        ###print(Propeller.bet[0])
-        ###exit()
+
+        # Use the secant method to converge
+        temp = d_bet
+        d_bet = d_bet - (P_design_var-P_eng)/((P_design_var - P_design_var_old)/(d_bet-d_bet_old))
+        d_bet_old = temp
 
         # d_bet = d_bet if P_design_var > 0 else -d_bet*0.5
-        P_design_var = P_design_var if P_design_var > 0 else 10
-
-        #factor = numpy.absolute(1 / d_bet * 2 * numpy.pi / 180) * 0.5
-        
-        ### d_bet * 2 * numpy.pi / 180 simplified using numpy.degrees
-        ### Do you want to use degree or radian here?
-        ###print(d_bet)
-        d_bet_old = d_bet
-        if d_bet < 0:
-            d_bet *= (1 - factor * (P_eng - P_design_var) / (P_eng + P_design_var))
-            ###print(d_bet)
-            ###if iter_num >= 20:
-                ###exit()
+        if P_design_var > 0:
+            P_design_var = P_design_var  
         else:
-            d_bet *= (1 + factor * (P_eng - P_design_var) / (P_eng + P_design_var))
-            # if numpy.round(d_bet, 14) <= tol: ### Commented out by XT
-            if d_bet <= tol:
-                break
-        
+            P_design_var = 0.2*P_eng
+            print("Power is negative, resetting")        
 
         res = numpy.absolute(P_design_var - P_eng)
-        print(res)
+        print(iter_num)
         iter_num += 1
 
         if iter_lim == iter_num:
             print("Error: Iteration Limit Reached")
-            exit()      ### Added exit()
+            return
+            # Note for Xuchang: I don't like using exit because it sometimes ruins a lot of data with just one error.
+            # exit()      ### Added exit()
 
     # print(d_bet)
     # Difference in efficiency between fixed and variable pitch
@@ -152,7 +147,7 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
     delta_beta = numpy.degrees(d_bet)       # deg   ### Converted directly to degrees by XT
     RPM_fix = n_fix * 60
 
-    return J_var, P_design_var, T_design_var, eta_P_var, deta_P, dT, delta_beta, RPM_fix
+    return J_var, P_design_var, T_design_var, Q_design_var, eta_P_var, deta_P, dT, delta_beta, RPM_fix
 
 
 if __name__ == '__main__':
@@ -209,7 +204,7 @@ if __name__ == '__main__':
     ll = numpy.size(v_seq)
 
     J_var = numpy.zeros((ll,))
-    P_design_Var = numpy.zeros((ll,))
+    P_design_var = numpy.zeros((ll,))
     T_design_var = numpy.zeros((ll,))
     eta_P_var = numpy.zeros((ll,))
     deta_P = numpy.zeros((ll,))
@@ -217,8 +212,12 @@ if __name__ == '__main__':
     delta_bet = numpy.zeros((ll,))
     RPM_fix = numpy.zeros((ll,))
     for ii in range(ll):
-        J_var[ii], P_design_Var[ii], T_design_var[ii], eta_P_var[ii], deta_P[ii], dT[ii], delta_bet[ii], RPM_fix[
+        J_var[ii], P_design_var[ii], T_design_var[ii], Q_design_var[ii], eta_P_var[ii], deta_P[ii], dT[ii], delta_bet[ii], RPM_fix[
             ii] = prop_analysis_var_pitch(v_seq[ii], v_des, P_eng_data, is_HP, atm_check, prop_check, m0_fn, Cd_fn)
 
-    plt.plot(v_seq * 1.94384, delta_bet * 180 / numpy.pi)
+    plt.plot(v_seq * 1.94384, delta_bet)
+    plt.figure()
+    plt.plot(v_seq * 1.94384, T_design_var*0.224809)
+    plt.figure()
+    plt.plot(v_seq * 1.94384, eta_P_var)
     plt.show()

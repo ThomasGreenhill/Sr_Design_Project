@@ -79,12 +79,12 @@ for v_inf in range(22,72,10):
     # plt.plot(RPM,T_design,label=label)
 
 try:
-    formatfigures.formatfigures()
+    import formatfigures
+    formatfigures.formatsubfigures()
     latex = True
-except ValueError:
+except:
     print("Not using latex formatting")
     latex = False
-
 plt.figure(1)
 plt.legend()    
 plt.xlabel("RPM")
@@ -111,7 +111,7 @@ plt.savefig('./Figures/Power_vs_RPM_hover.jpg', bbox_inches='tight')
 try:
     formatfigures.formatsubfigures()
     latex = True
-except ValueError:
+except:
     print("Not using latex formatting")
     latex = False
 m = numpy.argmax(eta_P)
@@ -189,12 +189,12 @@ plt.tight_layout(rect=[0, 0.03, 1, 0.92])
 plt.suptitle("Analysis of Fixed-Pitch Propeller Design with \n Various Airspeeds and RPM\n\n",fontsize=24)
 plt.savefig('./Figures/fixed_pitch_analysis.png', bbox_inches='tight')
 try:
-    formatfigures.formatfigures()
+    import formatfigures
+    formatfigures.formatsubfigures()
     latex = True
-except ValueError:
+except:
     print("Not using latex formatting")
     latex = False
-
 # Design a propeller with the cruise conditions 
 atm = AtmData(62, 6000*0.3048, is_SI)
 atm.expand(1.4, 287)
