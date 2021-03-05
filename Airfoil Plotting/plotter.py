@@ -17,12 +17,12 @@ sys.path.append("../Utilities/")
 import formatfigures
 
 try:
-    formatfigures.formatfigures()
+    import formatfigures
+    formatfigures.formatsubfigures()
     latex = True
-except ValueError:
+except:
     print("Not using latex formatting")
     latex = False
-
 ##############################################################################
 
 # Select airfoil and parameters

@@ -5,11 +5,10 @@ import std_atm
 import matplotlib.pyplot as plt
 import pandas as pd
 # Import pyxfoil from a different folder as a module
-import sys
-
-sys.path.append('../Utilities')
+#import sys
+#sys.path.append('../Utilities')
 import pyxfoil
-import mses
+#import mses
 
 '''
 Useful Python classes in senior design project
@@ -32,6 +31,7 @@ History:
         02.14.2021, Added Wing & Airfoil. XT
         02.14.2021, Minor change: added attributes. XT
         02.16.2021, Added class for H2 fuel cells. TVG
+        02.28.2021, Changed alpha --> alp and similar for propeller design. TVG
 '''
 
 
@@ -127,11 +127,15 @@ class AtmData:
 # Propeller information
 class Propeller:
     # All in base SI units
-    def __init__(self, radius, RPM, eta_P, CP, CT, CQ, Cl=0.4, chord=1, numB=3, alp0=0,
-                 alpha=None, beta=None, theta=None, phi=None):
+    def __init__(self, radius, numB, RPM, eta_P=None, c_bar=None, Cl_bar=None, Cd_bar=None,
+                 CP=None, CT=None, CQ=None, Cl=None, chord=1, alp0=0,
+                 alp=None, bet=None, the=None, phi=None):
         self.radius = radius  # propeller radius (m)
         self.RPM = RPM  # rotation per minute
         self.eta_P = eta_P  # propeller efficiency
+        self.c_bar = c_bar  # average chord length (m)
+        self.Cl_bar = Cl_bar    # average sectional lift coefficient
+        self.Cd_bar = Cd_bar    # average sectional drag coefficient
         self.CP = CP  # power coeff.
         self.CT = CT  # thrust coeff.
         self.CQ = CQ  # torque coeff.
@@ -139,9 +143,9 @@ class Propeller:
         self.chord = chord  # chord distr. (m)
         self.numB = numB  # number of blades
         self.alp0 = alp0  # zero-lift AoA (rad)
-        self.alpha = alpha  # AoA distr. (rad)
-        self.beta = beta  # pitch angle distr. (rad)
-        self.theta = theta  # induced angle distr. (rad)
+        self.alp = alp  # AoA distr. (rad)
+        self.bet = bet  # pitch angle distr. (rad)
+        self.the = the  # induced angle distr. (rad)
         self.phi = phi  # blade angle distr. (rad)
 
 
@@ -323,7 +327,8 @@ class Airfoil:
 # Wing information
 class Wing:
     # All in base SI units
-    def __init__(self, area, span, e, alpha, chord, c_bar, CL, CL_max, CD, CD_0, airfoil):
+    def __init__(self, area, span, e=0.7, alpha=None, chord=None, c_bar=None,
+                 CL=None, CL_max=None, CD=None, CD_0=None, airfoil=None):
         self.area = area  # wing area (m^2)
         self.span = span  # wing span (m)
         self.chord = chord  # chord distr. (m)
@@ -335,8 +340,8 @@ class Wing:
         self.CD = CD  # wing 3D CD
         self.CD_0 = CD_0  # zero lift CD
         self.airfoil = airfoil  # wing sectional airfoil type list
-        self.AR = span ** 2 / area  # wing aspect ratio
-        self.CD_i = CL ** 2 / (e * Wing.AR * numpy.pi)
+        #self.AR = span ** 2 / area  # wing aspect ratio
+        #self.CD_i = CL ** 2 / (e * Wing.AR * numpy.pi)
 
 
 # Fuel cell information
@@ -420,14 +425,14 @@ if __name__ == '__main__':
     '''
 
     # Airfoil
-    #foil = Airfoil("NACA 2412")
+    # foil = Airfoil("NACA 2412")
     Re = 3e6
     alf_start = 0
     alf_end = 30
-    #foil.get_polar(Re, alf_start, alf_end)
-    #foil.geom_plot(save=True, show=False)
-    #foil.lift_curve(save=True, show=False)
-    #foil.drag_polar(save=True, show=False)
+    # foil.get_polar(Re, alf_start, alf_end)
+    # foil.geom_plot(save=True, show=False)
+    # foil.lift_curve(save=True, show=False)
+    # foil.drag_polar(save=True, show=False)
 
     foil = Airfoil("P51D")
     foil.add_geom_file("Data/p51d/p51d.dat")

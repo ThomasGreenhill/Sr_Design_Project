@@ -76,7 +76,6 @@ def sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent
 
         # Final power system weight, find & record battery size
         power_system_mass, power_system_name = component_sizing.power_system_mass_sizing(distr, rho_battery, E_est, P_req, battery_reserve)
-        print("\t Power System Model:", power_system_name)
         
 
         # Electric Motor mass
@@ -87,6 +86,7 @@ def sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent
         TOGW_est = TOGM_est * g
 
         if abs(TOGW_est - TOGW_guess) < tol:    # if converges
+            print("Power System Model:", power_system_name)
             print("Ended conversion in " + str(iter_num) + " iterations.")
             power_loading = TOGW_est / (P_req * 1.5)    # N/W
             disk_loading = TOGW_est / S_disk            # N/m^2
@@ -117,6 +117,8 @@ def sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent
             print("Function not showing convergence.")
             print("Consider re-evaluating assumptions and requirements.")
             return
+    
+    
 
 
 if __name__ == "__main__":
