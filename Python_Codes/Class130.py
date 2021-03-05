@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 # Import pyxfoil from a different folder as a module
 import sys
-
 sys.path.append('../Utilities')
 import pyxfoil
 import mses
@@ -328,7 +327,8 @@ class Airfoil:
 # Wing information
 class Wing:
     # All in base SI units
-    def __init__(self, area, span, e, alpha, chord, c_bar, CL, CL_max, CD, CD_0, airfoil):
+    def __init__(self, area, span, e=0.7, alpha=None, chord=None, c_bar=None,
+                 CL=None, CL_max=None, CD=None, CD_0=None, airfoil=None):
         self.area = area  # wing area (m^2)
         self.span = span  # wing span (m)
         self.chord = chord  # chord distr. (m)
@@ -340,8 +340,8 @@ class Wing:
         self.CD = CD  # wing 3D CD
         self.CD_0 = CD_0  # zero lift CD
         self.airfoil = airfoil  # wing sectional airfoil type list
-        self.AR = span ** 2 / area  # wing aspect ratio
-        self.CD_i = CL ** 2 / (e * Wing.AR * numpy.pi)
+        #self.AR = span ** 2 / area  # wing aspect ratio
+        #self.CD_i = CL ** 2 / (e * Wing.AR * numpy.pi)
 
 
 # Fuel cell information
