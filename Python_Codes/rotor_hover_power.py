@@ -79,31 +79,6 @@ def rotor_hover_power(Weight, gamma, num_rotor, f_body, AtmData, Propeller):
 
     Cl_bar = Cl_bar_new
 
-    ''' # Below is the iteration that causes troubles
-        # Preserved for the purpose of further investigation
-    # Try iteration for C_T and rot_adv_ratio
-    iter_num = 1
-    iter_lim = 1e3
-    tol = 1e-12
-    res = tol + 1
-    rot_adv_ratio = 0.098   # initial guess
-    Cl_bar = 0.4    # initial guess
-    while res > tol:
-        rot_adv_ratio_old = rot_adv_ratio
-        Cl_bar_old = Cl_bar
-        C_T = sigma * Cl_bar_old * (1 + (3 / 2) * rot_adv_ratio_old**2) / 6
-        V_T = numpy.sqrt((Thrust_each / num_rotor) / (AtmData.dens * area * C_T))
-        rot_adv_ratio = v_inf / V_T
-        Cl_bar = (6 * C_T) / (sigma * (1 + (3 / 2) * rot_adv_ratio ** 2))
-        res_1 = abs(rot_adv_ratio - rot_adv_ratio)
-        res_2 = abs(Cl_bar - Cl_bar_old)
-        res = max(res_1, res_2)
-        iter_num += 1
-
-        if iter_num >= iter_lim:
-            raise Exception("Iteration limit exceeded in iterating for C_T and mu")
-    '''
-
     Re = (AtmData.dens * V_T * (2 / 3) * c_bar) / AtmData.visc
     M_T = V_T / AtmData.sound_speed
     if M_T >= 0.9:
