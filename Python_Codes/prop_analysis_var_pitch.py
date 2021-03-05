@@ -67,7 +67,7 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
             03.02.2021, XT. Debugged (Not fully, awaits further testings)
     """
     tol = 1e-6  ### Changed to debug by XT
-    iter_lim = 1e2
+    iter_lim = 5e2
     res = 1
     iter_num = 1
     n_fix = Propeller.RPM / 60
@@ -75,20 +75,23 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
     AtmData.vel = copy.deepcopy(v_in)
     bet_original = copy.deepcopy(Propeller.bet)
 
-    while res > tol and iter_num <= iter_lim:
-        Pn_fix = get_P_eng(P_eng_data, n_fix * 60)
-        res = numpy.absolute(P_design_fix - Pn_fix)
-        J_fix, P_design_fix, _, T_design_fix, _, _, _, eta_P_fix = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
-        ### Debugged: P_design_fix instead of Pd_fix in the following expression
-        if P_design_fix < Pn_fix:
-            n_fix = n_fix * (1 + 0.5 * (Pn_fix - P_design_fix) / (Pn_fix + P_design_fix))
-        elif P_design_fix > Pn_fix:
-            n_fix = n_fix * (1 + 0.5 * (Pn_fix - P_design_fix) / (Pn_fix + P_design_fix))
-        else:
-            break
-        iter_num += 1
+    ### TVG is commenting this out to improve runtime
+    ## First, consider the fixed pitch design so that we have something to compare the variable pitch design to.
+    # while res > tol and iter_num <= iter_lim:
+    #     Pn_fix = get_P_eng(P_eng_data, n_fix * 60)
+    #     res = numpy.absolute(P_design_fix - Pn_fix)
+    #     J_fix, P_design_fix, _, T_design_fix, _, _, _, eta_P_fix = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
+    #     if P_design_fix < Pn_fix:f
+    #         n_fix = n_fix * (1 + 0.5 * (Pn_fix - P_design_fix) / (Pn_fix + P_design_fix))
+    #     elif P_design_fix > Pn_fix:
+    #         n_fix = n_fix * (1 + 0.5 * (Pn_fix - P_design_fix) / (Pn_fix + P_design_fix))
+    #     else:
+    #         break
+    #     iter_num += 1
 
-    # Optimize the blade beta variation for v_in. Make a good initial guess:
+
+    ## Now, consider the variable pitch. This requires optimization of the blade beta variation for v_in. 
+    # Make a good initial guess:
     P_eng = get_P_eng(P_eng_data, Propeller.RPM)
     if v_in < v_des:
         d_bet_old = numpy.radians(-10)
@@ -99,12 +102,12 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
         d_bet = numpy.radians(10)
         factor = 1
 
-    # Initial values for iteration:
+    # Prepare for iteration:
     iter_num = 1
     P_design_var = 0
     res = 1
 
-    # before the first iteration, apply delta beta old the fixed pitch propeller and compute the power
+    # Before the first iteration, apply delta beta old to the fixed pitch propeller and compute the power
     Propeller.bet += d_bet_old
     _, P_design_var_old, _, _, _, _, _, _ = prop_analysis(AtmData, Propeller, m0_fn, Cd_fn)
     Propeller.bet = copy.deepcopy(bet_original)
@@ -127,11 +130,11 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
         if P_design_var > 0:
             P_design_var = P_design_var  
         else:
-            P_design_var = 0.2*P_eng
-            print("Power is negative, resetting")        
+            P_design_var = 0.8*P_eng
+            # print("Power is negative, resetting")        
 
         res = numpy.absolute(P_design_var - P_eng)
-        print(iter_num)
+        # print(iter_num)
         iter_num += 1
 
         if iter_lim == iter_num:
@@ -142,12 +145,14 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
 
     # print(d_bet)
     # Difference in efficiency between fixed and variable pitch
-    deta_P = (-eta_P_fix + eta_P_var) / eta_P_fix           # W
-    dT = (-T_design_fix + T_design_var) / T_design_fix      # N
-    delta_beta = numpy.degrees(d_bet)       # deg   ### Converted directly to degrees by XT
-    RPM_fix = n_fix * 60
+    # deta_P = (-eta_P_fix + eta_P_var) / eta_P_fix           # W
+    # dT = (-T_design_fix + T_design_var) / T_design_fix      # N
+    # delta_beta = numpy.degrees(d_bet)       # deg   ### Converted directly to degrees by XT
+    # RPM_fix = n_fix * 60
 
-    return J_var, P_design_var, T_design_var, Q_design_var, eta_P_var, deta_P, dT, delta_beta, RPM_fix
+    d_bet = numpy.degrees(d_bet) 
+
+    return J_var, P_design_var, T_design_var, Q_design_var, eta_P_var, d_bet
 
 
 if __name__ == '__main__':

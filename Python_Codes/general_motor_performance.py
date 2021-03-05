@@ -24,15 +24,38 @@ Emrax188_HV_CC = numpy.array([[0, 0],
                                          [5000, 26000],
                                          [6000, 28000]])
 
-x = Emrax188_HV_CC[:,0]*4/6
+Emrax188_HV_CC_Q = numpy.array([[45],
+                                    [49],
+                                    [52],
+                                    [52.5],
+                                    [52],
+                                    [50],
+                                    [48]])
+
+
+x = Emrax188_HV_CC[:,0]
 y = Emrax188_HV_CC[:,1]/Emrax188_HV_CC[6,1]
+z = Emrax188_HV_CC_Q[:,0]/max(Emrax188_HV_CC_Q)
 
 xx = numpy.linspace(x.min(),x.max(),100)
 yy = sci.CubicSpline(x,y)
+zz = sci.CubicSpline(x,z)
 
+plt.figure(figsize=(14, 12))
+plt.subplot(2,1,1)
 plt.plot(xx, yy(xx))
 plt.xlabel("Angular Rate (RPM) ")
 plt.ylabel("Normalized Power")
-plt.title("Normalized Power vs. Angular Rate for General 3-Phase Motor")
+
+plt.title("Normalized Torque vs. Angular Rate for General 3-Phase Motor \n Based on EMRAX 188C Motor")
+
+plt.subplot(2,1,2)
+plt.plot(xx, zz(xx))
+plt.xlabel("Angular Rate (RPM) ")
+plt.ylabel("Normalized Torque")
+plt.ylim((0,1.05))
+
+
+plt.tight_layout()
 plt.savefig('./Figures/motor_performance.png', bbox_inches='tight')
 plt.show()
