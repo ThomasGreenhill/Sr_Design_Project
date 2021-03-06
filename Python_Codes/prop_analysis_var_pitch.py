@@ -67,7 +67,7 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
             03.02.2021, XT. Debugged (Not fully, awaits further testings)
     """
     tol = 1e-6  ### Changed to debug by XT
-    iter_lim = 5e2
+    iter_lim = 2e3
     res = 1
     iter_num = 1
     n_fix = Propeller.RPM / 60
@@ -114,6 +114,7 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
 
 
     while res > tol and iter_num <= iter_lim:
+        flag = False
         # Apply delta beta to the fixed pitch propeller and compute the power
         if iter_num > 1:
             P_design_var_old = P_design_var
@@ -131,7 +132,11 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
             P_design_var = P_design_var  
         else:
             P_design_var = 0.8*P_eng
-            # print("Power is negative, resetting")        
+            # if flag == True:
+            #     P_design_var = 0.5*P_eng
+            #     flag = False
+            # flag = True
+            print("Power is negative, resetting")        
 
         res = numpy.absolute(P_design_var - P_eng)
         # print(iter_num)

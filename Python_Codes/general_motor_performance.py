@@ -57,5 +57,5 @@ plt.ylim((0,1.05))
 
 
 plt.tight_layout()
-plt.savefig('./Figures/motor_performance.png', bbox_inches='tight')
+plt.savefig('./Figures/motor_performance_general.png', bbox_inches='tight')
 plt.show()

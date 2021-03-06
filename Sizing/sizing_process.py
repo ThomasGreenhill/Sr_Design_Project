@@ -72,11 +72,12 @@ def sizing_process(time_hover_climb, time_climb, time_cruise, time_hover_descent
         E_est = E_cruise + E_hover_climb + E_climb + E_hover_descent
 
         # Maximum continuously required power
-        P_req = max(P_cruise, P_climb, P_hover_climb)
+        # P_req = max(P_cruise, P_climb, P_hover_climb)
+        P_req = P_hover_climb
+        print("USING P_required = P_hover_climb! CHANGE BACK LATER")
 
         # Final power system weight, find & record battery size
         power_system_mass, power_system_name = component_sizing.power_system_mass_sizing(distr, rho_battery, E_est, P_req, battery_reserve)
-        
 
         # Electric Motor mass
         engine_mass = component_sizing.electric_motor_mass(P_req)
