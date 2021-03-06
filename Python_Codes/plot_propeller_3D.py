@@ -32,7 +32,9 @@ History:
         03.04.2021, XT. Debugged
 """
 
-def plot_propeller_3D(r_list_in, c_list_in, beta_list_in, Propeller, in_line, show, save, path, is_rad=True):
+
+def plot_propeller_3D(r_list_in, c_list_in, beta_list_in, Propeller, in_line, show=True, save=False, path=None,
+                      is_rad=True):
     # return
 
     def get_Rx(beta_in, is_rad):
@@ -47,8 +49,8 @@ def plot_propeller_3D(r_list_in, c_list_in, beta_list_in, Propeller, in_line, sh
         else:
             beta = beta_in
         Rx = numpy.array([[1, 0, 0],
-              [0, numpy.cos(beta), numpy.sin(beta)],
-              [0, -numpy.sin(beta), numpy.cos(beta)]])
+                          [0, numpy.cos(beta), numpy.sin(beta)],
+                          [0, -numpy.sin(beta), numpy.cos(beta)]])
         return Rx
 
     R = Propeller.radius
@@ -104,18 +106,14 @@ def plot_propeller_3D(r_list_in, c_list_in, beta_list_in, Propeller, in_line, sh
     ax.axes.set_zlim3d(bottom=-lim, top=lim)
     ax.view_init(elev=25, azim=-60)
 
-
-
     for blades in range(numB):
         theta = 2 * numpy.pi / numB * (blades + 1)
         x_rot = x * numpy.cos(theta) - y * numpy.sin(theta)
         y_rot = x * numpy.sin(theta) - y * numpy.cos(theta)
         verts = [list(zip(x_rot, y_rot, rot_vec[2, :]))]
-        coll = Poly3DCollection(verts, alpha = 0.8)
+        coll = Poly3DCollection(verts, alpha=0.8)
         coll.set_facecolor('k')
         ax.add_collection3d(coll)
-
-
 
     if show:
         plt.show()

@@ -91,8 +91,8 @@ if __name__ == '__main__':
     plt.plot(mark_horz_v_x, mark_horz_v_y, color="blue", linestyle="dashdot")
     plt.scatter(x_h, S_h / 2, s=300, color='black', marker='x')
     plt.scatter(x_v, S_v, s=300, color='black', marker='x')
-    plt.xlabel('Moment Arm from Wing Root Quarter Chord (m)')
-    plt.ylabel('Platform Area Estimation (m^2)')
+    plt.xlabel(r'Moment Arm from Wing Root Quarter Chord ($m$)')
+    plt.ylabel(r'Platform Area Estimation ($m^2$)')
     plt.legend()
     #my_folder = 'sizing_figures'
     pathway = title
