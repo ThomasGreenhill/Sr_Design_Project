@@ -35,7 +35,7 @@ if __name__ == '__main__':
     vol_h = 0.655
     vol_v = 0.0425
     area = 8 * 2
-    span = 6.325
+    span = 6.325 * 2
     c_bar = 1.265
     c_root_w = 1.405
     c_root_h = 1.049
@@ -61,18 +61,39 @@ if __name__ == '__main__':
 
     # Empennage sizing plots
     num = 101
-    x_arr = numpy.linspace(3, 8, num)
+    x_arr = numpy.linspace(3, 7, num)
     S_h_arr = numpy.zeros(num)
     S_v_arr = numpy.zeros(num)
     for i in range(num):
         S_h_arr[i], S_v_arr[i] = empannage_sizing(vol_h, vol_v, x_arr[i], x_arr[i], wing)
 
+    mark_vert_h_x = [x_h, x_h]
+    mark_vert_h_y = [0, S_h/2]
+    mark_horz_h_x = [0, x_h]
+    mark_horz_h_y = [S_h/2, S_h/2]
+
+    mark_vert_v_x = [x_v, x_v]
+    mark_vert_v_y = [0, S_v]
+    mark_horz_v_x = [0, x_v]
+    mark_horz_v_y = [S_v, S_v]
+
     plt.figure()
-    plt.title("Empennage Sizes versus. Moment Arm length")
+    title = "Empennage Sizes versus Moment Arm length"
+    plt.title(title)
     plt.grid()
+    plt.xlim([min(x_arr), max(x_arr)])
+    plt.ylim([min([min(S_h_arr/2), min(S_v_arr)]), max([max(S_h_arr/2), max(S_v_arr)])])
     plt.plot(x_arr, S_h_arr / 2, 'r-', label='Horizontal Tail (One-sided)')
     plt.plot(x_arr, S_v_arr, 'b-', label='Vertical Tail')
+    plt.plot(mark_vert_h_x, mark_vert_h_y, color="red", linestyle="dashed")
+    plt.plot(mark_horz_h_x, mark_horz_h_y, color="red", linestyle="dashed")
+    plt.plot(mark_vert_v_x, mark_vert_v_y, color="blue", linestyle="dashdot")
+    plt.plot(mark_horz_v_x, mark_horz_v_y, color="blue", linestyle="dashdot")
+    plt.scatter(x_h, S_h / 2, s=300, color='black', marker='x')
+    plt.scatter(x_v, S_v, s=300, color='black', marker='x')
     plt.xlabel('Moment Arm from Wing Root Quarter Chord (m)')
-    plt.ylabel('Platform Area Estimation')
+    plt.ylabel('Platform Area Estimation (m^2)')
     plt.legend()
-    plt.show()
+    #my_folder = 'sizing_figures'
+    pathway = title
+    plt.savefig(pathway, bbox_inches='tight')
