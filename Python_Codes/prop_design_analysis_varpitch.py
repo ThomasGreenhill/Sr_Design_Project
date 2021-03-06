@@ -21,6 +21,7 @@ from Class130 import AtmData, Propeller
 import sys
 import scipy.interpolate as sci
 import copy
+from plot_propeller_3D import plot_propeller_3D
 
 sys.path.append("../Utilities")
 
@@ -43,7 +44,7 @@ Emrax188_HV_CC = numpy.flip(numpy.array([[0, 0],
                                          [5000, 26000],
                                          [6000, 28000]]), 0)
 
-Emrax188_HV_CC_Q = nnumpy.array([[45],
+Emrax188_HV_CC_Q = numpy.array([[45],
                                     [49],
                                     [52],
                                     [52.5],
@@ -67,26 +68,35 @@ def Cd_fn(Cl):
 
 # Variable pitch analysis
 # Design a propeller with the hover conditions 
-radius = 1.78 / 2
+# radius = 1.78 / 2
+radius = 1
 LD = 15
 is_SI = True
 numB = 3
-T_req = 13000 / 8 * 1.2 * 0.6  # N (TOGW/(L/D))
+T_req = 13000 / (8) *1.2*0.6# N (TOGW/(L/D))
 Cl = 0.4
 alp0 = numpy.radians(-2)
 #v_design = 30  # IDK why I'm choosing this, lol. Just trying to debug since the code isn't behaving
-v_hover = 30
+v_hover = 2.54
 v_cruise = 62
-v_design = v_hover
+v_design = 30
 atm = AtmData(v_design, 0, is_SI)
 atm.expand(1.4, 287)
 #v_seq = numpy.arange(0, 72, 2)
 v_seq = numpy.arange(0, 68, 2)  ### Changed by XT
 ll = numpy.size(v_seq)
-Hover_RPM = 3000
+Hover_RPM = 2500
 
 prop = Propeller(radius, numB, Hover_RPM, eta_P=0, CP=0, CT=0, CQ=0, Cl=0.4)
 r, prop.chord, prop.bet, P_design, T_design, Q_design, eta_P, prop.theta = prop_design(atm, prop, T_req, m0_fn, Cd_fn)
+
+# Plot the propeller design
+in_line = [0] * len(r)
+# in_line = 0.15*r**2
+show=False
+save=True
+path = './Figures/Prop3Dplot.png'
+plot_propeller_3D(r, prop.chord, prop.bet, prop, in_line, show, save, path)
 
 print("The required power for the propeller design at the design condition with \nv_design = " + str(v_design) + " is P_design = " + str(P_design))
 print("Adjusting the engine power curve accordingly...")
@@ -209,6 +219,33 @@ sp3.set_xlim((0,3000))
 plt.tight_layout(rect=(0, 0.03, 1, 0.95))
 plt.suptitle("Analysis of Variable-Pitch Propeller Design (Single Rotor) with \n Varying RPM and Airspeeds at the Propeller Inlet, Compared to Engine Performance ", fontsize=24)
 plt.savefig('./Figures/variable_pitch_and_motor.png', bbox_inches='tight')
+
+
+try:
+    import formatfigures
+    formatfigures.formatfigures()
+    latex = True
+except:
+    pass
+    print("Not using latex formatting")
+    latex = False
+
+plt.figure(figsize=(14, 12))
+plt.subplot(2,1,1)
+plt.plot(xx, PP(xx))
+plt.xlabel("Angular Rate (RPM) ")
+plt.ylabel("Power (W)")
+
+plt.title("Required Torque vs. Angular Rate for General 3-Phase Motor \n Based on EMRAX 188C Motor")
+
+plt.subplot(2,1,2)
+plt.plot(xx, QQ(xx))
+plt.xlabel("Angular Rate (RPM) ")
+plt.ylabel("Torque (Nm)")
+
+
+plt.tight_layout()
+plt.savefig('./Figures/motor_performance_required.png', bbox_inches='tight')
 
 
 

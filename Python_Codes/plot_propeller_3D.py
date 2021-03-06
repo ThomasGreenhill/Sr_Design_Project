@@ -32,7 +32,7 @@ History:
         03.04.2021, XT. Debugged
 """
 
-def plot_propeller_3D(r_list_in, c_list_in, beta_list_in, Propeller, in_line, show=True, save=False, path=None, is_rad=True):
+def plot_propeller_3D(r_list_in, c_list_in, beta_list_in, Propeller, in_line, show, save, path, is_rad=True):
     # return
 
     def get_Rx(beta_in, is_rad):
@@ -93,19 +93,26 @@ def plot_propeller_3D(r_list_in, c_list_in, beta_list_in, Propeller, in_line, sh
     fig = plt.figure()
     ax = Axes3D(fig)
     fig.set_label("Propeller 3D Geometry Plot")
-    ax.set_xlabel('x', fontsize=10)
-    ax.set_ylabel('y', fontsize=10)
-    ax.set_zlabel('z', fontsize=10)
-    ax.axes.set_xlim3d(left=-1.2, right=1.2)
-    ax.axes.set_ylim3d(bottom=-1.2, top=1.2)
-    ax.axes.set_zlim3d(bottom=-1.2, top=1.2)
+    ax.set_xlabel('x', fontsize=20)
+    ax.set_ylabel('y', fontsize=20)
+    ax.set_zlabel('z', fontsize=20)
+    lim = 0.8
+    ax.axes.set_xlim3d(left=-lim, right=lim)
+    ax.axes.set_ylim3d(bottom=-lim, top=lim)
+    ax.axes.set_zlim3d(bottom=-lim, top=lim)
+    ax.view_init(elev=25, azim=-60)
+
 
     for blades in range(numB):
         theta = 2 * numpy.pi / numB * (blades + 1)
         x_rot = x * numpy.cos(theta) - y * numpy.sin(theta)
         y_rot = x * numpy.sin(theta) - y * numpy.cos(theta)
         verts = [list(zip(x_rot, y_rot, rot_vec[2, :]))]
-        ax.add_collection3d(Poly3DCollection(verts))
+        coll = Poly3DCollection(verts, alpha = 0.8)
+        coll.set_facecolor('k')
+        ax.add_collection3d(coll)
+
+
 
     if show:
         plt.show()
