@@ -6,17 +6,17 @@
       <ID>OVECQUVZMZ</ID>
       <Name>Vehicle</Name>
       <AdjustView>
-        <CORX Value="0.000000000000000000e+00" ID="RFJZZHZISUJ"/>
-        <CORY Value="0.000000000000000000e+00" ID="XXTVMAKZMCV"/>
-        <CORZ Value="0.000000000000000000e+00" ID="UMQMQPHKOWA"/>
-        <PanX Value="0.000000000000000000e+00" ID="RANMEKBLXUK"/>
-        <PanY Value="0.000000000000000000e+00" ID="LPIAKWEUBPI"/>
-        <RotationX Value="0.000000000000000000e+00" ID="DRIAFYRUWAT"/>
-        <RotationY Value="0.000000000000000000e+00" ID="RUMTFRHPCCH"/>
-        <RotationZ Value="0.000000000000000000e+00" ID="NHCDBWTBHHG"/>
-        <ViewportX Value="0.000000000000000000e+00" ID="UHCRPJSKPPU"/>
-        <ViewportY Value="0.000000000000000000e+00" ID="TQHNTCJGEDR"/>
-        <Zoom Value="1.000000000000000021e-03" ID="USYPVJYLGZZ"/>
+        <CORX Value="0.000000000000000000e+00" ID="DOKRJURPVJX"/>
+        <CORY Value="0.000000000000000000e+00" ID="AAXJBKHFWYM"/>
+        <CORZ Value="0.000000000000000000e+00" ID="XODMQKKMUIA"/>
+        <PanX Value="0.000000000000000000e+00" ID="CLXHDWVYDVL"/>
+        <PanY Value="0.000000000000000000e+00" ID="LMSOKJWTHXZ"/>
+        <RotationX Value="4.671192328090566548e+01" ID="TFJNNIQQFGM"/>
+        <RotationY Value="-1.096860078812347616e+01" ID="MSJOFTXROPW"/>
+        <RotationZ Value="-1.653341374457403390e+01" ID="UMTBTNWTLEH"/>
+        <ViewportX Value="0.000000000000000000e+00" ID="OLBZQAVOSJJ"/>
+        <ViewportY Value="0.000000000000000000e+00" ID="INMNPTOCRJJ"/>
+        <Zoom Value="1.000000000000000021e-03" ID="ZLXUXZYXHEP"/>
       </AdjustView>
       <AirfoilExport>
         <AFAppendGeomIDFlag Value="1.000000000000000000e+00" ID="PVZYVXCKDRF"/>
@@ -60,6 +60,14 @@
       <FeaStructure>
         <StructUnit Value="3.000000000000000000e+00" ID="DXQEQLIVEBH"/>
       </FeaStructure>
+      <FitModel>
+        <Select_Box_Flag Value="0.000000000000000000e+00" ID="VWLVNQLPJJR"/>
+        <Select_One_Flag Value="0.000000000000000000e+00" ID="SOHGQJZXOSR"/>
+        <U_TargetPt Value="0.000000000000000000e+00" ID="RQXJDWFLTYI"/>
+        <U_Type Value="1.000000000000000000e+00" ID="CCSOMMIRDKI"/>
+        <W_TargetPt Value="0.000000000000000000e+00" ID="LCTBXGIEELW"/>
+        <W_Type Value="1.000000000000000000e+00" ID="NUWJLSWOAHD"/>
+      </FitModel>
       <IGESSettings>
         <ExportPropMainSurf Value="0.000000000000000000e+00" ID="QVIOTQXUFAG"/>
         <LabelDelim Value="0.000000000000000000e+00" ID="NEAMHEHGKKU"/>
@@ -1872,7 +1880,7 @@
                 <InLEDihedral Value="1.071209752689028100e-01" ID="QOFMJEQMNIY"/>
                 <InLEMode Value="0.000000000000000000e+00" ID="FNQUYYLAQRI"/>
                 <InLEStrength Value="1.000000000000000000e+00" ID="RLYQQLKRSDE"/>
-                <InLESweep Value="9.465620728430650388e+00" ID="LKPZKALGCNK"/>
+                <InLESweep Value="9.465620728430678810e+00" ID="LKPZKALGCNK"/>
                 <InTEDihedral Value="-3.213599303663218776e-01" ID="LKEAUNNJTUW"/>
                 <InTEMode Value="0.000000000000000000e+00" ID="PUCOFAMIHQJ"/>
                 <InTEStrength Value="1.000000000000000000e+00" ID="REBXOQFEPVH"/>
@@ -1881,7 +1889,7 @@
                 <OutLEDihedral Value="-1.071209752689028100e-01" ID="TTNUHEOUWIP"/>
                 <OutLEMode Value="0.000000000000000000e+00" ID="VLUXWGCROQI"/>
                 <OutLEStrength Value="1.000000000000000000e+00" ID="IKPMYUGEKEM"/>
-                <OutLESweep Value="9.465620728430650388e+00" ID="LMEIWUCWWUZ"/>
+                <OutLESweep Value="9.465620728430678810e+00" ID="LMEIWUCWWUZ"/>
                 <OutTEDihedral Value="3.213599303663218776e-01" ID="QXCCUROWSUX"/>
                 <OutTEMode Value="0.000000000000000000e+00" ID="QXCOXRWZKRE"/>
                 <OutTEStrength Value="1.000000000000000000e+00" ID="EEQXZUGARFK"/>
@@ -1984,7 +1992,7 @@
               <Name>Default</Name>
               <XSec>
                 <Area Value="1.000000000000000000e+01" ID="DARIGOHMDDA"/>
-                <Aspect Value="3.499999999999999556e+00" ID="UOYXJNFHEMJ"/>
+                <Aspect Value="3.499999999999999112e+00" ID="UOYXJNFHEMJ"/>
                 <Avg_Chord Value="1.690308509457033370e+00" ID="LTQDOPZBFSX"/>
                 <Dihedral Value="0.000000000000000000e+00" ID="RZIEKNSRHYE"/>
                 <InCluster Value="1.000000000000000000e+00" ID="VCMRLWDJNQP"/>
@@ -2007,7 +2015,7 @@
                 <OutTESweep Value="1.370222833991647349e+00" ID="NABLTJLCWHH"/>
                 <ProjectedSpan Value="5.916079783099615241e+00" ID="ZBXUHLFXNAH"/>
                 <Root_Chord Value="2.112885636821291602e+00" ID="JEQHIVUEQWM"/>
-                <Sec_Sweep Value="1.365463728028775581e+00" ID="LZUBWNDMEXH"/>
+                <Sec_Sweep Value="1.365463728028775359e+00" ID="LZUBWNDMEXH"/>
                 <Sec_Sweep_Location Value="1.000000000000000000e+00" ID="BPSXJKWESCV"/>
                 <SectTess_U Value="6.000000000000000000e+00" ID="UXGXSESFPJA"/>
                 <Span Value="5.916079783099615241e+00" ID="BKEXIPJBCGW"/>
@@ -9304,6 +9312,52 @@
     </ParmContainer>
   </CFDGridDensity>
   <StructureMgr>
+    <FeaPropertyInfo>
+      <ParmContainer>
+        <ID>TRLKCVZAEW</ID>
+        <Name>DefaultShell</Name>
+        <FeaProperty>
+          <CrossSecArea Value="1.000000000000000056e-01" ID="AERQOAKHVWV"/>
+          <CrossSectType Value="0.000000000000000000e+00" ID="HHWUVQSXBMV"/>
+          <Dim1 Value="0.000000000000000000e+00" ID="OLMHMARGZTR"/>
+          <Dim2 Value="0.000000000000000000e+00" ID="OOZSIHABLMT"/>
+          <Dim3 Value="0.000000000000000000e+00" ID="ZASKOCQQTRT"/>
+          <Dim4 Value="0.000000000000000000e+00" ID="UUQSHHYRNME"/>
+          <Dim5 Value="0.000000000000000000e+00" ID="RKSDCKHHWNN"/>
+          <Dim6 Value="0.000000000000000000e+00" ID="APDGDMNKZVQ"/>
+          <FeaMaterialIndex Value="0.000000000000000000e+00" ID="VAHMQJZJULW"/>
+          <FeaPropertyType Value="0.000000000000000000e+00" ID="HHOZZNMCRCH"/>
+          <Ixx Value="0.000000000000000000e+00" ID="ETWMEAZWQSV"/>
+          <Iyy Value="1.000000000000000056e-01" ID="TSEGMNMTCLA"/>
+          <Izy Value="0.000000000000000000e+00" ID="WDEICBAGDLX"/>
+          <Izz Value="1.000000000000000056e-01" ID="MQDSUKDWJMU"/>
+          <Thickness Value="1.000000000000000056e-01" ID="LPWVWZENTIW"/>
+        </FeaProperty>
+      </ParmContainer>
+    </FeaPropertyInfo>
+    <FeaPropertyInfo>
+      <ParmContainer>
+        <ID>QGYIXGBSNL</ID>
+        <Name>DefaultBeam</Name>
+        <FeaProperty>
+          <CrossSecArea Value="1.000000000000000056e-01" ID="ZDLMUWENNFL"/>
+          <CrossSectType Value="0.000000000000000000e+00" ID="ZGPFLPSUHRV"/>
+          <Dim1 Value="0.000000000000000000e+00" ID="CYKAHSAGIDM"/>
+          <Dim2 Value="0.000000000000000000e+00" ID="AGLPPPEDCZU"/>
+          <Dim3 Value="0.000000000000000000e+00" ID="GXOEBVHPNOS"/>
+          <Dim4 Value="0.000000000000000000e+00" ID="HRXBGNTRGQO"/>
+          <Dim5 Value="0.000000000000000000e+00" ID="MWVWSPXQWVM"/>
+          <Dim6 Value="0.000000000000000000e+00" ID="RFBQBUXFBXT"/>
+          <FeaMaterialIndex Value="0.000000000000000000e+00" ID="NAHVCWWTZGO"/>
+          <FeaPropertyType Value="1.000000000000000000e+00" ID="IYSIQQMPFGL"/>
+          <Ixx Value="0.000000000000000000e+00" ID="LOUPGMJFIXG"/>
+          <Iyy Value="1.000000000000000056e-01" ID="EQKNFNHDSZC"/>
+          <Izy Value="0.000000000000000000e+00" ID="KLITPUOSWXG"/>
+          <Izz Value="1.000000000000000056e-01" ID="DHCWNEFTEXZ"/>
+          <Thickness Value="1.000000000000000056e-01" ID="VCAQAGLVDKF"/>
+        </FeaProperty>
+      </ParmContainer>
+    </FeaPropertyInfo>
     <FeaPropertyInfo>
       <ParmContainer>
         <ID>CBZMPMEBRR</ID>
