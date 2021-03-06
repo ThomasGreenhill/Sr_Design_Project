@@ -56,7 +56,7 @@ if __name__ == '__main__':
         S_h_arr[i], S_v_arr[i] = empannage_sizing(vol_h, vol_v, x_arr[i], x_arr[i], wing)
 
     plt.figure()
-    plt.title("Empennage Sizes versus. Moment Arm")
+    plt.title("Empennage Sizes versus. Moment Arm length")
     plt.grid()
     plt.plot(x_arr, S_h_arr / 2, 'r-', label='Horizontal Tail (One-sided)')
     plt.plot(x_arr, S_v_arr, 'b-', label='Vertical Tail')
