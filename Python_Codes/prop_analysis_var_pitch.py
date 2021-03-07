@@ -128,15 +128,15 @@ def prop_analysis_var_pitch(v_in, v_des, P_eng_data, is_HP, AtmData, Propeller, 
         d_bet_old = temp
 
         # d_bet = d_bet if P_design_var > 0 else -d_bet*0.5
-        if P_design_var > 0:
-            P_design_var = P_design_var  
-        else:
-            P_design_var = 0.8*P_eng
-            # if flag == True:
-            #     P_design_var = 0.5*P_eng
-            #     flag = False
-            # flag = True
-            print("Power is negative, resetting")        
+        # if P_design_var > 0:
+        #     P_design_var = P_design_var  
+        # else:
+        #     P_design_var = 0.8*P_eng
+        #     # if flag == True:
+        #     #     P_design_var = 0.5*P_eng
+        #     #     flag = False
+        #     # flag = True
+        #     print("Power is negative, resetting")        
 
         res = numpy.absolute(P_design_var - P_eng)
         # print(iter_num)
