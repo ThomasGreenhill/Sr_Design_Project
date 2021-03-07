@@ -109,7 +109,7 @@ def plot_propeller_3D(r_list_in, c_list_in, beta_list_in, Propeller, in_line, sh
     for blades in range(numB):
         theta = 2 * numpy.pi / numB * (blades + 1)
         x_rot = x * numpy.cos(theta) - y * numpy.sin(theta)
-        y_rot = x * numpy.sin(theta) - y * numpy.cos(theta)
+        y_rot = x * numpy.sin(theta) + y * numpy.cos(theta)
         verts = [list(zip(x_rot, y_rot, rot_vec[2, :]))]
         coll = Poly3DCollection(verts, alpha = 0.8)
         coll.set_facecolor('k')
