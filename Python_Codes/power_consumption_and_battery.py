@@ -1,4 +1,6 @@
 # Code to plot the power during each phase of flight and battery energy
+# TVG 03.07.2021
+
 import matplotlib.pyplot as plt
 import sys
 sys.path.append("../Utilities")

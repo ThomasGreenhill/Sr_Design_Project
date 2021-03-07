@@ -1,4 +1,5 @@
-# Quick plotting utility to show the normalized performance of 
+# Quick plotting utility to show the normalized performance of electric motor
+# TVG 03.07.2021
 
 import numpy
 import matplotlib.pyplot as plt
