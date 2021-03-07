@@ -67,27 +67,30 @@ def Cd_fn(Cl):
 
 
 # Variable pitch analysis
-# Design a propeller with the hover conditions 
-# radius = 1.78 / 2
-radius = 1
-LD = 15
+# Design a propeller 
+radius = 1.78 / 2
+LD = 15 # Assumed
 is_SI = True
+
+# 3 Blades
 numB = 3
-T_req = 13000 / (8) *1.2*0.6# N (TOGW/(L/D))
+
+# Design condition
+T_req = 13000 / (8) *1.2*0.601# N (TOGW/(L/D))
 Cl = 0.4
 alp0 = numpy.radians(-2)
-#v_design = 30  # IDK why I'm choosing this, lol. Just trying to debug since the code isn't behaving
+
 v_hover = 2.54
 v_cruise = 62
 v_design = 30
 atm = AtmData(v_design, 0, is_SI)
 atm.expand(1.4, 287)
-#v_seq = numpy.arange(0, 72, 2)
-v_seq = numpy.arange(0, 68, 2)  ### Changed by XT
+v_seq = numpy.arange(0, 68, 2)
 ll = numpy.size(v_seq)
-Hover_RPM = 2500
 
-prop = Propeller(radius, numB, Hover_RPM, eta_P=0, CP=0, CT=0, CQ=0, Cl=0.4)
+Design_RPM = 3000
+
+prop = Propeller(radius, numB, Design_RPM, eta_P=0, CP=0, CT=0, CQ=0, Cl=Cl)
 r, prop.chord, prop.bet, P_design, T_design, Q_design, eta_P, prop.theta = prop_design(atm, prop, T_req, m0_fn, Cd_fn)
 
 # Plot the propeller design
@@ -141,12 +144,12 @@ plt.gca().set_title("Propeller Efficiency vs. Inlet Airspeed")
 
 sp5 = plt.subplot(3, 1, 3)
 plt.xlabel("Inlet Airspeed (m/s)")
-plt.ylabel(r"Pitch Variation $\delta_\beta$ (deg)")
+plt.ylabel(r"Pitch Variation $\Delta_\beta$ (deg)")
 plt.gca().set_title("Propeller Pitch Variation vs. Inlet Airspeed")
 
 # Analyze the propeller with the variable pitch propeller function
 # Plotting with several different RPM values
-for RPM in range(1000, 3500, 500):
+for RPM in range(500, 3500, 500):
     for ii in range(ll):
         prop.RPM = RPM
         J_var[ii], P_design_var[ii], T_design_var[ii], Q_design_var[ii], eta_P_var[ii], d_bet[ii] = prop_analysis_var_pitch(v_seq[ii], v_design, Emrax188_HV_CC_mod, is_HP, atm, prop, m0_fn, Cd_fn)
