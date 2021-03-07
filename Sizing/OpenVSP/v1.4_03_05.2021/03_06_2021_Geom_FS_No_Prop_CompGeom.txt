@@ -1,0 +1,44 @@
+...Comp Geom...
+9 Num Comps
+17 Total Num Meshes
+46472 Total Num Tris
+
+Theo_Area   Wet_Area   Theo_Vol    Wet_Vol  Name
+   23.472     11.218      5.909      2.936  Fuselage       
+   32.847     15.726      1.605      0.799  Main_Wing      
+    0.384      0.338      0.015      0.013  Wing_Prop_Mount_1
+    0.384      0.000      0.015      0.000  Wing_Prop_Mount_1
+    0.384      0.340      0.015      0.013  Wing_Prop_Mount_2
+    0.384      0.000      0.015      0.000  Wing_Prop_Mount_2
+    0.384      0.344      0.015      0.014  Wing_Prop_Mount_3
+    0.384      0.000      0.015      0.000  Wing_Prop_Mount_3
+    1.738      0.679      0.021      0.008  Canard         
+    0.384      0.376      0.015      0.015  Canard_Prop_Mount
+    0.384      0.000      0.015      0.000  Canard_Prop_Mount
+    5.723      2.689      0.155      0.076  Horizontal_Tail
+    3.754      1.729      0.110      0.053  Vertical_Tail  
+-------------------------------------------------
+   70.604     33.438      7.915      3.926  Totals         
+
+Tag_Theo_Area   Tag_Wet_Area    Tag_Name
+       23.472         11.218    Fuselage_Surf0 
+       16.423         15.726    Main_Wing_Surf0
+       16.423          0.000    Main_Wing_Surf1
+        0.384          0.338    Wing_Prop_Mount_1_Surf0
+        0.384          0.000    Wing_Prop_Mount_1_Surf1
+        0.384          0.340    Wing_Prop_Mount_2_Surf0
+        0.384          0.000    Wing_Prop_Mount_2_Surf1
+        0.384          0.344    Wing_Prop_Mount_3_Surf0
+        0.384          0.000    Wing_Prop_Mount_3_Surf1
+        0.869          0.679    Canard_Surf0   
+        0.869          0.000    Canard_Surf1   
+        0.384          0.376    Canard_Prop_Mount_Surf0
+        0.384          0.000    Canard_Prop_Mount_Surf1
+        2.861          2.689    Horizontal_Tail_Surf0
+        2.861          0.000    Horizontal_Tail_Surf1
+        3.754          1.729    Vertical_Tail_Surf0
+        0.000          0.000    _Surf0         
+WARNING: 3 open meshes merged
+     Merged: Main_Wing
+     Merged: Canard
+     Merged: Horizontal_Tail
