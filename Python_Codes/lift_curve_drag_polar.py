@@ -41,14 +41,15 @@ with open(filepath, 'r') as fs_file:
     plt.ylabel(r"Lift coefficient $C_L$")
     plt.grid()
     plt.xlabel(r"Angle of attack $\alpha$ (deg)")
-    title = "v1.4 Lift Curve"
+    title = "Lift Curve"
     plt.title(title)
     plt.legend(loc="upper left")
     my_folder = 'Figures/Aerodynamics/v1.4'
     if not os.path.exists(my_folder):
         os.makedirs(my_folder)
     fig_type = '.png'
-    pathway = './' + my_folder + '/' + title + fig_type
+    version = 'v1.4 '
+    pathway = './' + my_folder + '/' + version + title + fig_type
     plt.savefig(pathway, bbox_inches='tight')
 
     CDs = [0] * len(CLs)
@@ -60,14 +61,15 @@ with open(filepath, 'r') as fs_file:
     plt.ylabel(r"Drag coefficient $C_D$")
     plt.grid()
     plt.xlabel(r"Lift coefficient $C_L$")
-    title = "v1.4 Drag Polar"
+    title = "Drag Polar"
     plt.title(title)
     plt.legend(loc="upper left")
     my_folder = 'Figures/Aerodynamics/v1.4'
     if not os.path.exists(my_folder):
         os.makedirs(my_folder)
     fig_type = '.png'
-    pathway = './' + my_folder + '/' + title + fig_type
+    version = 'v1.4 '
+    pathway = './' + my_folder + '/' + version + title + fig_type
     plt.savefig(pathway, bbox_inches='tight')
 
 
