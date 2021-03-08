@@ -1,5 +1,6 @@
-import pandas as pd
-
+import matplotlib.pyplot as plt
+import numpy
+import os
 
 # v1.4 FS_data_modified.txt
 filepath = '../Sizing/OpenVSP/v1.4_03_05.2021/Flight Stream/Output/FS_data_modified.txt'
@@ -27,9 +28,46 @@ with open(filepath, 'r') as fs_file:
         CDis[ii] = data_list[ii][7]
         CDos[ii] = data_list[ii][8]
 
-    
+    CLa = (CLs[-1] - CLs[0]) / numpy.deg2rad(alfs[-1] - alfs[0])
+    print('Lift curve slope is {:.2f}'.format(CLa))
+    print('Theoretical lift curve slope is {:.2f}'.format(2 * numpy.pi))
+    alfs_theo = [alfs[2], alfs[-1]]
+    CLs_theo = [CLs[2], (2 * numpy.pi) * numpy.deg2rad(alfs[-1] - alfs[2])]
+
+    # lift curve
+    plt.figure()
+    plt.plot(alfs, CLs, 'r-', label="Lift Curve")
+    plt.plot(alfs_theo, CLs_theo, color='blue', linestyle='dotted', label="Lift Curve when AR = inf")
+    plt.ylabel(r"Lift coefficient $C_L$")
+    plt.grid()
+    plt.xlabel(r"Angle of attack $\alpha$ (deg)")
+    title = "v1.4 Lift Curve"
+    plt.title(title)
+    plt.legend(loc="upper left")
+    my_folder = 'Figures/Aerodynamics/v1.4'
+    if not os.path.exists(my_folder):
+        os.makedirs(my_folder)
+    fig_type = '.png'
+    pathway = './' + my_folder + '/' + title + fig_type
+    plt.savefig(pathway, bbox_inches='tight')
+
+    CDs = [0] * len(CLs)
+    for ii in range(len(CLs)):
+        CDs[ii] = CDis[ii] + CDos[ii]
+    # drag polar
+    plt.figure()
+    plt.plot(CLs, CDos, 'r-', label="Drag Polar")
+    plt.ylabel(r"Drag coefficient $C_D$")
+    plt.grid()
+    plt.xlabel(r"Lift coefficient $C_L$")
+    title = "v1.4 Drag Polar"
+    plt.title(title)
+    plt.legend(loc="upper left")
+    my_folder = 'Figures/Aerodynamics/v1.4'
+    if not os.path.exists(my_folder):
+        os.makedirs(my_folder)
+    fig_type = '.png'
+    pathway = './' + my_folder + '/' + title + fig_type
+    plt.savefig(pathway, bbox_inches='tight')
 
 
-#df = pd.read_csv(filepath, delimiter=',', skiprows=0)
-#df1 = df.set_index('alpha', drop=False)
-#print(df.head())
