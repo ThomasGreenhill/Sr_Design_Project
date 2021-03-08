@@ -18,8 +18,6 @@ except:
     print("Not using latex formatting")
     latex = False
 
-
-
 def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
     # return r, c, beta, P_design, T_design, Q_design, eta_P, theta
     '''
