@@ -54,10 +54,10 @@ V_v = 0.0425
 # ================================================#
 ##### Main Wing Position and Motor Positions  #####
 # ================================================#
-
+# Nose tip relative to origin: x = 2.0
 # NOTE: Ignoring y and z locations for now...
 
-WingRootLoc = [4.8, 0, 0] # Location of Wing Root LE
+WingRootLoc = [5, 0, 0] # Location of Wing Root LE
 HTRootLoc = 9.75
 VTRootLoc = 9.75
 
@@ -102,20 +102,20 @@ WingRelXAC = WingRelYAC*((0.8*RootChord + Span*math.sin(SweepAngle) - 0.8*TipCho
 # ================================================#
 
 # Fuselage
-Fuselage = MassObj(152.3, 5.51, 0, 0)
+Fuselage = MassObj(152.3*0.7, 5.51, 0, 0)
 
 # Main Wing
-MainWing = MassObj(240,*ListAdd(WingRootLoc, WingRelCG))
+MainWing = MassObj(240*0.7,*ListAdd(WingRootLoc, WingRelCG))
 
-# Empennage
+# Empennage (initial guess, will be refined)
 HorzTailArea = 4.6
 VertTailArea = 2.098
-HorzTail = MassObj(46, HTRootLoc+RelHorzTailCG_X(HorzTailArea), 0, 0)
-VertTail = MassObj(20.98, VTRootLoc+RelVertTailCG_X(VertTailArea), 0, 0)
+HorzTail = MassObj(46*0.8, HTRootLoc+RelHorzTailCG_X(HorzTailArea), 0, 0)
+VertTail = MassObj(20.98*0.8, VTRootLoc+RelVertTailCG_X(VertTailArea), 0, 0)
 Empennage = [HorzTail, VertTail]
 
 # Canard
-Canard = MassObj(8.45, 3.32675, 0, 0)
+Canard = MassObj(8.45*0.7, 3.32675, 0, 0)
 
 # Motors
 CanardMotor   = MassObj(12*2, *CML)
@@ -139,13 +139,44 @@ OutboardRotor = MassObj(2, *ListAdd(WingRootLoc, ORRL))
 RotorList = [CanardRotor, InboardRotor, MiddleRotor, OutboardRotor]
 
 # Passengers+Seats
-FrontPax = MassObj(88.45, 4.205, 0, 0)
-RearPax1 = MassObj(88.45, 5.1874, 0, 0)
-RearPax2 = MassObj(88.45, 5.1874, 0, 0)
-PaxAndSeats = [FrontPax, RearPax1, RearPax2]
+FrontPax  = MassObj(81.65, 4.205, 0, 0)
+FrontSeat = MassObj(6.804, 4.205, 0, 0)
+RearPax1  = MassObj(81.65, 5.1874, 0, 0)
+RearPax2  = MassObj(81.65, 5.1874, 0, 0)
+RearSeats = MassObj(6.804*2, 5.1874, 0, 0)
+Pax   = [FrontPax, RearPax1, RearPax2]
+Seats = [FrontSeat, RearSeats]
 
-objs = [Fuselage, *MotorList, *MotorConList, *RotorList, MainWing, *Empennage, Canard, *PaxAndSeats]
+# Landing Gear
+FrontGear = MassObj(0.057*1300*0.15, 4, 0, 0)
+RearGears = MassObj(0.057*1300*0.85, 6.5, 0, 0)
+LandingGear = [FrontGear, RearGears]
+
+# Luggage
+Luggage = MassObj(25, 2.5, 0, 0)
+
+# Fixed Equipment
+FixedEquip = MassObj(1300*0.05, 5, 0, 0)
+
+# Fuel Cells
+FuelCell = MassObj(385*0.75, 6, 0, 0)
+FuelCells = [FuelCell]
+
+# Fuel Tank and Fuel
+FuelTank = MassObj(5*9, 6, 0, 0)
+FuelMass = MassObj(5, FuelTank.x, 0, 0)
+FuelTotal = [FuelTank, FuelMass]
+
+# Battery
+Battery = MassObj(35000/470, 4.5, 0, 0)
+
+objs = [Fuselage, *MotorList, *MotorConList, *RotorList, MainWing, *Empennage,\
+        Canard, *LandingGear, *Pax, *Seats, Luggage, FixedEquip, *FuelCells,\
+        *FuelTotal, Battery]
 CG_pos = FindCG(objs)
+
+print("Calculating CG and empennage sizing based on GTOW:")
+print("--------------------------------------------------")
 
 # Iterate process to account for changing Empennage CG's
 for i in range(10):
@@ -155,8 +186,54 @@ for i in range(10):
         x_v = VTRootLoc + VertTail_XAC(VertTailArea) - CG_pos[1]
         HorzTailArea = V_h*S*c/x_h
         VertTailArea = V_v*S*b/x_v
-    HorzTail = MassObj(10*HorzTailArea, HTRootLoc+RelHorzTailCG_X(HorzTailArea), 0, 0)
-    VertTail = MassObj(10*VertTailArea, VTRootLoc+RelVertTailCG_X(VertTailArea), 0, 0)
+    HorzTail = MassObj(10*HorzTailArea*0.7, HTRootLoc+RelHorzTailCG_X(HorzTailArea), 0, 0)
+    VertTail = MassObj(10*VertTailArea*0.7, VTRootLoc+RelVertTailCG_X(VertTailArea), 0, 0)
     Empennage = [HorzTail, VertTail]
-    objs = [Fuselage, *MotorList, *MotorConList, *RotorList, MainWing, *Empennage, Canard, *PaxAndSeats]
-    CG_pos = FindCG(objs) 
+    objs = [Fuselage, *MotorList, *MotorConList, *RotorList, MainWing, *Empennage,\
+            Canard, *LandingGear, *Pax, *Seats, Luggage, FixedEquip, *FuelCells,\
+            *FuelTotal, Battery]
+    CG_pos = FindCG(objs)
+    
+    
+print("Total Mass: {:4f} kg".format(CG_pos[0]))
+print("Horizontal Tail Area: {:.4f}".format(HorzTailArea))
+print("Vertical Tail Area: {:.4f}".format(VertTailArea))
+print("xCOM: {:4f} m".format(CG_pos[1]))
+print("xCOL approximate: {:.4f} m".format(FindCG(RotorList)[1]))
+print("xCOM as proportion of chord past wing root LE: {:.4f}".format((CG_pos[1]-WingRootLoc[0])/AveChord))
+
+print("\nCalculating CG based on empy weight:")
+print("------------------------------------")
+objs = [Fuselage, *MotorList, *MotorConList, *RotorList, MainWing, *Empennage,\
+        Canard, *LandingGear, *Seats, FixedEquip, *FuelCells, FuelTank, Battery]
+CG_pos = FindCG(objs)
+print("Total Mass: {:4f} kg".format(CG_pos[0]))
+print("xCOM: {:4f} m".format(CG_pos[1]))
+print("xCOM as proportion of chord past wing root LE: {:.4f}".format((CG_pos[1]-WingRootLoc[0])/AveChord))
+
+print("\nCalculating CG based on operating empty weight:")
+print("------------------------------------")
+objs = [Fuselage, *MotorList, *MotorConList, *RotorList, MainWing, *Empennage,\
+        Canard, *LandingGear, *Seats, FixedEquip, *FuelCells, FuelTank, Battery, FrontPax]
+CG_pos = FindCG(objs)
+print("Total Mass: {:4f} kg".format(CG_pos[0]))
+print("xCOM: {:4f} m".format(CG_pos[1]))
+print("xCOM as proportion of chord past wing root LE: {:.4f}".format((CG_pos[1]-WingRootLoc[0])/AveChord))
+
+print("\nCalculating CG based on operating empty weight plus fuel:")
+print("------------------------------------")
+objs = [Fuselage, *MotorList, *MotorConList, *RotorList, MainWing, *Empennage,\
+        Canard, *LandingGear, *Seats, FixedEquip, *FuelCells, *FuelTotal, Battery, FrontPax]
+CG_pos = FindCG(objs)
+print("Total Mass: {:4f} kg".format(CG_pos[0]))
+print("xCOM: {:4f} m".format(CG_pos[1]))
+print("xCOM as proportion of chord past wing root LE: {:.4f}".format((CG_pos[1]-WingRootLoc[0])/AveChord))
+
+print("\nCalculating CG based on operating empty weight plus passengers and luggage:")
+print("------------------------------------")
+objs = [Fuselage, *MotorList, *MotorConList, *RotorList, MainWing, *Empennage,\
+        Canard, *LandingGear, *Seats, FixedEquip, *FuelCells, FuelTank, Battery, *Pax, Luggage]
+CG_pos = FindCG(objs)
+print("Total Mass: {:4f} kg".format(CG_pos[0]))
+print("xCOM: {:4f} m".format(CG_pos[1]))
+print("xCOM as proportion of chord past wing root LE: {:.4f}".format((CG_pos[1]-WingRootLoc[0])/AveChord))

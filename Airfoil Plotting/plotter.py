@@ -14,11 +14,11 @@ import shutil
 import sys
 
 sys.path.append("../Utilities/")
-import formatfigures
 
 try:
     import formatfigures
     formatfigures.formatsubfigures()
+    formatfigures.formatfigures()
     latex = True
 except:
     print("Not using latex formatting")
@@ -26,10 +26,10 @@ except:
 ##############################################################################
 
 # Select airfoil and parameters
-foils = ['NLF 0414F']
-alfs = numpy.linspace(-3,20,100)
-NACA = [False]
-Re = 1e7
+foils = ['2412', '23012', 'p51d', 'NLF 0414F']
+alfs = numpy.linspace(-3,18,200)
+NACA = [True, True, False, False]
+Re = 5.8e6
 
 # Choose to plot Cl or Cd
 # Type = 'Cl-a'
@@ -68,8 +68,8 @@ for foil,N in zip(foils,NACA):
         plt.plot(d.alpha,d.Cd,label=lab)
     elif Type == 'Cd-Cl':
         plt.plot(d.Cl,d.Cd,label=lab)
-        # plt.xlim((0, 0.8))
-        # plt.ylim((0, 0.02))
+        plt.xlim((-0.25, 1.25))
+        plt.ylim((0, 0.02))
     
 # Plot Labelling
 if Type == 'Cl-a':
