@@ -1,0 +1,7 @@
+%%%% The following advice is given on 03/09/2021
+
+1. Only use \si{} for both SI unit and imperial units since the package "siunitx" is included. (This package, although called siunitx, can still be used for imperial units) \mathrm is used to make variables and units into ordinary style, which means it will generate undesired results for the unit like "kg-m". Just include unit expression in \si{}; for example, $\si{kg \cdot m^2}$ and $\si{\frac{kg}{s}}$ are both applicable. This package can also be used to generate standard number output. Please ask me for further information.
+
+2. For a long report, separate tex files following sections and use \input{} to compile in the main file.
+
+3. The separator for authors in bibtex is "and". Do not use comma randomly since it is for the separation between first name and last name.
