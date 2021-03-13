@@ -25,6 +25,16 @@ except:
     latex = False
 ##############################################################################
 
+sys.path.append("../Utilities")
+import formatfigures
+
+try:
+    formatfigures.formatfigures()
+    latex = True
+except ValueError:
+    print("Not using latex formatting")
+    latex = False
+
 # Select airfoil and parameters
 foils = ['2412', '23012', 'p51d', 'NLF 0414F']
 alfs = numpy.linspace(-3,18,200)
