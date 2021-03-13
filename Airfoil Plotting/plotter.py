@@ -26,21 +26,22 @@ except:
 ##############################################################################
 
 # Select airfoil and parameters
-foils = ['NLF 0414F']
+foils = ['AH 88-K-130-20', 'NLF 0115', 'p51d']
 alfs = numpy.linspace(-3,20,100)
 NACA = [False]
 Re = 1e7
 
 # Choose to plot Cl or Cd
-# Type = 'Cl-a'
+Type = 'Cl-a'
 # Type = 'Cd-a'
-Type = 'Cd-Cl'
+# Type = 'Cd-Cl'
 
 # Removes existing files in /Data so it doesn't get confused
 if os.path.isdir('./Data'):
     shutil.rmtree('./Data')
 
 # XFoil/PyXfoil Stuff
+print(foils)
 for foil,N in zip(foils,NACA):
     # Run Xfoil
     if not N:

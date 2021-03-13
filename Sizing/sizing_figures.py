@@ -97,7 +97,7 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
                     Sizing.rho_battery, Sizing.battery_reserve, Sizing.payload)
     
     wing_loading_1 = wing_loading_1*(25/16)
-    S_ref_list = S_ref_list*16/25
+    S_ref_list = S_ref_list*15.5/25
     S_ref_list_IM = [0] * num
     TOGW_S_ref_IM = [0] * num
     wing_loading_1_IM = [0] * num
@@ -141,9 +141,9 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
     ax1.set_xlabel("Wing reference area (m$^2$)")
     ax2.scatter(79,13000,1000,color='k',marker='+',label="Initial Sizing Choice")
     ax2.plot((79,79),(17000,13000),'k--')
-    ax1.plot((9.6,16.5),(13000,13000),'k--')
-    ax1.scatter(16.7,13000,1000,color='k',marker='+')
-    ax1.plot((16.7,16.7),(13000,0),'k--')
+    ax1.plot((9.6,16),(13000,13000),'k--')
+    ax1.scatter(16.1,13000,1000,color='k',marker='+')
+    ax1.plot((16.1,16.1),(13000,0),'k--')
     plt.ylim((8800,17000))
     ax2.plot(wing_loading_1, TOGW_S_ref, 'r-', label="Wing loading")
     ax2.set_xlabel("Wing loading (kg/m$^2$)")
