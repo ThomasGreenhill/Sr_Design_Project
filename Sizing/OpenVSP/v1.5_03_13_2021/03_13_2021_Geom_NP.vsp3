@@ -11,9 +11,9 @@
         <CORZ Value="0.000000000000000000e+00" ID="HXUVXVBIQZQ"/>
         <PanX Value="0.000000000000000000e+00" ID="SPWHVOYLYCS"/>
         <PanY Value="0.000000000000000000e+00" ID="VNMFXIUHOIS"/>
-        <RotationX Value="5.644965567870114143e+01" ID="PDBXZNCXDUG"/>
-        <RotationY Value="-4.304774535724726547e+01" ID="IENNFSJUWKH"/>
-        <RotationZ Value="-3.784573326648757075e+01" ID="CMZKECQEWAL"/>
+        <RotationX Value="3.858564765927504681e+01" ID="PDBXZNCXDUG"/>
+        <RotationY Value="-5.933174962163640487e+01" ID="IENNFSJUWKH"/>
+        <RotationZ Value="-7.188963297678429853e+01" ID="CMZKECQEWAL"/>
         <ViewportX Value="0.000000000000000000e+00" ID="XTFFOHBVBYO"/>
         <ViewportY Value="0.000000000000000000e+00" ID="YBKTUIABMCL"/>
         <Zoom Value="1.000000000000000021e-03" ID="FLPHRDXTOKT"/>
@@ -28,7 +28,7 @@
       </Axis>
       <BBox>
         <X_Len Value="9.000000000000000000e+00" ID="YYWCNVNKHNN"/>
-        <X_Min Value="0.000000000000000000e+00" ID="OFDYJGKWOGP"/>
+        <X_Min Value="-3.700743415417188263e-17" ID="OFDYJGKWOGP"/>
         <Y_Len Value="1.283333360867591466e+01" ID="ANULNMQATWV"/>
         <Y_Min Value="-6.416666804337957331e+00" ID="TFLKAJJUXYD"/>
         <Z_Len Value="2.968059681885447443e+00" ID="QKUGDYWMMUV"/>
@@ -320,7 +320,7 @@
             <Kmin Value="0.000000000000000000e+00" ID="JMNKSMZLNFG"/>
             <Len Value="4.893740132342971200e-02" ID="SITXDOAFJAO"/>
             <NX Value="-9.892034891398054919e-01" ID="CSCPPPKUAED"/>
-            <NY Value="1.465484802480124527e-01" ID="SHPTEZDFGDI"/>
+            <NY Value="1.465484802480124804e-01" ID="SHPTEZDFGDI"/>
             <NZ Value="-3.260796113431980408e-06" ID="FODUAACYRNF"/>
             <OriginIndx Value="0.000000000000000000e+00" ID="ANYMXXZYVFG"/>
             <OriginU Value="6.199828597922425930e-09" ID="WCUKRSEBWAZ"/>
@@ -353,7 +353,7 @@
             <Precision Value="3.000000000000000000e+00" ID="YZWQAMIMXHI"/>
             <Visible Value="0.000000000000000000e+00" ID="ZWIAXNHQXGY"/>
             <X Value="7.750000010343065959e+00" ID="EOCHERJVJUZ"/>
-            <Y Value="0.000000000000000000e+00" ID="QIGUIGSABJN"/>
+            <Y Value="2.862652310224885426e-24" ID="QIGUIGSABJN"/>
             <Z Value="1.500000467506600599e-01" ID="BDMCLHTUEGN"/>
           </Measure>
           <OriginGeomID>WPZLGCQULU</OriginGeomID>
@@ -397,7 +397,7 @@
         </Attach>
         <BBox>
           <X_Len Value="9.000000000000000000e+00" ID="QWJJWLWXJTP"/>
-          <X_Min Value="0.000000000000000000e+00" ID="FBBYIYEOZUK"/>
+          <X_Min Value="-3.700743415417188263e-17" ID="FBBYIYEOZUK"/>
           <Y_Len Value="1.300000000000000044e+00" ID="XYKLCOKTEGN"/>
           <Y_Min Value="-6.500000000000000222e-01" ID="PRVRSTKOGDN"/>
           <Z_Len Value="1.458093676901240698e+00" ID="WFEWDSVLPDL"/>
@@ -476,7 +476,7 @@
           <Z_Location Value="0.000000000000000000e+00" ID="DPJYGRMZNZG"/>
           <Z_Rel_Location Value="0.000000000000000000e+00" ID="YCENATMYWDU"/>
           <Z_Rel_Rotation Value="0.000000000000000000e+00" ID="YMDUHMNDNJO"/>
-          <Z_Rotation Value="0.000000000000000000e+00" ID="JJEIPVXPQXW"/>
+          <Z_Rotation Value="-0.000000000000000000e+00" ID="JJEIPVXPQXW"/>
         </XForm>
       </ParmContainer>
       <GeomBase>
@@ -1843,7 +1843,7 @@
           <Z_Location Value="5.899999999999999689e-01" ID="BDKIFJWULKL"/>
           <Z_Rel_Location Value="5.899999999999999689e-01" ID="RZACFTDTNHR"/>
           <Z_Rel_Rotation Value="0.000000000000000000e+00" ID="DJTFCTSICZI"/>
-          <Z_Rotation Value="0.000000000000000000e+00" ID="JTGNUUFEARU"/>
+          <Z_Rotation Value="-0.000000000000000000e+00" ID="JTGNUUFEARU"/>
         </XForm>
       </ParmContainer>
       <GeomBase>
@@ -2226,7 +2226,7 @@
           <Z_Location Value="-1.499999999999999944e-01" ID="FRMXYOGEWQS"/>
           <Z_Rel_Location Value="-1.499999999999999944e-01" ID="WAOHWBREDUE"/>
           <Z_Rel_Rotation Value="0.000000000000000000e+00" ID="XJKVNYTJZUY"/>
-          <Z_Rotation Value="0.000000000000000000e+00" ID="KOGUGFKMRZK"/>
+          <Z_Rotation Value="-0.000000000000000000e+00" ID="KOGUGFKMRZK"/>
         </XForm>
       </ParmContainer>
       <GeomBase>
@@ -2608,7 +2608,7 @@
           <Z_Location Value="1.499999999999999944e-01" ID="JCDARSZPKEW"/>
           <Z_Rel_Location Value="1.499999999999999944e-01" ID="QFPEXKIZLRC"/>
           <Z_Rel_Rotation Value="0.000000000000000000e+00" ID="GHVCEDWLVIJ"/>
-          <Z_Rotation Value="0.000000000000000000e+00" ID="HGJVLKFEBSP"/>
+          <Z_Rotation Value="-0.000000000000000000e+00" ID="HGJVLKFEBSP"/>
         </XForm>
       </ParmContainer>
       <GeomBase>
@@ -2990,7 +2990,7 @@
           <Z_Location Value="1.499999999999999944e-01" ID="QQGBRPUXJGV"/>
           <Z_Rel_Location Value="1.499999999999999944e-01" ID="HYQUVQKPLEI"/>
           <Z_Rel_Rotation Value="0.000000000000000000e+00" ID="PGUTWDONICE"/>
-          <Z_Rotation Value="0.000000000000000000e+00" ID="LYXTGCTBEXU"/>
+          <Z_Rotation Value="-0.000000000000000000e+00" ID="LYXTGCTBEXU"/>
         </XForm>
       </ParmContainer>
       <GeomBase>
