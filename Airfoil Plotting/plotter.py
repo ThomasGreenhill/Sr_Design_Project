@@ -42,15 +42,16 @@ NACA = [True, True, False, False]
 Re = 5.8e6
 
 # Choose to plot Cl or Cd
-# Type = 'Cl-a'
+Type = 'Cl-a'
 # Type = 'Cd-a'
-Type = 'Cd-Cl'
+# Type = 'Cd-Cl'
 
 # Removes existing files in /Data so it doesn't get confused
 if os.path.isdir('./Data'):
     shutil.rmtree('./Data')
 
 # XFoil/PyXfoil Stuff
+print(foils)
 for foil,N in zip(foils,NACA):
     # Run Xfoil
     if not N:

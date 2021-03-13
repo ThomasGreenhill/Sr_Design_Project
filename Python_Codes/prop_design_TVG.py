@@ -18,8 +18,6 @@ except:
     print("Not using latex formatting")
     latex = False
 
-
-
 def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
     # return r, c, beta, P_design, T_design, Q_design, eta_P, theta
     '''
@@ -85,18 +83,22 @@ def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
     B = Propeller.numB
     a_0 = Propeller.alp0
 
+    # Unpacking atmosphere class
+    v_inf = AtmData.vel
+
+    # Number of points from root to tip on the propeller
     num = 201
     D = 2 * R
     r = numpy.linspace(0, R, num)
     x = r / R
-    t_c = 0.04 / x ** 1.2
+    t_c = 0.04 / (x ** 1.2)
     a = numpy.sqrt(AtmData.k * AtmData.R * AtmData.temp)
     M_DD = 0.94 - t_c - Cl / 10     # Given
 
-    J = AtmData.vel / (n * D)
+    J = v_inf / (n * D)
     omega = 2 * math.pi * n     # rad/s
     phi = numpy.arctan(J / (math.pi * x))   # rad
-    VR = numpy.sqrt([AtmData.vel ** 2 + item ** 2 for item in (omega * r)])
+    VR = numpy.sqrt([v_inf ** 2 + item ** 2 for item in (omega * r)])
     Ma = VR / a
 
     if max(Ma) > max(M_DD):
@@ -112,8 +114,8 @@ def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
 
     m_0 = [m0_fn(num) for num in Ma]
 
-    # Iteration
-    v_0 = [0.05 * AtmData.vel] * num
+    # Initial values for iteration
+    v_0 = [0.05 * v_inf] * num
     T_design = 2e3
     iter = 1
     iterLim = 5e2
@@ -123,7 +125,7 @@ def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
         return
 
     while (numpy.round(T_design, 12) != numpy.round(T_req, 12)) and (iter < iterLim):
-        theta = numpy.arctan(([AtmData.vel + item for item in v_0]) / (2 * math.pi * n * r)) - phi
+        theta = numpy.arctan(([v_inf + item for item in v_0]) / (2 * math.pi * n * r)) - phi
 
         # For a fixed Cl, calculate c
         sigma = 8 * x * theta * numpy.cos(phi) * numpy.tan(theta + phi) / Cl        #rad
@@ -163,6 +165,8 @@ def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
             break
 
         iter += 1
+        
+    print("Propeller design complete, converged in {} iterations".format(int(iter)))
         
     # print("iter = " + str(iter))
     # End of while loop

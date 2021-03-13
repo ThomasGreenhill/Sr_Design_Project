@@ -1,4 +1,5 @@
-# Quick plotting utility to show the normalized performance of 
+# Quick plotting utility to show the normalized performance of electric motor
+# TVG 03.07.2021
 
 import numpy
 import matplotlib.pyplot as plt
@@ -57,5 +58,5 @@ plt.ylim((0,1.05))
 
 
 plt.tight_layout()
-plt.savefig('./Figures/motor_performance.png', bbox_inches='tight')
+plt.savefig('./Figures/motor_performance_general.png', bbox_inches='tight')
 plt.show()
