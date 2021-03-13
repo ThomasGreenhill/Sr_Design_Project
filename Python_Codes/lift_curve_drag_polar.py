@@ -57,7 +57,7 @@ with open(filepath, 'r') as fs_file:
         CDs[ii] = CDis[ii] + CDos[ii]
     # drag polar
     plt.figure()
-    plt.plot(CLs, CDos, 'r-', label="Drag Polar")
+    plt.plot(CLs, CDs, 'r-', label="Drag Polar")
     plt.ylabel(r"Drag coefficient $C_D$")
     plt.grid()
     plt.xlabel(r"Lift coefficient $C_L$")

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c60f6266-1977-4570-b103-103721a65fe2" name="Default Changelist" comment="" />
+    <list default="true" id="c60f6266-1977-4570-b103-103721a65fe2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Sizing/OpenVSP/v1.4_03_05.2021/.vsptime" beforeDir="false" afterPath="$PROJECT_DIR$/../Sizing/OpenVSP/v1.4_03_05.2021/.vsptime" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,5 +44,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
