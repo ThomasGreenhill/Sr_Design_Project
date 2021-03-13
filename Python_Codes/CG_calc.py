@@ -13,14 +13,14 @@ class MassObj:
 def FindCG(objs):
     
     # Inputs:  A list of MassObj items
-    # Outputs: A tuple of the x, y, and z COM locations
+    # Outputs: A list of the x, y, and z COM locations
     
     total_mass = sum([obj.mass for obj in objs])
     xCOM = sum([obj.x*obj.mass for obj in objs])/total_mass
     yCOM = sum([obj.y*obj.mass for obj in objs])/total_mass
     zCOM = sum([obj.z*obj.mass for obj in objs])/total_mass
     
-    return (total_mass, xCOM, yCOM, zCOM)
+    return [total_mass, xCOM, yCOM, zCOM]
 
 if __name__ == "__main__":
     
