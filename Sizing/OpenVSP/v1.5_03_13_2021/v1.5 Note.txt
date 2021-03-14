@@ -1,0 +1,1 @@
+Changed empennage sizing: S_h = 3.007 m^2 (total), S_v = 1.855 m^2
