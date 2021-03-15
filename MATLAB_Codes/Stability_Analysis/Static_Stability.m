@@ -4,7 +4,7 @@
 clc;
 clear;
 close all;
-addpath("../../../Utilities/")
+addpath("../../Utilities/")
 formatlatex()
 warning('off', 'all')
 mkdir './Figures'
@@ -28,8 +28,12 @@ CLa_h = Cla/(1+57.3*Cla/(pi*e_h*AR_h));
 
 xbar_AC = x_AC_fn(S, S_h, 0.25, x_AC_h, cbar, CLa_wf, CLa_h, depsda, eta_h);
 
-% xbar_CG = (3.547-3)/cbar; % Empty
-% xbar_CG = (0.62)/cbar; % OWE
-xbar_CG = (0.43)/cbar; % TOGW
+xbar_CG = (0.62)/cbar % Empty
+SM = (xbar_AC-xbar_CG)
+
+xbar_CG = (3.547-3)/cbar % OWE
+SM = (xbar_AC-xbar_CG)
+
+xbar_CG = (0.43)/cbar % TOGW
 
 SM = (xbar_AC-xbar_CG)
