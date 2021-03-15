@@ -5,3 +5,5 @@
 2. For a long report, separate tex files following sections and use \input{} to compile in the main file.
 
 3. The separator for authors in bibtex is "and". Do not use comma randomly since it is for the separation between first name and last name.
+
+4. Use \tag{\roman{nr}} to reference the numerical results. The roman numbers are automatically generated so there is no need to worry about the actual numbering.
