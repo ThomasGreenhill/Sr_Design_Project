@@ -1,0 +1,12 @@
+%% Code to compute the static margin of our aircraft (geom v1.5)
+% TVG 03.15.2021
+clc;
+clear;
+close all;
+addpath("../../../Utilities/")
+formatlatex()
+warning('off', 'all')
+mkdir './Figures'
+warning('on', 'all')
+
+%%
