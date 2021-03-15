@@ -38,6 +38,14 @@ ylabel("$C_{D_t}$")
 title(["Total Aircraft Drag Coefficient $C_{D_t}$ vs. Lift Coefficient $C_L$", "from FlightStream for Geometry v1.5"])
 saveas(gcf,"./Figures/polarlongrangerefined_ClvCd.jpg")
 
+figure
+plot(polarlongrangerefined(:,7), polarlongrangerefined(:,11))
+xlabel("$C_L$")
+ylabel("$C_M$")
+xlim([-0.5, 2])
+ylim([-6.2,2])
+title("Lift Coefficient $C_L$ vs. $y$-Moment Coefficient $C_{m_y}$ from FlightStream for Geometry v1.5")
+saveas(gcf,"./Figures/polarlongrangerefined_CmvCl.jpg")
 
 %% Plot the refined for drag bucket evaluation
 load('polar_refined_alf_2_8.mat')

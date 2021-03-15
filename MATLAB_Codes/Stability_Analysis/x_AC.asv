@@ -1,0 +1,27 @@
+%% Calculates the aerodynamic center of an aircraft according to eqn 5.51 in
+%   Yechout
+%
+%   Inputs:
+%       
+%       
+%
+%   Outputs: 
+%       
+%
+%   Calls:
+%       
+%       
+%   Notes:
+%       
+%
+%   History:
+%           
+%       
+
+%%
+function [x] = x_AC(x_AC_wf, x_AC_h, cbar, )
+
+x = 
+
+end
+
