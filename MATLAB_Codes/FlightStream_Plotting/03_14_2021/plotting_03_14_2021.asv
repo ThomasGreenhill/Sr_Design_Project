@@ -1,0 +1,23 @@
+%% Plotting for geom v1.5 mod by XT, with FS data created around midnight on 03.14.2021
+% TVG 03.15.2021
+
+clc;
+clear;
+close all;
+addpath("../../../Utilities/")
+formatlatex()
+warning('off', 'all')
+mkdir './Figures'
+warning('on', 'all')
+
+
+%% Plot the long range unrefined
+load('polar_long_range.mat')
+
+figure
+plot(polarlongrange(:,1), polarlongrange(:,7))
+xlabel("$\alpha$ (deg)")
+ylabel("$C_L$")
+title("Lift Coefficient $C_L$ vs. Angle of Attack $\alpha$ from FlightStream for Geometry v1.5")
+plt.saveas(gcf,"polarlongrange.jpg")
+
