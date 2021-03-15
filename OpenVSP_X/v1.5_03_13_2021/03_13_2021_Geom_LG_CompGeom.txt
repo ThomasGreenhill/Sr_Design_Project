@@ -1,11 +1,11 @@
 ...Comp Geom...
 9 Num Comps
 16 Total Num Meshes
-52048 Total Num Tris
+51592 Total Num Tris
 
 Theo_Area   Wet_Area   Theo_Vol    Wet_Vol  Name
-   23.492     11.082      5.925      2.904  Fuselage       
-   33.254     15.758      1.946      0.958  Main_Wing      
+   23.492     11.083      5.925      2.904  Fuselage       
+   33.250     15.756      1.942      0.956  Main_Wing      
     1.747      0.754      0.022      0.010  Canard         
     6.180      2.918      0.173      0.085  Horizontal_Tail
     3.910      1.804      0.117      0.056  Vertical_Tail  
@@ -16,12 +16,12 @@ Theo_Area   Wet_Area   Theo_Vol    Wet_Vol  Name
     0.308      0.305      0.011      0.011  Rear_LG_Wheel  
     0.308      0.000      0.011      0.000  Rear_LG_Wheel  
 -------------------------------------------------
-   69.880     32.910      8.222      4.031  Totals         
+   69.876     32.908      8.218      4.029  Totals         
 
 Tag_Theo_Area   Tag_Wet_Area    Tag_Name
-       23.492         11.082    Fuselage_Surf0 
-       16.627         15.758    Main_Wing_Surf0
-       16.627          0.000    Main_Wing_Surf1
+       23.492         11.083    Fuselage_Surf0 
+       16.625         15.756    Main_Wing_Surf0
+       16.625          0.000    Main_Wing_Surf1
         0.874          0.754    Canard_Surf0   
         0.874          0.000    Canard_Surf1   
         3.090          2.918    Horizontal_Tail_Surf0
