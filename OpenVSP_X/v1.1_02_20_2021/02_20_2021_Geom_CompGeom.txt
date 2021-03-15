@@ -1,0 +1,60 @@
+...Comp Geom...
+13 Num Comps
+25 Total Num Meshes
+8672 Total Num Tris
+
+Theo_Area   Wet_Area   Theo_Vol    Wet_Vol  Name
+  196.961     96.855    148.046    148.046  Fuselage       
+   81.689     33.800      5.111      5.111  Main_Wing      
+    3.206      2.719      0.306      0.306  Wing_Prop_Mount_1
+    3.206      0.000      0.306      0.000  Wing_Prop_Mount_1
+    4.784      4.784    -17.700  -110414073352687.141  Wing_Prop_1    
+    4.784      0.000    -17.700    -17.700  Wing_Prop_1    
+    2.629      2.430      0.249      0.249  Wing_Prop_Mount_2
+    2.629      0.000      0.249      0.000  Wing_Prop_Mount_2
+    4.784      4.784    -19.135  -119366565786688.281  Wing_Prop_2    
+    4.784      0.000    -19.135    -19.135  Wing_Prop_2    
+    1.941      1.920      0.181      0.181  Wing_Prop_Mount_3
+    1.941      0.000      0.181      0.000  Wing_Prop_Mount_3
+    4.784      4.784    -20.251  -126329615457580.406  Wing_Prop_3    
+    4.784      0.000    -20.251    -20.251  Wing_Prop_3    
+   61.649     28.379      3.263      3.263  Canard         
+    2.399      2.224      0.227      0.227  Canard_Prop_Mount
+    2.399      0.000      0.227      0.000  Canard_Prop_Mount
+    4.784      4.784     -4.704  -29344280755894.348  Canard_Prop    
+    4.784      0.000     -4.704     -4.704  Canard_Prop    
+   30.645     14.574      1.320      1.320  Horizontal_Tail
+   10.367      4.637      0.393      0.393  Vertical_Tail  
+-------------------------------------------------
+  439.929    206.673     36.482     17.483  Totals         
+
+Tag_Theo_Area   Tag_Wet_Area    Tag_Name
+      196.961         96.855    Fuselage_Surf0 
+       40.845         33.800    Main_Wing_Surf0
+       40.845          0.000    Main_Wing_Surf1
+        3.206          2.719    Wing_Prop_Mount_1_Surf0
+        3.206          0.000    Wing_Prop_Mount_1_Surf1
+        4.784          4.784    Wing_Prop_1_Surf0
+        4.784          0.000    Wing_Prop_1_Surf1
+        2.629          2.430    Wing_Prop_Mount_2_Surf0
+        2.629          0.000    Wing_Prop_Mount_2_Surf1
+        4.784          4.784    Wing_Prop_2_Surf0
+        4.784          0.000    Wing_Prop_2_Surf1
+        1.941          1.920    Wing_Prop_Mount_3_Surf0
+        1.941          0.000    Wing_Prop_Mount_3_Surf1
+        4.784          4.784    Wing_Prop_3_Surf0
+        4.784          0.000    Wing_Prop_3_Surf1
+       30.824         28.379    Canard_Surf0   
+       30.824          0.000    Canard_Surf1   
+        2.399          2.224    Canard_Prop_Mount_Surf0
+        2.399          0.000    Canard_Prop_Mount_Surf1
+        4.784          4.784    Canard_Prop_Surf0
+        4.784          0.000    Canard_Prop_Surf1
+       15.323         14.574    Horizontal_Tail_Surf0
+       15.323          0.000    Horizontal_Tail_Surf1
+       10.367          4.637    Vertical_Tail_Surf0
+        0.000          0.000    _Surf0         
+WARNING: 3 open meshes merged
+     Merged: Main_Wing
+     Merged: Canard
+     Merged: Horizontal_Tail
