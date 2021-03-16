@@ -1,0 +1,174 @@
+# 
+# Note : check consistency of area unit and length units in this file
+# Note : check consistency with inertia units of the .mass file
+# 
+# 
+Jiffy_Jerboa
+0.0                                 | Mach
+0     0     0.0                     | iYsym  iZsym  Zsym
+ 15.99592     1.26970    12.65000   | Sref   Cref   Bref
+  0.00000     0.00000     0.00000   | Xref   Yref   Zref
+ 0.00                               | CDp  (optional)
+
+
+
+#========TODO: REMOVE OR MODIFY MANUALLY DUPLICATE SECTIONS IN SURFACE DEFINITION=========
+SURFACE                      | (keyword)
+Main Wing
+#Nchord    Cspace   [ Nspan Sspace ]
+13        1.0
+
+INDEX                        | (keyword)
+8362                         | Lsurf
+
+YDUPLICATE
+0.0
+
+SCALE
+1.0  1.0  1.0
+
+TRANSLATE
+0.0  0.0  0.0
+
+ANGLE
+   0.000                         | dAinc
+
+
+#____PANEL 1_______
+#______________
+SECTION                                                     |  (keyword)
+   3.0000    0.0000    0.0000    1.4050   0.000   19    1   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
+
+AFIL 0.0 1.0
+REFINED NLF 0414F.dat
+
+
+#______________
+SECTION                                                     |  (keyword)
+   3.3612    6.3250   -0.0098    1.1240  -2.000   19    1   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
+
+AFIL 0.0 1.0
+REFINED NLF 0414F.dat
+
+
+
+
+#========TODO: REMOVE OR MODIFY MANUALLY DUPLICATE SECTIONS IN SURFACE DEFINITION=========
+SURFACE                      | (keyword)
+Second Wing2
+#Nchord    Cspace   [ Nspan Sspace ]
+13        1.0
+
+INDEX                        | (keyword)
+8363                         | Lsurf
+
+YDUPLICATE
+0.0
+
+SCALE
+1.0  1.0  1.0
+
+TRANSLATE
+0.0  0.0  0.0
+
+ANGLE
+   0.000                         | dAinc
+
+
+#____PANEL 1_______
+#______________
+SECTION                                                     |  (keyword)
+   0.0000    0.0000    0.0000    0.3250   0.000   19    1   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
+
+AFIL 0.0 1.0
+REFINED NLF 0414F.dat
+
+
+#______________
+SECTION                                                     |  (keyword)
+   0.0000    1.3000    0.0000    0.3250   0.000   19    1   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
+
+AFIL 0.0 1.0
+REFINED NLF 0414F.dat
+
+
+
+
+#========TODO: REMOVE OR MODIFY MANUALLY DUPLICATE SECTIONS IN SURFACE DEFINITION=========
+SURFACE                      | (keyword)
+Elevator
+#Nchord    Cspace   [ Nspan Sspace ]
+7        1.0
+
+INDEX                        | (keyword)
+8364                         | Lsurf
+
+YDUPLICATE
+0.0
+
+SCALE
+1.0  1.0  1.0
+
+TRANSLATE
+0.0  0.0  0.0
+
+ANGLE
+   0.000                         | dAinc
+
+
+#____PANEL 1_______
+#______________
+SECTION                                                     |  (keyword)
+   7.7500    0.0000    0.0000    1.0900   0.000    7    1   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
+
+AFIL 0.0 1.0
+REFINED NLF 0414F.dat
+
+
+#______________
+SECTION                                                     |  (keyword)
+   8.2950    1.8390    0.0000    0.5450   0.000    7    1   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
+
+AFIL 0.0 1.0
+
+
+
+
+#========TODO: REMOVE OR MODIFY MANUALLY DUPLICATE SECTIONS IN SURFACE DEFINITION=========
+SURFACE                      | (keyword)
+Fin
+#Nchord    Cspace   [ Nspan Sspace ]
+7        1.0
+
+INDEX                        | (keyword)
+8365                         | Lsurf
+
+SCALE
+1.0  1.0  1.0
+
+TRANSLATE
+0.0  0.0  0.0
+
+ANGLE
+   0.000                         | dAinc
+
+
+#____PANEL 1_______
+#______________
+SECTION                                                     |  (keyword)
+   8.2030   -0.0000    2.1980    0.6790   0.000    7    0   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
+
+AFIL 0.0 1.0
+REFINED NLF 0414F.dat
+
+
+#______________
+SECTION                                                     |  (keyword)
+   7.7500    0.0000    0.1500    1.1320   0.000    7    0   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
+
+AFIL 0.0 1.0
+REFINED NLF 0414F.dat
+
+
+
+

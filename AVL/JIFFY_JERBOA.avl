@@ -1,0 +1,186 @@
+# 
+# Note : check consistency of area unit and length units in this file
+# Note : check consistency with inertia units of the .mass file
+# 
+# 
+Jiffy_Jerboa
+0.0                                 
+0     0     0.0                     
+ 15.99592     1.26970    12.65000   
+  0.00000     0.00000     0.00000   
+ 0.00                               
+
+
+#========TODO: REMOVE OR MODIFY MANUALLY DUPLICATE SECTIONS IN SURFACE DEFINITION=========
+SURFACE                      ! (keyword)
+Main_Wing
+#Nchord    Cspace   [ Nspan Sspace ]!
+13        1.0
+
+INDEX                        
+1184                         
+
+YDUPLICATE
+0.0
+
+SCALE
+1.0  1.0  1.0
+
+TRANSLATE
+0.0  0.0  0.0
+
+ANGLE
+   0.000                         
+
+
+#____PANEL 1_______
+#______________
+SECTION                                                     
+   3.0000    0.0000    0.5900    1.4050   0.000   19    1   
+
+AFIL 0.0 1.0
+/Users/thomasgreenhill/Documents/AVL/NLF-0414F-REFINED.dat
+
+CONTROL
+flap    0.3 0.8 0. 0. 0. +1
+
+CONTROL
+aileron -1.0  0.80  0. 0. 0.  -1
+
+#______________
+SECTION                                                     
+   3.3612    6.3250    0.5802    1.1240  -2.000   19    +1   
+
+AFIL 0.0 1.0
+/Users/thomasgreenhill/Documents/AVL/NLF-0414F-REFINED.dat
+
+CONTROL
+flap    0.3 0.8 0. 0. 0. +1
+
+CONTROL
+aileron -1.0  0.80  0. 0. 0.  -1
+
+
+#========TODO: REMOVE OR MODIFY MANUALLY DUPLICATE SECTIONS IN SURFACE DEFINITION=========
+SURFACE                      
+Front_Pylon
+#Nchord    Cspace   [ Nspan Sspace ]
+13        1.0
+
+INDEX                        
+1185                         
+
+YDUPLICATE
+0.0
+
+SCALE
+1.0  1.0  1.0
+
+TRANSLATE
+0.0  0.0  0.0
+
+ANGLE
+   0.000                         
+
+
+#____PANEL 1_______
+#______________
+SECTION                                                     
+   0.0000    0.0000    0.2000    0.3250   0.000   19    +1   
+
+NACA 0.0 1.0
+0012
+
+#______________
+SECTION                                                     
+   0.0000    1.3000    0.2000    0.3250   0.000   19    +1   
+
+NACA 0.0 1.0
+0012
+
+
+#========TODO: REMOVE OR MODIFY MANUALLY DUPLICATE SECTIONS IN SURFACE DEFINITION=========
+SURFACE                      
+Horizontal_Tail
+#Nchord    Cspace   [ Nspan Sspace ]
+7        1.0
+
+INDEX                        
+1186                         
+
+YDUPLICATE
+0.0
+
+SCALE
+1.0  1.0  1.0
+
+TRANSLATE
+0.0  0.0  0.0
+
+ANGLE
+   0.000                        
+
+
+#____PANEL 1_______
+#______________
+SECTION                                                     
+   7.7500    0.0000    0.1500    1.0900   0.000    7    +1   
+
+NACA 0.0 1.0
+0012
+
+CONTROL
+_elevator  1.0  0.60    0. 0. 0.  1
+
+#______________
+SECTION                                                     
+   8.2950    1.8390    0.1500    0.5450   0.000    7    +1   
+
+NACA 0.0 1.0
+0012
+
+CONTROL
+_elevator  1.0  0.60    0. 0. 0.  1
+
+
+#========TODO: REMOVE OR MODIFY MANUALLY DUPLICATE SECTIONS IN SURFACE DEFINITION=========
+SURFACE                      
+Vertical_Tail
+#Nchord    Cspace   [ Nspan Sspace ]
+7        1.0
+
+INDEX                        
+1187                         
+
+SCALE
+1.0  1.0  1.0
+
+TRANSLATE
+0.0  0.0  0.0
+
+ANGLE
+   0.000                         
+
+
+#____PANEL 1_______
+#______________
+SECTION                                                     
+   8.2030   -0.0000    2.1980    0.6790   0.000    7    0   
+
+NACA 0.0 1.0
+0012
+
+CONTROL
+rudder  1.0  0.6   0. 0. 0.  1
+
+#______________
+SECTION                                                     
+   7.7500    0.0000    0.1500    1.1320   0.000    7    0    
+
+NACA 0.0 1.0
+0012
+
+CONTROL
+rudder  1.0  0.6   0. 0. 0.  1
+
+
