@@ -5,22 +5,22 @@
 
 Theo_Area   Wet_Area   Theo_Vol    Wet_Vol  Name
    23.492     11.073      5.925      2.903  Fuselage       
-   33.249     15.759      1.937      0.954  Main_Wing      
-    1.741      0.751      0.021      0.009  Canard         
-    6.206      2.931      0.194      0.095  Horizontal_Tail
-    3.938      1.817      0.131      0.063  Vertical_Tail  
+   33.254     15.762      1.942      0.957  Main_Wing      
+    1.738      0.750      0.021      0.009  Canard         
+    6.196      2.927      0.194      0.095  Horizontal_Tail
+    3.932      1.814      0.131      0.063  Vertical_Tail  
 -------------------------------------------------
-   68.624     32.331      8.209      4.024  Totals         
+   68.612     32.326      8.214      4.027  Totals         
 
 Tag_Theo_Area   Tag_Wet_Area    Tag_Name
        23.492         11.073    Fuselage_Surf0 
-       16.624         15.759    Main_Wing_Surf0
-       16.624          0.000    Main_Wing_Surf1
-        0.870          0.751    Canard_Surf0   
-        0.870          0.000    Canard_Surf1   
-        3.103          2.931    Horizontal_Tail_Surf0
-        3.103          0.000    Horizontal_Tail_Surf1
-        3.938          1.817    Vertical_Tail_Surf0
+       16.627         15.762    Main_Wing_Surf0
+       16.627          0.000    Main_Wing_Surf1
+        0.869          0.750    Canard_Surf0   
+        0.869          0.000    Canard_Surf1   
+        3.098          2.927    Horizontal_Tail_Surf0
+        3.098          0.000    Horizontal_Tail_Surf1
+        3.932          1.814    Vertical_Tail_Surf0
         0.000          0.000    _Surf0         
 WARNING: 3 open meshes merged
      Merged: Main_Wing
