@@ -1,0 +1,42 @@
+...Comp Geom...
+9 Num Comps
+16 Total Num Meshes
+51592 Total Num Tris
+
+Theo_Area   Wet_Area   Theo_Vol    Wet_Vol  Name
+   23.492     11.083      5.925      2.904  Fuselage       
+   33.250     15.756      1.942      0.956  Main_Wing      
+    1.747      0.754      0.022      0.010  Canard         
+    6.180      2.918      0.173      0.085  Horizontal_Tail
+    3.910      1.804      0.117      0.056  Vertical_Tail  
+    0.169      0.057      0.003      0.001  Front_LG       
+    0.119      0.100      0.001      0.001  Rear_LG        
+    0.119      0.000      0.001      0.000  Rear_LG        
+    0.272      0.133      0.010      0.005  Front_LG_Wheel 
+    0.308      0.305      0.011      0.011  Rear_LG_Wheel  
+    0.308      0.000      0.011      0.000  Rear_LG_Wheel  
+-------------------------------------------------
+   69.876     32.908      8.218      4.029  Totals         
+
+Tag_Theo_Area   Tag_Wet_Area    Tag_Name
+       23.492         11.083    Fuselage_Surf0 
+       16.625         15.756    Main_Wing_Surf0
+       16.625          0.000    Main_Wing_Surf1
+        0.874          0.754    Canard_Surf0   
+        0.874          0.000    Canard_Surf1   
+        3.090          2.918    Horizontal_Tail_Surf0
+        3.090          0.000    Horizontal_Tail_Surf1
+        3.910          1.804    Vertical_Tail_Surf0
+        0.169          0.057    Front_LG_Surf0 
+        0.119          0.100    Rear_LG_Surf0  
+        0.119          0.000    Rear_LG_Surf1  
+        0.136          0.133    Front_LG_Wheel_Surf0
+        0.136          0.000    Front_LG_Wheel_Surf1
+        0.308          0.305    Rear_LG_Wheel_Surf0
+        0.308          0.000    Rear_LG_Wheel_Surf1
+        0.000          0.000    _Surf0         
+WARNING: 4 open meshes merged
+     Merged: Main_Wing
+     Merged: Canard
+     Merged: Horizontal_Tail
+     Merged: Front_LG_Wheel
