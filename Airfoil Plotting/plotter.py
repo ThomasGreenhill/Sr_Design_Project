@@ -37,7 +37,7 @@ except ValueError:
 
 # Select airfoil and parameters
 foils = ['2412', '23012', 'p51d', 'NLF 0414F']
-alfs = numpy.linspace(-3,18,200)
+alfs = numpy.linspace(-3,38,200)
 NACA = [True, True, False, False]
 Re = 5.8e6
 
