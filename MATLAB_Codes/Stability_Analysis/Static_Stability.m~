@@ -27,7 +27,7 @@ CLa_wf = Cla/(1+57.3*Cla/(pi*e_wf*AR));
 CLa_h = Cla/(1+57.3*Cla/(pi*e_h*AR_h));
 
 xbar_AC = x_AC_fn(S, S_h, 0.25, x_AC_h, cbar, CLa_wf, CLa_h, depsda, eta_h);
-x_AC = xbar_AC*cbar
+x
 
 xbar_CG = (0.62)/cbar % Empty
 SM = (xbar_AC-xbar_CG)
