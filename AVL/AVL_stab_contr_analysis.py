@@ -1,4 +1,4 @@
-import numpy as np
+import numpy 
 import matplotlib.pyplot as plt
 import sys
 sys.path.append('../Utilities')
@@ -6,18 +6,18 @@ sys.path.append('../AVL_Automation')
 from pyAvl_Cf_Cm_FAER import pyAvl_Cf_Cm_FAER
 import avlwrapper as avl
 
-# try:
-#     import formatfigures
-#     formatfigures.formatsubfigures()
-#     latex = True
-# except:
-#     print("Not using latex formatting")
-#     latex = False
+try:
+    import formatfigures
+    formatfigures.formatsubfigures()
+    latex = True
+except:
+    print("Not using latex formatting")
+    latex = False
 
 acftpath = '../AVL/JIFFY_JERBOA.avl'
 
 global r2d
-r2d = 180/np.pi
+r2d = 180/numpy.pi
 
 global rho, T, heng
 rho = 1.225
@@ -46,7 +46,6 @@ def acft_props():
 Ixx, Iyy, Izz, Ixz, cbar, S, bspan, g, m, X_cg = acft_props()
 
 ## Fixed values:
-a = 2
 b = 0
 Vt = 62
 df = 0
@@ -58,25 +57,43 @@ aircraft = avl.FileWrapper(acftpath)
 
 session = avl.Session(geometry=aircraft)
 
-if 'gs_bin' in session.config.settings:
-    img = session.save_geometry_plot()[0]
-    avl.show_image(img)
-else:
-    session.show_geometry()
+# if 'gs_bin' in session.config.settings:
+#     img = session.save_geometry_plot()[0]
+#     avl.show_image(img)
+# else:
+#     session.show_geometry()
 
-current_params = avl.Case(name='Run',
-                                   alpha=a, beta=b,
-                                   roll_rate=0, pitch_rate=0, yaw_rate=0,
-                                   velocity=Vt, density=rho, gravity=g, 
-                                   mass=m, Ixx=Ixx, Iyy=Iyy, Izz=Izz, Izx=Ixz,
-                                   flap=df, aileron=da, elevator=de, rudder=dr
-                                   )
+a = numpy.arange(-2,30,0.5)
+CL = numpy.zeros((len(a),1))
+CD = numpy.zeros((len(a),1))
 
-    
+for ii in range(len(a)):
 
-session = avl.Session(geometry=aircraft, cases=[current_params])
+    current_params = avl.Case(name='Run',
+                                    alpha=a[ii], beta=b,
+                                    roll_rate=0, pitch_rate=0, yaw_rate=0,
+                                    velocity=Vt, density=rho, gravity=g, 
+                                    mass=m, Ixx=Ixx, Iyy=Iyy, Izz=Izz, Izx=Ixz,
+                                    flap=df, aileron=da, elevator=de, rudder=dr
+                                    )
 
-    
-result = session.run_all_cases()
+        
 
-print(result['Run']['Totals'])
+    session = avl.Session(geometry=aircraft, cases=[current_params])
+
+        
+    result = session.run_all_cases()
+
+    CL[ii] = result['Run']['Totals']['CLtot']
+    CD[ii] = result['Run']['Totals']['CDtot']
+    print("Running alpha = " + str(a[ii]))
+
+print(CL)
+print(CD)
+
+plt.figure()
+plt.plot(CL,CD)
+
+plt.figure()
+plt.plot(a,CL)
+plt.show()
