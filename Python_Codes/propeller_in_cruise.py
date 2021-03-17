@@ -74,6 +74,7 @@ def propeller_in_cruise(W_initial, W_final, c_p, AtmData, Propeller, Wing, const
 if __name__ == '__main__':
     from Class130 import AtmData, Propeller, Wing
 
+    #****** The range and endurance is too low for our mission
 
     g = 9.81    # m/s^2
     W_initial = 13000  # N

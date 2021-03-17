@@ -128,6 +128,8 @@ def rotor_hover_power(Weight, gamma, num_rotor, f_body, AtmData, Propeller, Cd_b
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
+    ## ******The resulting graph does not make sense to XT
+
 
     Weight = 13000  # N
     f_body = 0.001  # m^2, almost neglected
