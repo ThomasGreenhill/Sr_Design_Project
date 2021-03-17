@@ -284,7 +284,9 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
         label_val = "$V_\infty$ = " + str(round(V[i], 1)) + " m/s"
         plt.semilogy(wing_loading_1, T_W[i], label=label_val)
     title = "Thrust-to-Weight Ratio vs. Wing Loading in SI units"
-    plt.plot((79, 79), (0.003, 20))
+    plt.plot((79, 79), (0.09, 20),'k--')
+    plt.ylim((0.09, 20))
+
     plt.title(title)
     # plt.grid()
     plt.ylabel("Thrust-to-weight ratio")
