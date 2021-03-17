@@ -16,8 +16,8 @@ def propeller_in_cruise(W_initial, W_final, c_p, AtmData, Propeller, Wing, const
                             must only have 2 True and 1 False
 
         Outputs:
-                R: range
-                E: endurance
+                R: (m) range
+                E: (s) endurance
 
         Notes:
 
@@ -77,7 +77,8 @@ if __name__ == '__main__':
 
     g = 9.81    # m/s^2
     W_initial = 13000  # N
-    W_final = 13000 - (5 * g)  # N
+    m_loss = 20         # this affects the output tremendously
+    W_final = 13000 - 2 * (m_loss * g)  # N
     W_diff = W_initial - W_final
 
     # atm data
@@ -91,7 +92,7 @@ if __name__ == '__main__':
     eta_P = 0.82
     prop = Propeller('radius', 'numB', 'RPM', eta_P=eta_P)
 
-    const_logic = [False, True, True]  # [CL, v_inf, h]
+    const_logic = [True, True, False]  # [CL, v_inf, h]
 
     area = 16  # m^2
     span = 4.70460 * 2  # m
