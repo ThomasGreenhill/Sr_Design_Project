@@ -78,8 +78,8 @@ if __name__ == '__main__':
 
     g = 9.81    # m/s^2
     W_initial = 13000  # N
-    m_loss = 20         # this affects the output tremendously
-    W_final = 13000 - 2 * (m_loss * g)  # N
+    m_loss = 5         # this affects the output tremendously
+    W_final = 13000 - (m_loss * g)  # N
     W_diff = W_initial - W_final
 
     # atm data
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     const_logic = [True, True, False]  # [CL, v_inf, h]
 
     area = 16  # m^2
-    span = 4.70460 * 2  # m
+    span = 12.65  # m
     CL = (W_initial + W_final) / (atm.dens * atm.vel ** 2 * area)
 
     # CL = 0.4128
@@ -112,7 +112,9 @@ if __name__ == '__main__':
     t_flight_total = t_flight_normal + t_flight_divert
     Drag = 0.5 * CD * atm.dens * atm.vel**2 * wing.area
 
-    c_p = Drag / (P_fuelcell_cont * t_flight_total)     # N / (W s)
+    mdotf = P_fuelcell_cont/(120e6*0.57)
+
+    c_p = mdotf / P_fuelcell_cont     # kg / (W s)
 
     R, E = propeller_in_cruise(W_initial, W_final, c_p, atm, prop, wing, const_logic)
 
