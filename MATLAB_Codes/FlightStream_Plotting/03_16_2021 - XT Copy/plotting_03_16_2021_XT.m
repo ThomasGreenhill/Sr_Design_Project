@@ -110,7 +110,7 @@ CD_landl = CDi_landl + CDo_landl;
 CD_landz = CDi_landz + CDo_landz;
 
 %% Plotting variables
-sizeFont = 30;      % font size
+sizeFont = 24;      % font size
 sizeFig = [10, 10, 1500, 1200];     % size of figure
 alf_ticks_long = -5:2.5:30;
 alf_ticks_zoomed = -5:1:10;
@@ -122,7 +122,7 @@ CD_ticks_zoomed = 0:0.01:0.15;
 %% Plot Long CL vs. Alpha
 % Cruise
 figure
-figure('Renderer', 'painters', 'Position', sizeFig)
+% figure('Renderer', 'painters', 'Position', sizeFig)
 plot(alp_nf_62l, CL_nf_62l, 'DisplayName', "No Flap")
 hold on 
 plot(alp_fu_62l, CL_fu_62l, 'DisplayName', "Flap Up 4$^{\circ}$")
@@ -138,7 +138,7 @@ saveas(gcf,"./Figures/CLva_all.jpg")
 
 % Landing
 figure
-figure('Renderer', 'painters', 'Position', sizeFig)
+% figure('Renderer', 'painters', 'Position', sizeFig)
 plot(alp_landl, CL_landl, 'DisplayName', "Flap Down 4$^{\circ}$")
 legend
 xlabel("Angle of Attack $\alpha$ (deg)", 'FontSize', sizeFont)
@@ -151,7 +151,7 @@ saveas(gcf,"./Figures/CLva_land.jpg")
 %% Plot long CD vs CL
 % v = 62 m/s
 figure
-figure('Renderer', 'painters', 'Position', sizeFig)
+% figure('Renderer', 'painters', 'Position', sizeFig)
 plot(CL_nf_62l, CD_nf_62l, 'DisplayName', "No Flap Deflection")
 hold on
 plot(CL_fu_62l, CD_fu_62l, 'DisplayName', "Flap Up 4$^{\circ}$")
@@ -167,7 +167,7 @@ saveas(gcf,"./Figures/CDvCL_62_long.jpg")
 
 % Landing v = 38 m/s
 figure
-figure('Renderer', 'painters', 'Position', sizeFig)
+% figure('Renderer', 'painters', 'Position', sizeFig)
 plot(CL_landl, CD_landl, 'DisplayName', "No Flap Deflection")
 legend
 xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
@@ -180,7 +180,7 @@ saveas(gcf,"./Figures/CDvCL_land_long.jpg")
 %% Plot Zoomed CD vs CL
 % v = 62 m/s
 figure
-figure('Renderer', 'painters', 'Position', sizeFig)
+% figure('Renderer', 'painters', 'Position', sizeFig)
 plot(CL_nf_62z, CD_nf_62z, 'DisplayName', "No Flap Deflection")
 hold on
 plot(CL_fu_62z, CD_fu_62z, 'DisplayName', "Flap Up 4$^{\circ}$")
@@ -196,7 +196,7 @@ saveas(gcf,"./Figures/CDvCL_62_zoomed.jpg")
 
 % v = 44 m/s
 figure
-figure('Renderer', 'painters', 'Position', sizeFig)
+% figure('Renderer', 'painters', 'Position', sizeFig)
 plot(CL_nf_44z, CD_nf_44z, 'DisplayName', "No Flap Deflection")
 hold on
 plot(CL_fu_44z, CD_fu_44z, 'DisplayName', "Flap Up 4$^{\circ}$")
@@ -212,7 +212,7 @@ saveas(gcf,"./Figures/CDvCL_44_zoomed.jpg")
 
 % Landing v = 38 m/s
 figure
-figure('Renderer', 'painters', 'Position', sizeFig)
+% figure('Renderer', 'painters', 'Position', sizeFig)
 plot(CL_landz, CD_landz, 'DisplayName', "No Flap Deflection")
 legend
 xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
