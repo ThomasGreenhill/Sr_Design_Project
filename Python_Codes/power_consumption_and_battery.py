@@ -70,6 +70,8 @@ t_vec = numpy.array(t_vec)
 eta_m = 0.75
 p_vec = numpy.array([p_hc, p_hc, p_fc1, p_fc1, p_cr1, p_cr1, p_fc2, p_fc2, p_cr2, p_cr2, p_fc3, p_fc3, p_mcr, p_mcr, p_fd, p_fd, p_hd, p_hd, p_hcal, p_hcal, p_crdiv, p_crdiv, p_hdal, p_hdal])
 # p_vec = [item*(8/eta_m) for item in p_vec]
+
+# Total power require from power system:
 p_vec *= 8/eta_m
 
 RPM_vec = numpy.array([RPM_hc, RPM_hc, RPM_fc1, RPM_fc1, RPM_cr1, RPM_cr1, RPM_fc2, RPM_fc2, RPM_cr2, RPM_cr2, RPM_fc3, RPM_fc3, RPM_mcr, RPM_mcr, RPM_fd, RPM_fd, RPM_hd, RPM_hd, RPM_hcal, RPM_hcal, RPM_crdiv, RPM_crdiv, RPM_hdal, RPM_hdal])
