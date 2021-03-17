@@ -1,7 +1,7 @@
 %% Plotting for geom v1.5 mod by XT, with FS data created around midnight on 03.15.2021
 % TVG 03.16.2021
 clc;
-clear;
+clear all;
 close all;
 addpath("../../../Utilities/")
 formatlatex()
@@ -88,9 +88,30 @@ CD_fd_62l = CDi_fd_62l + CDo_fd_62l;
 CD_fd_44z = CDi_fd_44z + CDo_fd_44z;
 CD_fd_62z = CDi_fd_62z + CDo_fd_62z;
 
+%%% Landing flap down
+load('landing_flapdown.mat')
+
+alp_landl = landing_flap_4down_38_long(:,1);
+alp_landz = landing_flap_4down_38_zoomed(:,1);
+
+CL_landl = landing_flap_4down_38_long(:,7);
+CL_landz = landing_flap_4down_38_zoomed(:,7);
+
+% Induced drag
+CDi_landl = landing_flap_4down_38_long(:,8);
+CDi_landz = landing_flap_4down_38_zoomed(:,8);
+
+% Zero lift drag
+CDo_landl = landing_flap_4down_38_long(:,9);
+CDo_landz = landing_flap_4down_38_zoomed(:,9);
+
+% Total drag
+CD_landl = CDi_landl + CDo_landl;
+CD_landz = CDi_landz + CDo_landz;
+
 %% Plotting variables
-sizeFont = 20;      % font size
-sizeFig = [10, 10, 2200, 1800];     % size of figure
+sizeFont = 30;      % font size
+sizeFig = [10, 10, 1500, 1200];     % size of figure
 alf_ticks_long = -5:2.5:30;
 alf_ticks_zoomed = -5:1:10;
 CL_ticks_long = -1:0.25:2.5;
@@ -99,6 +120,7 @@ CD_ticks_long = 0:0.1:0.6;
 CD_ticks_zoomed = 0:0.01:0.15;
 
 %% Plot Long CL vs. Alpha
+% Cruise
 figure
 figure('Renderer', 'painters', 'Position', sizeFig)
 plot(alp_nf_62l, CL_nf_62l, 'DisplayName', "No Flap")
@@ -107,12 +129,24 @@ plot(alp_fu_62l, CL_fu_62l, 'DisplayName', "Flap Up 4$^{\circ}$")
 plot(alp_fd_62l, CL_fd_62l, 'DisplayName', "Flap Down 4$^{\circ}$")
 hold off
 legend
-xlabel("Angle of Attack $\alpha$ (deg)")
-ylabel("Lift Coefficient $C_L$")
+xlabel("Angle of Attack $\alpha$ (deg)", 'FontSize', sizeFont)
+ylabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
 xticks(alf_ticks_long)
 yticks(CL_ticks_long)
 title(["Lift Coefficient vs. Angle of Attack for Jiffy Jerboa", "During Cruise: 62 m/s with Varying Flap Deflection"], 'FontSize', sizeFont)
 saveas(gcf,"./Figures/CLva_all.jpg")
+
+% Landing
+figure
+figure('Renderer', 'painters', 'Position', sizeFig)
+plot(alp_landl, CL_landl, 'DisplayName', "Flap Down 4$^{\circ}$")
+legend
+xlabel("Angle of Attack $\alpha$ (deg)", 'FontSize', sizeFont)
+ylabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
+xticks(alf_ticks_long)
+yticks(CL_ticks_long)
+title(["Lift Coefficient vs. Angle of Attack for Jiffy Jerboa", "During Landing with Flap Down 4$^{\circ}$"], 'FontSize', sizeFont)
+saveas(gcf,"./Figures/CLva_land.jpg")
 
 %% Plot long CD vs CL
 % v = 62 m/s
@@ -124,12 +158,24 @@ plot(CL_fu_62l, CD_fu_62l, 'DisplayName', "Flap Up 4$^{\circ}$")
 plot(CL_fd_62l, CD_fd_62l, 'DisplayName', "Flap Down 4$^{\circ}$")
 hold off
 legend
-xlabel("Lift Coefficient $C_L$")
-ylabel("Total Airframe Drag Coefficient $C_D$")
+xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
+ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
 xticks(CL_ticks_long)
 yticks(CD_ticks_long)
 title(["Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Cruise: 62 m/s with Varying Flap Deflection"], 'FontSize', sizeFont)
 saveas(gcf,"./Figures/CDvCL_62_long.jpg")
+
+% Landing v = 38 m/s
+figure
+figure('Renderer', 'painters', 'Position', sizeFig)
+plot(CL_landl, CD_landl, 'DisplayName', "No Flap Deflection")
+legend
+xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
+ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
+xticks(CL_ticks_long)
+yticks(CD_ticks_long)
+title(["Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Landing with Flap Down 4$^{\circ}$"], 'FontSize', sizeFont)
+saveas(gcf,"./Figures/CDvCL_land_long.jpg")
 
 %% Plot Zoomed CD vs CL
 % v = 62 m/s
@@ -141,8 +187,8 @@ plot(CL_fu_62z, CD_fu_62z, 'DisplayName', "Flap Up 4$^{\circ}$")
 plot(CL_fd_62z, CD_fd_62z, 'DisplayName', "Flap Down 4$^{\circ}$")
 hold off
 legend
-xlabel("Lift Coefficient $C_L$")
-ylabel("Total Airframe Drag Coefficient $C_D$")
+xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
+ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
 xticks(CL_ticks_zoomed)
 yticks(CD_ticks_zoomed)
 title(["Zoomed Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Cruise: 62 m/s with Varying Flap Deflection"], 'FontSize', sizeFont)
@@ -157,12 +203,24 @@ plot(CL_fu_44z, CD_fu_44z, 'DisplayName', "Flap Up 4$^{\circ}$")
 plot(CL_fd_44z, CD_fd_44z, 'DisplayName', "Flap Down 4$^{\circ}$")
 hold off
 legend
-xlabel("Lift Coefficient $C_L$")
-ylabel("Total Airframe Drag Coefficient $C_D$")
+xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
+ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
 xticks(CL_ticks_zoomed)
 yticks(CD_ticks_zoomed)
 title(["Zoomed Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Climb Cruise: 44 m/s with Varying Flap Deflection"], 'FontSize', sizeFont)
 saveas(gcf,"./Figures/CDvCL_44_zoomed.jpg")
+
+% Landing v = 38 m/s
+figure
+figure('Renderer', 'painters', 'Position', sizeFig)
+plot(CL_landz, CD_landz, 'DisplayName', "No Flap Deflection")
+legend
+xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
+ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
+xticks(CL_ticks_zoomed)
+yticks(CD_ticks_zoomed)
+title(["Zoomed Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Landing with Flap Down 4$^{\circ}$"], 'FontSize', sizeFont)
+saveas(gcf,"./Figures/CDvCL_land_zoomed.jpg")
 
 %%
 close all
