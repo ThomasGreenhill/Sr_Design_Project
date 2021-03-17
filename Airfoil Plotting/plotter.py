@@ -36,15 +36,19 @@ except ValueError:
     latex = False
 
 # Select airfoil and parameters
-foils = ['2412', '23012', 'p51d', 'NLF 0414F']
-alfs = numpy.linspace(-3,18,200)
-NACA = [True, True, False, False]
+# foils = ['23012', 'P51D Ref', 'NLF 0115 Ref', 'NLF 0414F Ref', 'HS NLF 213 Ref']
+# alfs = numpy.linspace(-3,25,200)
+# NACA = [True, False, False, False, False]
+# Re = 5.8e6
+foils = ['NLF 0414F (+4) Ref', 'NLF 0414F (+2) Ref', 'NLF 0414F Ref', 'NLF 0414F (-2) Ref', 'NLF 0414F (-4) Ref']
+alfs = numpy.linspace(-3,8,200)
+NACA = [False, False, False, False, False]
 Re = 5.8e6
 
 # Choose to plot Cl or Cd
-Type = 'Cl-a'
+# Type = 'Cl-a'
 # Type = 'Cd-a'
-# Type = 'Cd-Cl'
+Type = 'Cd-Cl'
 
 # Removes existing files in /Data so it doesn't get confused
 if os.path.isdir('./Data'):
@@ -73,14 +77,15 @@ for foil,N in zip(foils,NACA):
     
     # Plot
     lab = 'NACA ' + foil if N else foil
+    lab = lab[0:-4] if lab[-3:]=='Ref' else lab
     if Type == 'Cl-a':
         plt.plot(d.alpha,d.Cl,label=lab)
     elif Type == 'Cd-a':
         plt.plot(d.alpha,d.Cd,label=lab)
     elif Type == 'Cd-Cl':
         plt.plot(d.Cl,d.Cd,label=lab)
-        plt.xlim((-0.25, 1.25))
-        plt.ylim((0, 0.02))
+        # plt.xlim((-0.25, 1.25))
+        # plt.ylim((0, 0.02))
     
 # Plot Labelling
 if Type == 'Cl-a':
