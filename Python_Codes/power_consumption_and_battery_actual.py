@@ -114,7 +114,7 @@ except:
     print("Not using latex formatting")
     latex = False
 
-e_ini = 30e3
+e_ini = 29e3
 p_h2 = 100e3
 p_batt_vec = p_vec-p_h2
 t_temp = numpy.linspace(min(t_vec),max(t_vec),1001)
@@ -144,7 +144,7 @@ for ii in range(0,len(p_batt_vec)):
 plt.figure(figsize=(16,9))
 plt.fill_between(t_vec/3600, e_batt_vec, 0.2*e_max*numpy.ones(numpy.size(t_vec)), color=(67/255, 217/255, 0),alpha=0.7,label="Battery Charge Available")
 plt.fill_between(t_vec/3600, e_batt_vec, e_max*numpy.ones(numpy.size(e_batt_vec)),color=(0.2,0.2,0.2),alpha=0.5)
-plt.plot(t_vec/3600, e_max*numpy.ones(numpy.size(e_batt_vec)), 'k',label = "Full Charge")
+plt.plot(t_vec/3600, e_max*numpy.ones(numpy.size(e_batt_vec)), 'k',label = "Full Chage")
 plt.fill_between(t_vec/3600, 0.2*e_max*numpy.ones(numpy.size(t_vec)),color=(1,0,0),alpha=0.7,label="Battery Reserve")
 plt.plot((2148.06/3600, 2148.06/3600),(0,1.4*max(e_batt_vec)),'k--',label="Divert")
 plt.ylim((0,1.4*max(e_batt_vec)))

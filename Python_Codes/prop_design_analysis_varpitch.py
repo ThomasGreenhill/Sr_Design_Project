@@ -85,7 +85,7 @@ v_cruise = 62
 v_design = 30
 atm = AtmData(v_design, 0, is_SI)
 atm.expand(1.4, 287)
-v_seq = numpy.arange(0, 68, 2)
+v_seq = numpy.arange(-10, 68, 2)
 ll = numpy.size(v_seq)
 
 Design_RPM = 3000
