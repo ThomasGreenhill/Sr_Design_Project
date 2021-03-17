@@ -16,7 +16,7 @@ except:
     latex = False
 
 
-p_hc = 70e3
+p_hc = 44128
 p_fc1 = 11e3
 p_cr1 = 7e3
 p_fc2 = 15e3
@@ -24,10 +24,10 @@ p_cr2 = 7e3
 p_fc3 = 145e2
 p_mcr = 7e3
 p_fd = 0
-p_hd = 7e3
-p_hcal = 70e3
+p_hd = 35873
+p_hcal = 44128
 p_crdiv = 7e3
-p_hdal = 7e3
+p_hdal = 35873
 
 RPM_hc = 2500
 RPM_fc1 = 800
