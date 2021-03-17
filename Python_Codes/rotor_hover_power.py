@@ -6,7 +6,7 @@ sys.path.append("../Utilities")
 import newton
 
 
-def rotor_hover_power(Weight, gamma, num_rotor, f_body, AtmData, Propeller):
+def rotor_hover_power(Weight, gamma, num_rotor, f_body, AtmData, Propeller, Cd_bar=None):
     # return P_aero, power_distr
     """
     Calculates the total rotor power related to hte thrust generation
@@ -47,21 +47,21 @@ def rotor_hover_power(Weight, gamma, num_rotor, f_body, AtmData, Propeller):
     if c_bar is None:
         raise TypeError("Please remember to set c_bar into Propeller class")
     v_inf = AtmData.vel
-    q_inf = 0.5 * AtmData.dens * v_inf**2
+    q_inf = 0.5 * AtmData.dens * v_inf ** 2
     D_body = f_body * q_inf
     Thrust = numpy.sqrt(D_body ** 2 + Weight ** 2 + 2 * D_body * Weight * numpy.sin(numpy.deg2rad(gamma)))
-    alpha = numpy.rad2deg(numpy.arctan((-D_body - Weight * numpy.sin(numpy.deg2rad(gamma))) / \
+    alpha = numpy.rad2deg(numpy.arctan((-D_body - Weight * numpy.sin(numpy.deg2rad(gamma))) /
                                        (Weight * numpy.cos(numpy.deg2rad(gamma)))))
 
     # P_parasitic-body
-    P_parasitic = D_body * v_inf    # W
+    P_parasitic = D_body * v_inf  # W
 
     # P_profile-rotor
     area = numpy.pi * Propeller.radius ** 2
     sigma = (Propeller.numB * c_bar) / (numpy.pi * Propeller.radius)
     Thrust_each = Thrust / num_rotor
 
-    Cl_bar_new = 0.4    # initial guess
+    Cl_bar_new = 0.4  # initial guess
     V_T = (2 * numpy.pi * Propeller.RPM / 60) * Propeller.radius
     rot_adv_ratio = v_inf / V_T
     C_T = Thrust_each / (AtmData.dens * area * V_T ** 2)
@@ -86,15 +86,16 @@ def rotor_hover_power(Weight, gamma, num_rotor, f_body, AtmData, Propeller):
     elif M_T >= 1:
         print("Warning: Blade tip mach number exceeds 1.0")
 
-    print("According to iteration:\nCl_bar is {:.3f}\nRe is {:.1e}".format(Cl_bar, Re))
-    while True:
-        Cd_bar_str = input("Please enter Cd_bar based on drag polar: ")
-        # FIXME: Maybe add a func for calculating Cd_bar in the future (Xfoil)
-        if Cd_bar_str.replace('.', '', 1).isdigit():
-            Cd_bar = float(Cd_bar_str)
-            break
+    if Cd_bar is None:
+        print("According to iteration:\nCl_bar is {:.3f}\nRe is {:.1e}".format(Cl_bar, Re))
+        while True:
+            Cd_bar_str = input("Please enter Cd_bar based on drag polar: ")
+            # FIXME: Maybe add a func for calculating Cd_bar in the future (Xfoil)
+            if Cd_bar_str.replace('.', '', 1).isdigit():
+                Cd_bar = float(Cd_bar_str)
+                break
 
-    P_profile_each = AtmData.dens * area * V_T**3 * sigma * Cd_bar * (1 + 3 * rot_adv_ratio**2) / 8
+    P_profile_each = AtmData.dens * area * V_T ** 3 * sigma * Cd_bar * (1 + 3 * rot_adv_ratio ** 2) / 8
     P_profile = P_profile_each * num_rotor
 
     # P_induced-rotor
@@ -125,26 +126,52 @@ def rotor_hover_power(Weight, gamma, num_rotor, f_body, AtmData, Propeller):
 
 
 if __name__ == "__main__":
-    Weight = 9.81   # N
-    f_body = 0.00605    # m^2
-    gamma = 0   # deg
-    num_rotor = 4
+    import matplotlib.pyplot as plt
 
-    vel = 12    # m/s
-    h = 0       # m
-    is_SI = True
-    atm_trial = AtmData(vel, h, is_SI)
+    ## ******The resulting graph does not make sense to XT
 
-    radius = 0.071  # m
-    numB = 2
-    c_bar = 0.014   # m
-    RPM = 16500
+
+    Weight = 13000  # N
+    f_body = 0.001  # m^2, almost neglected
+    gamma = 0  # deg
+    num_rotor = 8
+
+    # prop
+    radius = 1.78 / 2  # m
+    numB = 3
+    c_bar = 0.1  # m, assumed
+    RPM = 2500  # assumed
     prop_trial = Propeller(radius, numB, RPM, c_bar=c_bar)
 
-    # Cd_bar = 0.015 in this test. Input in command window
-    P_aero, power_list = rotor_hover_power(Weight, gamma, num_rotor, f_body, atm_trial, prop_trial)
-    name_list = ["P_parasitic", "P_profile", "P_induced", "P_climb"]
-    print("Output:")
-    for power, name in zip(power_list, name_list):
-        print("{} is {:.2f} W.".format(name, power))
-    print("P_aero (total) is {:.2f} w".format(P_aero))
+    # atm
+    h = 500  # m
+    is_SI = True
+
+    num = 101
+    vel_start = -10
+    vel_end = 20
+    vel_vec = numpy.linspace(vel_start, vel_end, num)
+
+    Cd_bar_start = 0.01
+    Cd_bar_end = 0.05
+    Cd_bar_num = 5
+    Cd_bar_vec = numpy.linspace(Cd_bar_start, Cd_bar_end, Cd_bar_num)
+
+    # P_aero vs. v_inf
+    plt.figure(figsize=[20, 15])
+    for i in range(Cd_bar_num):
+        Cd_bar = Cd_bar_vec[i]
+        P_aero_vec = [0] * num
+        for j in range(num):
+            atm_trial = AtmData(vel_vec[j], h, is_SI)
+            P_aero_vec[j], _ = rotor_hover_power(Weight, gamma, num_rotor, f_body, atm_trial, prop_trial, Cd_bar=Cd_bar)
+
+        plt.plot(vel_vec, P_aero_vec, label='Cd_bar = {:.2f}'.format(Cd_bar))
+
+    title = 'Total Climb Power versus. Climb Speed'
+    plt.title(title)
+    plt.xlabel(r'Climb Speed $V_\infty$ (m/s)')
+    plt.ylabel(r'Total Power $P_{aero}$ (W)')
+    plt.grid()
+    plt.legend(loc='upper right')
+    plt.show()
