@@ -29,13 +29,11 @@ def propeller_in_cruise(W_initial, W_final, c_p, AtmData, Propeller, Wing, const
 
     # Checking the size of const_logic
     if numpy.size(const_logic) != 3:
-        print("Boolean list \"const_logic\" must have a size of 3")
-        return
+        raise ValueError("Boolean list \"const_logic\" must have a size of 3")
 
     # Checking const_logic has 2 True and 1 False
     if sum(const_logic) != 2:
-        print("Boolean list \"const_logic\" must have 2 True and 1 False")
-        return
+        raise ValueError("Boolean list \"const_logic\" must have 2 True and 1 False")
 
     # Assigning case numbers based on const_logic
     case_num = const_logic[0] * 100 + const_logic[1] * 10 + const_logic[2]
@@ -93,10 +91,10 @@ if __name__ == '__main__':
     eta_P = 0.82
     prop = Propeller('radius', 'numB', 'RPM', eta_P=eta_P)
 
-    const_logic = [True, True, False]  # [CL, v_inf, h]
+    const_logic = [False, True, True]  # [CL, v_inf, h]
 
     area = 16  # m^2
-    span = 12.65  # m
+    span = (4.7046 + 1.62) * 2
     CL = (W_initial + W_final) / (atm.dens * atm.vel ** 2 * area)
 
     # CL = 0.4128
@@ -107,12 +105,12 @@ if __name__ == '__main__':
 
     # c_p
     P_fuelcell_cont = 100 * 1000  # W
-    t_flight_normal = 2200  # s
-    t_flight_divert = 500  # s
-    t_flight_total = t_flight_normal + t_flight_divert
-    Drag = 0.5 * CD * atm.dens * atm.vel**2 * wing.area
+    #t_flight_normal = 2200  # s
+    #t_flight_divert = 500  # s
+    #t_flight_total = t_flight_normal + t_flight_divert
+    #Drag = 0.5 * CD * atm.dens * atm.vel**2 * wing.area
 
-    mdotf = P_fuelcell_cont/(120e6*0.57)
+    mdotf = P_fuelcell_cont / (120e6 * 0.57)
 
     c_p = mdotf / P_fuelcell_cont     # kg / (W s)
 
