@@ -9,7 +9,7 @@ warning('off', 'all')
 mkdir './Figures'
 warning('on', 'all')
 
-CDo = 0.02099;
+CDo = 0.026293749772854;
 %% Load the data
 %%% No flaps data
 load('noflap.mat')
@@ -134,7 +134,7 @@ xlabel("Angle of Attack $\alpha$ (deg)", 'FontSize', sizeFont)
 ylabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
 xticks(alf_ticks_long)
 yticks(CL_ticks_long)
-title(["Lift Coefficient vs. Angle of Attack for Jiffy Jerboa", "During Cruise: 62 m/s with Varying Flap Deflection"], 'FontSize', sizeFont)
+title(["Lift Coefficient vs. Angle of Attack for Jiffy Jerboa", "During Cruise: 62 m/s with Varying Flap Deflection (Gear Extended)"], 'FontSize', sizeFont)
 saveas(gcf,"./Figures/CLva_all.jpg")
 
 % Landing
@@ -146,7 +146,7 @@ xlabel("Angle of Attack $\alpha$ (deg)", 'FontSize', sizeFont)
 ylabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
 xticks(alf_ticks_long)
 yticks(CL_ticks_long)
-title(["Lift Coefficient vs. Angle of Attack for Jiffy Jerboa", "During Landing with Flap Down 4$^{\circ}$"], 'FontSize', sizeFont)
+title(["Lift Coefficient vs. Angle of Attack for Jiffy Jerboa", "During Landing with Flap Down 4$^{\circ}$ (Gear Extended)"], 'FontSize', sizeFont)
 saveas(gcf,"./Figures/CLva_land.jpg")
 
 %% Plot long CD vs CL
@@ -163,7 +163,7 @@ xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
 ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
 xticks(CL_ticks_long)
 yticks(CD_ticks_long)
-title(["Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Cruise: 62 m/s with Varying Flap Deflection"], 'FontSize', sizeFont)
+title(["Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Cruise: 62 m/s with Varying Flap Deflection (Gear Extended)"], 'FontSize', sizeFont)
 saveas(gcf,"./Figures/CDvCL_62_long.jpg")
 
 % Landing v = 38 m/s
@@ -175,7 +175,7 @@ xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
 ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
 xticks(CL_ticks_long)
 yticks(CD_ticks_long)
-title(["Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Landing with Flap Down 4$^{\circ}$"], 'FontSize', sizeFont)
+title(["Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Landing with Flap Down 4$^{\circ}$ (Gear Extended)"], 'FontSize', sizeFont)
 saveas(gcf,"./Figures/CDvCL_land_long.jpg")
 
 %% Plot Zoomed CD vs CL
@@ -193,7 +193,8 @@ ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
 xticks(CL_ticks_zoomed)
 yticks(CD_ticks_zoomed)
 xlim([-0.25, 0.75])
-title(["Zoomed Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Cruise: 62 m/s with Varying Flap Deflection"], 'FontSize', sizeFont)
+title(["Zoomed Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Cruise: 62 m/s with Varying Flap Deflection (Gear Extended)"], 'FontSize', sizeFont)
+text(CL_fu_62z(29)+0.05,CDo,strcat("$C_{D_{0_{ext}}} =",num2str(CDo,4),"$"),'fontsize',18)
 saveas(gcf,"./Figures/CDvCL_62_zoomed.jpg")
 
 % v = 44 m/s
@@ -210,7 +211,7 @@ ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
 xticks(CL_ticks_zoomed)
 yticks(CD_ticks_zoomed)
 xlim([-0.25, 0.75])
-title(["Zoomed Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Climb Cruise: 44 m/s with Varying Flap Deflection"], 'FontSize', sizeFont)
+title(["Zoomed Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Climb Cruise: 44 m/s with Varying Flap Deflection (Gear Extended)"], 'FontSize', sizeFont)
 saveas(gcf,"./Figures/CDvCL_44_zoomed.jpg")
 
 % Landing v = 38 m/s
@@ -222,7 +223,7 @@ xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
 ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
 xticks(CL_ticks_zoomed)
 yticks(CD_ticks_zoomed)
-title(["Zoomed Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Landing with Flap Down 4$^{\circ}$"], 'FontSize', sizeFont)
+title(["Zoomed Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Landing with Flap Down 4$^{\circ}$ (Gear Extended)"], 'FontSize', sizeFont)
 saveas(gcf,"./Figures/CDvCL_land_zoomed.jpg")
 
 %%
