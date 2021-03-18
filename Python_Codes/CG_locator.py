@@ -200,6 +200,7 @@ print("Horizontal Tail Area: {:.4f}".format(HorzTailArea))
 print("Vertical Tail Area: {:.4f}".format(VertTailArea))
 print("xCOM: {:4f} m".format(CG_pos[1]))
 print("xCOL approximate: {:.4f} m".format(FindCG(RotorList)[1]))
+print("xCOL as proportion of chord past wing root LE: {:.4f}".format((FindCG(RotorList)[1]-WingRootLoc[0])/AveChord))
 print("xCOM as proportion of chord past wing root LE: {:.4f}".format((CG_pos[1]-WingRootLoc[0])/AveChord))
 
 print("\nCalculating CG based on empy weight:")

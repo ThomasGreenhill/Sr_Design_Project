@@ -110,7 +110,7 @@ Rew = Re(rho,Ucruise,MGCw,mu);
 Cfw = Cf(Ma,Rew);
 
 % Wing CD0
-CD0w = CD0ww(Rwf,RLS,Cfw,2,0.14,Swet_wing,Sref);
+CD0w = CD0ww(Rwf,RLS,Cfw,Lp,0.14,Swet_wing,Sref);
 
 % Total
 CDw = CD0w;
