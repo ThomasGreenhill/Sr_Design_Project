@@ -84,8 +84,6 @@ for foil,N in zip(foils,NACA):
         plt.plot(d.alpha,d.Cd,label=lab)
     elif Type == 'Cd-Cl':
         plt.plot(d.Cl,d.Cd,label=lab)
-        # plt.xlim((-0.25, 1.25))
-        # plt.ylim((0, 0.02))
     
 # Plot Labelling
 if Type == 'Cl-a':
@@ -100,6 +98,8 @@ elif Type == 'Cd-Cl':
     plt.title('$C_d$ vs $C_l$, $Re$ = {:4.2G}'.format(Re))
     plt.ylabel(r'$C_d$')
     plt.xlabel(r'$C_l$')
+    plt.xlim((-0.1, 0.8))
+    plt.ylim((0.002, 0.009))
 
     
 plt.legend()
