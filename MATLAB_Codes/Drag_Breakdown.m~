@@ -98,7 +98,7 @@ CDi = @(CL,e,AR) CL^2/(pi*e*AR);
 % Misc.
 Rwf = 1.02;
 RLS = 1.08;
-Lp = 2.0;
+Lp = 1.2;
 
 % Fuselage Reynold's Number
 Ref = Re(rho,Ucruise,lfuse,mu);
@@ -110,7 +110,7 @@ Rew = Re(rho,Ucruise,MGCw,mu);
 Cfw = Cf(Ma,Rew);
 
 % Wing CD0
-CD0w = CD0ww(Rwf,RLS,Cfw,Lp,0.14,Swet_wing,Sref);
+CD0w = CD0ww(Rwf,RLS,Cfw,2,,Swet_wing,Sref);
 
 % Total
 CDw = CD0w;
@@ -125,7 +125,7 @@ CD0f = CD0ff(Rwf,Cff,lfuse,dfuse,Swet_fuse,Sref);
 
 % Total, Multiplied by 150% for windshield drag
 CDf = CD0f*1.5;
-ff = CDf*Sref;
+ff = 0.6*CDf*Sref;
 
 %% Front pylon
 MGCfp = 0.33;
@@ -138,7 +138,7 @@ RLSfp = 1.05;
 Cffp = Cf(Ma, Refp);
 
 % Front Pylon Zero-Lift Drag
-CD0fp = CD0ww(Rfp,RLSfp,Cffp,1.2,tc,Swet_vt,S_vt);
+CD0fp = CD0ww(Rfp,RLSfp,Cffp,Lp,tc,Swet_vt,S_vt);
 
 ffp = CD0fp*Sfp;
 
