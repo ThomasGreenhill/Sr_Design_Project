@@ -22,6 +22,12 @@ def FindCG(objs):
     
     return [total_mass, xCOM, yCOM, zCOM]
 
+def Findmassmoment(objs): ## Changed by Yihui, 03/18/2021
+
+    _, xCOM, yCOM, zCOM = FindCG(objs)
+    return sum(map(lambda obj: obj.mass * ((obj.x - xCOM)**2 
+        + (obj.y - yCOM)**2 + (obj.z - zCOM)**2), objs))
+
 if __name__ == "__main__":
     
     # Sample for our aircraft:
