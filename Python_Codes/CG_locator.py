@@ -193,7 +193,7 @@ for i in range(10):
             Canard, *LandingGear, *Pax, *Seats, Luggage, FixedEquip, *FuelCells,\
             *FuelTotal, Battery]
     CG_pos = FindCG(objs)
-    Im = Findmassmoment(objs) ## Changed by Yihui, 03/18/2021
+    Imxx, Imyy, Imzz = Findmassmoment(objs) ## Changed by Yihui, 03/18/2021
     
 print("Total Mass: {:4f} kg".format(CG_pos[0]))
 print("Horizontal Tail Area: {:.4f}".format(HorzTailArea))
@@ -202,7 +202,9 @@ print("xCOM: {:4f} m".format(CG_pos[1]))
 print("xCOL approximate: {:.4f} m".format(FindCG(RotorList)[1]))
 print("xCOL as proportion of chord past wing root LE: {:.4f}".format((FindCG(RotorList)[1]-WingRootLoc[0])/AveChord))
 print("xCOM as proportion of chord past wing root LE: {:.4f}".format((CG_pos[1]-WingRootLoc[0])/AveChord))
-print("Mass Moment of Inertia: %4f kg-m^2"%(Im)) ## Changed by Yihui, 03/18/2021
+print("Mass Moment of Inertia Ixx: %4f kg-m^2"%(Imxx)) ## Changed by Yihui, 03/18/2021
+print("Mass Moment of Inertia Iyy: %4f kg-m^2"%(Imyy)) ## Changed by Yihui, 03/18/2021
+print("Mass Moment of Inertia Izz: %4f kg-m^2"%(Imzz)) ## Changed by Yihui, 03/18/2021
 
 print("\nCalculating CG based on empy weight:")
 print("------------------------------------")
