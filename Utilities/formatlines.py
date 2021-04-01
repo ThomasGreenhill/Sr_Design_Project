@@ -8,9 +8,6 @@ def formatlinestyle(dense=True, loose=False):
         Created. XT. 04.01.2021
     """
 
-    print('dense: ' + str(dense))
-    print('loose: ' + str(loose))
-
     line_styles = {
         1: 'solid',
         2: 'dotted',
@@ -30,12 +27,21 @@ def formatlinestyle(dense=True, loose=False):
         44: (0, (3, 10, 1, 10, 1, 10))  # loosely dash-dot-dotted
     }
 
-    line_styles.setdefault('default', 'Error in dictionary line_style in formatlinestyle()')
-    key_ranges = [(1, 6)]
+    line_styles.setdefault('default', [(1, 6), (21, 24), (41, 44)])
+
+    keys = []
+    for item in line_styles.keys():
+        keys.append(item)
+    print(keys)
+
+    key_ranges = [line_styles['default'][0]]
+
     if dense:
-        key_ranges.append((21, 24))
+        key_ranges.append(line_styles['default'][1])
+
     if loose:
-        key_ranges.append((41, 44))
+        key_ranges.append(line_styles['default'][1])
+
     key = random_in_ranges(key_ranges)
 
     return line_styles[key]
