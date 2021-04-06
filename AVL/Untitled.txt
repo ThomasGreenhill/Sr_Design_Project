@@ -1,0 +1,5 @@
+g++ bar.cpp -std=c++14 \
+ -I /usr/local/Cellar/python@3.8/3.8.8_1/Frameworks/Python.framework/Versions/3.8/include/python3.8 \
+ -I /usr/local/lib/python3.8/site-packages/numpy/core/include \
+ -L /usr/local/Cellar/python@3.8/3.8.8_1/Frameworks/Python.framework/Versions/3.8/lib \
+ -l python3

@@ -20,11 +20,14 @@ OWE_F = [0.5258, 1136.94]
 OWE_P = [0.4307, 1320.24]
 GTOW  = [0.4321, 1325.24]
 
+np = 0.558
+
 plt.plot(WE[0],    WE[1],    'o', markersize=9, label='Empty')
 plt.plot(OWE[0],   OWE[1],   's', markersize=9, label='Operating Weight Empty (OWE)')
 plt.plot(OWE_F[0], OWE_F[1], 'd', markersize=9, label='OWE + Fuel')
 plt.plot(OWE_P[0], OWE_P[1], '^', markersize=9, label='OWE + Pax/Bags')
 plt.plot(GTOW[0],  GTOW[1],  'v', markersize=9, label='Gross Takeoff Weight')
+plt.plot([np, np], [980, 1400], 'k--', label="Aerodynamic Center Location")
 plt.title('C.G. Excursion Diagram')
 plt.xlabel('C.G. Location as fraction of $\\bar{c}$ past Wing Root L.E.')
 plt.ylabel('Weight (kg)')
