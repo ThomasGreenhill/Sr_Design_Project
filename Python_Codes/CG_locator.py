@@ -2,6 +2,7 @@
 
 from CG_calc import MassObj
 from CG_calc import FindCG
+from CG_calc import Findmassmoment # Change made on 04/06/2021
 import math
 
 def ListAdd(L1, L2):
