@@ -241,7 +241,7 @@ if __name__ == '__main__':
     oper_cost = operating_cost(oper_hrs, CPI=1)
 
     """
-    price_estimate test
+    price_estimate (main) test
     """
     oper_yrs = 10
     CPIs = (1.1604, 1.0611)
