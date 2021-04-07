@@ -3,7 +3,7 @@ Estimates the total cost of the aircraft design
 Based on lecture 04.06.2021
 
 Note:
-    ******Not debugged.
+    capital_cost debugged
 
 History:
     Created, XT. 04.06.2021
