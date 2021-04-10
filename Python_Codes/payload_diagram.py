@@ -79,6 +79,5 @@ ax2.annotate("",
 
 #### Final Step 
 plt.title('Impact of range on payload of electric aircraft') 
-plt.legend(loc='best')
 plt.savefig('%s/Payload_Diagram.png'%(savedir))
 plt.show()
