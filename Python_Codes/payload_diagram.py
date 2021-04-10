@@ -34,6 +34,18 @@ ax1.arrow(Range[2],-np.amax(Wp+Woe)*0.25,0,np.amax(Wp+Woe)*0.2,length_includes_h
     width=0.02, head_width=0.06, head_length=0.30, color='tab:gray')
 ax1.annotate('Max Payload Range',(Range[1],-np.amax(Wp+Woe)*0.3))
 ax1.annotate('Max Ferry Range',(Range[1],-np.amax(Wp+Woe)*0.3))
+ax1.annotate("",
+            xy=(Range[1]*0.8, 0), xycoords='data',
+            xytext=(Range[1]*0.8,np.amax(Woe)), textcoords='data',
+            arrowprops=dict(arrowstyle="<->",
+                            connectionstyle="arc3", color=color1, lw=2),
+            )
+ax1.annotate("",
+            xy=(Range[1]*0.6, np.amin(Wp+Woe)), xycoords='data',
+            xytext=(Range[1]*0.6, np.amax(Wp+Woe)), textcoords='data',
+            arrowprops=dict(arrowstyle="<->",
+                            connectionstyle="arc3", color=color1, lw=2),
+            )
 
 #### Adding Twin Axes to plot another datasets
 ax2 = ax1.twinx() 
