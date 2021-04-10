@@ -40,14 +40,14 @@ ax1.annotate("",
             arrowprops=dict(arrowstyle="<->",
                             connectionstyle="arc3", color=color1, lw=2),
             )
+ax1.text(Range[1]*0.75, np.amax(Woe), 'Operating Empty Weight', rotation = 90, fontsize = 12, color=color1, transform=ax1.transAxes)
 ax1.annotate("",
             xy=(Range[1]*0.6, np.amin(Wp+Woe)), xycoords='data',
             xytext=(Range[1]*0.6, np.amax(Wp+Woe)), textcoords='data',
             arrowprops=dict(arrowstyle="<->",
                             connectionstyle="arc3", color=color1, lw=2),
             )
-ax1.text(Range[1]*0.75, np.amax(Woe), 'Operating Empty Weight', rotation = 90, fontsize = 12, color=color1)
-ax1.text(Range[1]*0.55, np.amax(Woe+Wp), 'Payload Weight', rotation = 90, fontsize = 12, color=color1)
+ax1.text(Range[1]*0.55, np.amax(Woe+Wp), 'Payload Weight', rotation = 90, fontsize = 12, color=color1, transform=ax1.transAxes)
 
 #### Adding Twin Axes to plot another datasets
 ax2 = ax1.twinx() 
@@ -76,8 +76,8 @@ ax2.annotate("",
             arrowprops=dict(arrowstyle="<->",
                             connectionstyle="arc3", color=color2, lw=2),
             )
-ax2.text(Range[1]*1.05, np.amax(E_reserve), 'Reserve Charge', rotation = 90, fontsize = 12, color=color2)
-ax2.text(Range[1]*1.15, np.amax(E_b), 'Battery Charge', rotation = 90, fontsize = 12, color=color2)
+ax2.text(Range[1]*1.05, np.amax(E_reserve), 'Reserve Charge', rotation = 90, fontsize = 12, color=color2, transform=ax2.transAxes)
+ax2.text(Range[1]*1.15, np.amax(E_b), 'Battery Charge', rotation = 90, fontsize = 12, color=color2, transform=ax2.transAxes)
 
 #### Final Step 
 plt.title('Impact of range on payload of electric aircraft') 
