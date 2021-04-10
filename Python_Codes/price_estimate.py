@@ -239,12 +239,13 @@ if __name__ == '__main__':
     m_dot_H2 = average_power_required / (H2_specific_energy * H2_efficiency)  # kg / s
     m_H2_per_hr = m_dot_H2 * 3600  # Kg / s to kg / hr
     fuel_price_per_kg = 16.51  # 16.51 USD per kg
-    fuel_per_hr = fuel_price_per_kg * m_H2_per_hr
+    fuel_per_hr = fuel_price_per_kg * m_H2_per_hr  # USD / hr
 
     price_out = price_estimate(oper_hrs, fuel_per_hr, oper_yrs, W_empty, V_max, Q_5, FTA, C_eng, N_eng,
                                C_avionics, CPIs=CPIs, profit=True,
                                profit_margin=profit_margin, passenger=False, table=True, latex_format=False)
 
+    print('Fuel price is {:.2f} USD per hour'.format(fuel_per_hr))
     print('For Jiffy Jerboa (in USD 2021)')
     print('----------------------------')
     print('Total price: {:.1e}'.format(price_out[0]))
