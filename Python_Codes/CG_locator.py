@@ -2,7 +2,7 @@
 
 from CG_calc import MassObj
 from CG_calc import FindCG
-from CG_calc import Findmassmoment
+from CG_calc import Findmassmoment # Change made on 04/06/2021
 import math
 
 def ListAdd(L1, L2):
@@ -194,8 +194,9 @@ for i in range(10):
             Canard, *LandingGear, *Pax, *Seats, Luggage, FixedEquip, *FuelCells,\
             *FuelTotal, Battery]
     CG_pos = FindCG(objs)
+
 Im = Findmassmoment(objs) ## Changed by Yihui, 03/18/2021
-    
+
 print("Total Mass: {:4f} kg".format(CG_pos[0]))
 print("Horizontal Tail Area: {:.4f}".format(HorzTailArea))
 print("Vertical Tail Area: {:.4f}".format(VertTailArea))
