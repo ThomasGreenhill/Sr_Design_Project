@@ -76,8 +76,8 @@ ax2.annotate("",
             arrowprops=dict(arrowstyle="<->",
                             connectionstyle="arc3", color=color2, lw=2),
             )
-ax1.text(Range[1]*1.05, np.amax(E_reserve), 'Reserve Charge', rotation = 90, fontsize = 14, color=color2)
-ax1.text(Range[1]*1.15, np.amax(E_b), 'Battery Charge', rotation = 90, fontsize = 14, color=color2)
+ax2.text(Range[1]*1.05, np.amax(E_reserve), 'Reserve Charge', rotation = 90, fontsize = 14, color=color2)
+ax2.text(Range[1]*1.15, np.amax(E_b), 'Battery Charge', rotation = 90, fontsize = 14, color=color2)
 
 #### Final Step 
 plt.title('Impact of range on payload of electric aircraft') 
