@@ -34,18 +34,20 @@ ax1.arrow(Range[2],-np.amax(Wp+Woe)*0.25,0,np.amax(Wp+Woe)*0.2,length_includes_h
     width=0.02, head_width=0.06, head_length=0.30, color='tab:gray')
 ax1.annotate('Max Payload Range',(Range[1],-np.amax(Wp+Woe)*0.3))
 ax1.annotate('Max Ferry Range',(Range[1],-np.amax(Wp+Woe)*0.3))
-ax1.annotate('Operating Empty Weight',
+ax1.annotate("",
             xy=(Range[1]*0.8, 0), xycoords='data',
             xytext=(Range[1]*0.8,np.amax(Woe)), textcoords='data',
             arrowprops=dict(arrowstyle="<->",
                             connectionstyle="arc3", color=color1, lw=2),
             )
-ax1.annotate('Maximum Payload',
+ax1.annotate("",
             xy=(Range[1]*0.6, np.amin(Wp+Woe)), xycoords='data',
             xytext=(Range[1]*0.6, np.amax(Wp+Woe)), textcoords='data',
             arrowprops=dict(arrowstyle="<->",
                             connectionstyle="arc3", color=color1, lw=2),
             )
+ax1.text(Range[1]*0.75, np.amax(Woe), 'Operating Empty Weight', rotation = 90, fontsize = 14, color=color1)
+ax1.text(Range[1]*0.55, np.amax(Woe+Wp), 'Payload Weight', rotation = 90, fontsize = 14, color=color1)
 
 #### Adding Twin Axes to plot another datasets
 ax2 = ax1.twinx() 
@@ -62,19 +64,20 @@ ax2.plot(Range, 0*Range, color = 'tab:gray', linestyle='.-')
 
 
 #### Notations for Battery Charge vs. Range part
-ax2.annotate('Reverse Charge',
+ax2.annotate("",
             xy=(Range[1]*1.1, 0), xycoords='data',
             xytext=(Range[1]*1.1,np.amax(E_reserve)), textcoords='data',
             arrowprops=dict(arrowstyle="<->",
                             connectionstyle="arc3", color=color2, lw=2),
             )
-ax2.annotate('Battery Charge',
+ax2.annotate("",
             xy=(Range[1]*1.2, 0), xycoords='data',
             xytext=(Range[1]*1.2, np.amax(E_b)), textcoords='data',
             arrowprops=dict(arrowstyle="<->",
                             connectionstyle="arc3", color=color2, lw=2),
             )
-
+ax1.text(Range[1]*1.05, np.amax(E_reserve), 'Reserve Charge', rotation = 90, fontsize = 14, color=color2)
+ax1.text(Range[1]*1.15, np.amax(E_b), 'Battery Charge', rotation = 90, fontsize = 14, color=color2)
 
 #### Final Step 
 plt.title('Impact of range on payload of electric aircraft') 
