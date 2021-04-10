@@ -55,7 +55,27 @@ ax2.set_ylabel('Battery Charge (Unit)', color = color2)
 ax2.plot(Range, E_reserve, color = color1, linestyle='-')  
 ax2.plot(Range, E_b, color = color1, linestyle='--') 
 ax2.tick_params(axis ='y', labelcolor = color2) 
-ax2.set_ylim([0, np.amax(E_b)*1.25])
+ax2.set_ylim([-np.amax(E_b)*1.25, np.amax(E_b)*1.25])
+
+#### Reference Line
+
+ax2.plot(Range, 0*Range, color = 'tab:gray', linestyle='.-') 
+
+
+#### Notations forBattery Charge vs. Range part
+ax2.annotate("",
+            xy=(Range[1]*1.1, 0), xycoords='data',
+            xytext=(Range[1]*1.1,np.amax(E_reserve)), textcoords='data',
+            arrowprops=dict(arrowstyle="<->",
+                            connectionstyle="arc3", color=color2, lw=2),
+            )
+ax2.annotate("",
+            xy=(Range[1]*1.2, 0), xycoords='data',
+            xytext=(Range[1]*1.2, np.amax(E_b)), textcoords='data',
+            arrowprops=dict(arrowstyle="<->",
+                            connectionstyle="arc3", color=color2, lw=2),
+            )
+
 
 #### Final Step 
 plt.title('Impact of range on payload of electric aircraft') 
