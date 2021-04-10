@@ -5,6 +5,7 @@ Based on lecture 04.06.2021
 Note:
     1. capital_cost debugged
     2. not checked with authorized data (not yet found)
+    3. CPI calculated from https://www.bls.gov/data/inflation_calculator.htm
 
 History:
     Created, XT. 04.06.2021
@@ -36,7 +37,7 @@ def price_estimate(oper_hrs, fuel_per_hour, oper_yrs, W_empty, V_max, Q_5, FTA, 
     :param C_eng: float, (most recent USD) cost per engine
     :param N_eng: int, number of engine per aircraft
     :param C_avionics: float, (most recent USD) cost per avionic system
-    :param CPI: float, inflation ratio from Jan 2021 to most recent
+    :param CPI: float, [CPI_2012, CPI_2018] inflation ratio from Jan 2012 and Jan 2018 to most recent
     :param profit: bool, True to include profit, false to return only cost
     :param profit_margin: float, profit margin for calculating profit
     :param passenger: bool, Trye for passenger plane, false for cargo plane
@@ -138,34 +139,34 @@ def capital_cost(W_empty, V_max, Q_5, FTA, C_eng, N_eng, C_avionics,
     est_price = est_cost * (1.0 + profit_margin)
 
     if table:
-        data = [['Airframe Engineering', H_E, H_E * hourly_cost['R_E'] * CPI / 1e6],
-                ['Tooling', H_T, H_T * hourly_cost['R_T'] * CPI / 1e6],
-                ['Manufacturing', H_M, H_M * hourly_cost['R_M'] * CPI / 1e6],
-                ['Quality Control', H_Q, H_Q * hourly_cost['R_Q'] * CPI / 1e6],
-                ['Development', None, C_D * CPI / 1e6],
-                ['Flight Test', None, C_F * CPI / 1e6],
-                ['Manufacturing Material', None, C_M * CPI / 1e6],
-                ['Engines', None, C_eng_total / 1e6],
-                ['Avionics', None, C_avionics_total / 1e6],
-                ['Total cost for {} airplanes (w/o profit)'.format(Q_5), None, est_cost / 1e6]]
+        data = [['Airframe Engineering', H_E, H_E * hourly_cost['R_E'] * CPI / 1e3],
+                ['Tooling', H_T, H_T * hourly_cost['R_T'] * CPI / 1e3],
+                ['Manufacturing', H_M, H_M * hourly_cost['R_M'] * CPI / 1e3],
+                ['Quality Control', H_Q, H_Q * hourly_cost['R_Q'] * CPI / 1e3],
+                ['Development', None, C_D * CPI / 1e3],
+                ['Flight Test', None, C_F * CPI / 1e3],
+                ['Manufacturing Material', None, C_M * CPI / 1e3],
+                ['Engines', None, C_eng_total / 1e3],
+                ['Avionics', None, C_avionics_total / 1e3],
+                ['Total cost for {} airplanes (w/o profit)'.format(Q_5), None, est_cost / 1e3]]
 
         if profit:
-            data.append(['Total price for {} airplanes (w/ profit)'.format(Q_5), None, est_price / 1e6])
+            data.append(['Total price for {} airplanes (w/ profit)'.format(Q_5), None, est_price / 1e3])
 
-        data.append(['Total cost per airplane (w/o profit)', None, est_cost / Q_5 / 1e6])
+        data.append(['Total cost per airplane (w/o profit)', None, est_cost / Q_5 / 1e3])
 
         if profit:
-            data.append(['Total price per airplane (w/ profit)', None, est_price / Q_5 / 1e6])
+            data.append(['Total price per airplane (w/ profit)', None, est_price / Q_5 / 1e3])
 
-        headers = ['Category', 'Time [hr]', r'Cost [10^6 USD]']
+        headers = ['Category', 'Time [hr]', r'Cost [10^3 USD]']
 
         if latex_format:
             table_out = tabulate(data, headers=headers, tablefmt="latex",
-                                 numalign='right', floatfmt=(None, '.0f', '.1f'))
+                                 numalign='right', floatfmt=(None, '.0f', '.0f'))
             print(table_out)
         else:
             table_out = tabulate(data, headers=headers, tablefmt="fancy_grid",
-                                 numalign='right', floatfmt=(None, '.0f', '.1f'))
+                                 numalign='right', floatfmt=(None, '.0f', '.0f'))
             print(table_out)
 
     return est_price
@@ -209,9 +210,53 @@ def fuel_cost(oper_hrs, fuel_price_per_hr):
 
 
 if __name__ == '__main__':
+    # price estimation for Jiffy Jerboa
+    # set values
+    W_empty = 2495.50  # lb, operating empty weight
+    V_max = 127  # KIAS, never exceed speed, adopted from Cessna 172 (127 KTAS)
+    N_eng = 8  # eight engine per aircraft
+    CPI_2012 = 1.160364414  # CPI from Jan 2012 to Feb 2021
+    CPI_2018 = 1.061109385  # CPI from Jan 2018 to Feb 2021
+    CPIs = [CPI_2012, CPI_2018]
+
+    # adjustable values
+    Q_5 = 30  # production rate over past 5 years
+    FTA = 2  # test flight airplanes
+
+    C_avionics = 20000 + 2000  # USD, cost for avionics, adopted from SkyView HDX system for Cessna models
+    C_fuel_cell = 12555  # online brief research
+    C_motor = 4509.97 * N_eng  # from EMRAX quote, already being conservative
+    C_eng = C_fuel_cell + C_motor
+
+    profit_margin = 0.1
+    oper_hrs = 4 * 365  # 4 hr/day, just an rough estimate
+    oper_yrs = 1  # assumed based on typical Cessna 172 lasting 30000 hrs
+
+    H2_specific_energy = 142e6  # J / kg
+    # HD100_net_power = 100e3  # W
+    average_power_required = 1100  # W, assumed by forward climb, can change later
+    H2_efficiency = 0.5 * 0.92  # fuel cell eff * motor eff, assumed from specs
+    m_dot_H2 = average_power_required / (H2_specific_energy * H2_efficiency)  # kg / s
+    m_H2_per_hr = m_dot_H2 * 3600  # Kg / s to kg / hr
+    fuel_price_per_kg = 16.51  # 16.51 USD per kg
+    fuel_per_hr = fuel_price_per_kg * m_H2_per_hr
+
+    price_out = price_estimate(oper_hrs, fuel_per_hr, oper_yrs, W_empty, V_max, Q_5, FTA, C_eng, N_eng,
+                               C_avionics, CPIs=CPIs, profit=True,
+                               profit_margin=profit_margin, passenger=False, table=True, latex_format=False)
+
+    print('For Jiffy Jerboa (in USD 2021)')
+    print('----------------------------')
+    print('Total price: {:.1e}'.format(price_out[0]))
+    print('Price per aircraft {:.1e}'.format(price_out[0] / Q_5))
+    print('Capital price per aircraft: {:.1e}'.format(price_out[1] / Q_5))
+    print('Operating price per aircraft: {:.1e}'.format(price_out[2] / Q_5))
+    print('----------------------------')
+
+
     """
-    capital_cost test case from 04.06.2021 lecture example 
-    """
+    # capital_cost test case from 04.06.2021 lecture example 
+    
     # rate of inflation from Jan 2012 to Jan 2021
     # obtained from:
     # https://www.bls.gov/data/inflation_calculator.htm
@@ -234,15 +279,15 @@ if __name__ == '__main__':
     # The test case seems to ignore the manufacturing material cost
     # Other than that, the func is good
 
-    """
-    operating_cost test
-    """
+    
+    # operating_cost test
+    
     oper_hrs = 456
     oper_cost = operating_cost(oper_hrs, CPI=1)
 
-    """
-    price_estimate (main) test
-    """
+    
+    # price_estimate (main) test
+    
     oper_yrs = 10
     CPIs = (1.1604, 1.0611)
     fuel_per_hr = 20
@@ -250,3 +295,4 @@ if __name__ == '__main__':
                                  C_avionics, CPIs=CPIs, profit=True,
                                  profit_margin=profit_margin, passenger=False, table=True, latex_format=False)
     print(price_out[0] / 1e6)
+    """
