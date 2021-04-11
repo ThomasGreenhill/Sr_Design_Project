@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ## Set-up
 
 import numpy as np
@@ -45,6 +43,7 @@ color1 = 'tab:blue'; color2 = 'tab:red'
 fig, ax1 = plt.subplots() 
 
 #### Weight vs. Range
+
 ax1.set_xlabel('Range (km)') 
 ax1.set_ylabel('Weight (N)', color = color1) 
 ax1.plot([0, Range[-1]], [Woe, Woe], color = color1, linestyle='-')  
