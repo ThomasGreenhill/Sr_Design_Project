@@ -2,8 +2,20 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
+sys.path.append("../Utilities")
 import os
 savedir = os.path.abspath(os.path.dirname(__file__))
+
+try:
+    import formatfigures
+    formatfigures.formatsubfigures()
+    formatfigures.formatfigures()
+    latex = True
+except:
+    pass
+    print("Not using latex formatting")
+    latex = False
 
 ## Payload Diagram Calculation
 
@@ -34,8 +46,8 @@ R_C = n_tot*LD*(E_0-E_1)/OEW/1000  # Range of point C in km
 Range = [0, R_B, R_C]
 Wp = MTOW-OEW
 Woe = OEW
-E_reserve = E_1
-E_b = E_0
+E_reserve = E_1*2.77778e-7
+E_b = E_0*2.77778e-7
 
 ## Payload Diagram Formulation
 color1 = 'tab:blue'; color2 = 'tab:red'
@@ -55,17 +67,17 @@ ax1.set_ylim([0, np.amax(Wp+Woe)*1.25])
 #### Notations for Weight vs. Range part
 plt.annotate('', xy=(50,0), xytext=(50,Woe), arrowprops=dict(arrowstyle="<->",
              connectionstyle="arc3", color=color1, lw=2))
-plt.text(55, 8000, "Operating\nEmpty\nWeight")
+plt.text(55, 7600, "Operating\nEmpty\nWeight")
 
 plt.annotate('', xy=(50,Woe), xytext=(50,Woe+Wp), arrowprops=dict(arrowstyle="<->",
              connectionstyle="arc3", color=color1, lw=2))
-plt.text(55, 12000, "Max Payload")
+plt.text(55, 11700, "Max Payload")
 
 #### Adding Twin Axes to plot another datasets
 ax2 = ax1.twinx() 
   
 #### Battery Charge vs. Range
-ax2.set_ylabel('Battery Charge (J)', color = color2) 
+ax2.set_ylabel('Total Available Energy (kWh)', color = color2) 
 ax2.plot([0, Range[-1]], [E_reserve, E_reserve], color = color2, linestyle='-')  
 ax2.plot(Range, [E_reserve, E_b+E_reserve, E_b+E_reserve], color = color2, linestyle='--') 
 ax2.tick_params(axis ='y', labelcolor = color2) 
@@ -74,11 +86,11 @@ ax2.set_ylim([0, np.amax(E_b)*1.25])
 #### Notations for Battery Charge vs. Range part
 plt.annotate('', xy=(230,0), xytext=(230,E_reserve), arrowprops=dict(arrowstyle="<->",
              connectionstyle="arc3", color=color2, lw=2))
-plt.text(160, 0.25e8, "Reserve Charge")
+plt.text(160, 5, "Reserves")
 
 plt.annotate('', xy=(240,0), xytext=(240,E_b+E_reserve), arrowprops=dict(arrowstyle="<->",
              connectionstyle="arc3", color=color2, lw=2))
-plt.text(205, 3.8e8, "Battery\nCharge")
+plt.text(205, 90, "Full\nFuel\nTank")
 
 #### Final Step 
 plt.title('Impact of Payload on Range') 
