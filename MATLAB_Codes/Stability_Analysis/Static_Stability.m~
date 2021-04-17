@@ -32,9 +32,9 @@ x_AC = xbar_AC*cbar
 xbar_CG = (0.614) % Empty
 SM = (xbar_AC-xbar_CG)
 
-xbar_CG = (3.525-3) % OWE
+xbar_CG = (3.547-3)/cbar % OWE
 SM = (xbar_AC-xbar_CG)
 
-xbar_CG = (0.432) % TOGW
+xbar_CG = (0.43)/cbar % TOGW
 
 SM = (xbar_AC-xbar_CG)

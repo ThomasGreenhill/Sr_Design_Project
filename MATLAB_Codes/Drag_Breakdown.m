@@ -16,7 +16,7 @@ T = 276.263;
 R = 278.14;
 tc = 0.12;
 
-a = sqrt(k*R*T);
+a = sqrt(k*R*T);R
 Ucruise = 62;
 Ma = Ucruise/a;
 
@@ -138,7 +138,7 @@ RLSfp = 1.05;
 Cffp = Cf(Ma, Refp);
 
 % Front Pylon Zero-Lift Drag
-CD0fp = CD0ww(Rfp,RLSfp,Cffp,Lp,tc,Swet_vt,S_vt);
+CD0fp = CD0ww(Rfp,RLSfp,Cffp,Lp,tc,Swet_vt*Sfp/Svt,Sfp);
 
 ffp = CD0fp*Sfp;
 
