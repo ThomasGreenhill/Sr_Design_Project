@@ -76,5 +76,5 @@ plt.legend(loc='upper center')
 # plt.savefig('./Figures/battery_energy.png', bbox_inches='tight')
 time_emgcy = tf - t_vec[len(t_vec)-2] + 30000/P_emgcy*3600
 print("Emergency Fuel Reserve Time (Hydrogen Fuel + Battery) = ", time_emgcy/60,"minutes")
-plt.savefig("./h2_reserve_diagram.jpg")
+plt.savefig("./Figures/h2_reserve_diagram.jpg")
 plt.show()
