@@ -149,15 +149,18 @@ plt.gca().set_title("Propeller Pitch Variation vs. Inlet Airspeed")
 
 # Analyze the propeller with the variable pitch propeller function
 # Plotting with several different RPM values
+lstyles = ["-", "--", "-.", ":","-", "--", "-.", ":"]
+jj = 0
 for RPM in range(500, 3500, 500):
     for ii in range(ll):
         prop.RPM = RPM
         J_var[ii], P_design_var[ii], T_design_var[ii], Q_design_var[ii], eta_P_var[ii], d_bet[ii] = prop_analysis_var_pitch(v_seq[ii], v_design, Emrax188_HV_CC_mod, is_HP, atm, prop, m0_fn, Cd_fn)
-    sp1.plot(v_seq, T_design_var,label='RPM = {}'.format(RPM))
+    sp1.plot(v_seq, T_design_var, lstyles[jj], label='RPM = {}'.format(RPM))
     # sp2.plot(v_seq, Q_design_var,label='RPM = {}'.format(RPM))
     # sp3.plot(v_seq, P_design_var,label='RPM = {}'.format(RPM))
-    sp4.plot(v_seq, eta_P_var,label='RPM = {}'.format(RPM))
-    sp5.plot(v_seq, d_bet,label='RPM = {}'.format(RPM))
+    sp4.plot(v_seq, eta_P_var, lstyles[jj], label='RPM = {}'.format(RPM))
+    sp5.plot(v_seq, d_bet, lstyles[jj], label='RPM = {}'.format(RPM))
+    jj += 1
 
 sp1.legend()
 # sp2.legend()
@@ -189,11 +192,13 @@ plt.gca().set_title("Power vs. Inlet Rotor Angular Rate")
 
 RPM = numpy.linspace(500, 3000, ll)
 
+jj = 0
 for v_in in range(2, 76, 16):
     for ii in range(ll):
         prop.RPM = copy.deepcopy(RPM[ii])
         J_var[ii], P_design_var[ii], T_design_var[ii], Q_design_var[ii], eta_P_var[ii], d_bet[ii] = prop_analysis_var_pitch(v_in, v_design, Emrax188_HV_CC_mod, is_HP, atm, prop, m0_fn, Cd_fn)
-    sp1.plot(RPM, T_design_var,label=r'$Vin = {}$ m/s'.format(v_in))
+    sp1.plot(RPM, T_design_var, lstyles[jj], label=r'$Vin = {}$ m/s'.format(v_in))
+    jj += 1
     
 sp2.plot(RPM, Q_design_var,label='Propeller')
 sp3.plot(RPM, P_design_var,label='Propeller')
@@ -210,8 +215,8 @@ nn = 3
 frac = numpy.linspace(1,0.9,nn)
 
 for jj in range(nn):
-    sp2.plot(xx,QQ(xx)*frac[jj],label='{}\% of Max Continuous (Motor)'.format(int(frac[jj]*100)),linestyle='dashed')
-    
+    sp2.plot(xx,QQ(xx)*frac[jj], lstyles[jj], label='{}\% of Max Continuous (Motor)'.format(int(frac[jj]*100)),linestyle='dashed')
+
 sp3.plot(xx,PP(xx)*1,label='{}\% of Max Continuous (Motor)'.format(int(100)),linestyle='dashed')
 sp1.legend()
 sp2.legend()
