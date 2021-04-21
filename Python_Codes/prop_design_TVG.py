@@ -24,7 +24,7 @@ except:
 
 def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
     # return r, c, beta, P_design, T_design, Q_design, eta_P, theta
-    '''
+    """
     prop_design_TVG
     Version of prop_design from TGreenhill
     Based on constant Cl
@@ -34,12 +34,12 @@ def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
     Inputs:
             AtmData: class including v_inf, temp, pres, k, Re, etc
             R: (m) Propeller radius
-            n: (Hz) Propeller angular rate 
+            n: (Hz) Propeller angular rate
             T_req: (N) Required thrust
             Cl: Blade sectional lift coefficient -- typical 0.4
             B: Number of blades
             a_0: (rad) Blade sectional zero-lift angle of attack
-            
+
 
     Outputs:
            r: Vector of nn points from 0 to R along a blade
@@ -50,7 +50,7 @@ def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
            Q_design: Propeller design torque
            eta_p: Propeller design efficiency
            the: Propeller design theta angle
-           
+
     Inner function:
             m0_fn: Kind of like lift curve slope function -- typical:
                 m0_fn = @(Ma) (2 * pi ./ sqrt(1 - Ma.^2)) .* (Ma <= 0.9) + (2 * pi ./ ...
@@ -66,13 +66,13 @@ def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
 
     History:
         02.09.2021 imported from previous project, TGreenhill
-        02.13.2021 translated and editted by XTang
+        02.13.2021 translated and edited by XTang
         02.13.2021 briefly debugged by XTang
         02.15.2021 verified by TVG and improved iteration tolerance from 0 decimal places to 12 decimal places
         02.25.2021 added initial propeller design as: if __name__ == "main", TVG
         02.27.2021 basic design in if __name__ == "main"
         02.28.2021 added Cd_fn and m0_fn as inputs to function
-    '''
+    """
 
     if not AtmData.is_SI:
         AtmData.vel *= 0.3048  # ft/s to m/s
