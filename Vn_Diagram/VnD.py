@@ -4,7 +4,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import os
+sys.path.append("../Utilities")
 savedir = os.path.abspath(os.path.dirname(__file__))
+
+try:
+    import formatfigures
+    formatfigures.formatsubfigures()
+    latex = True
+except:
+    pass
+    print("Not using latex formatting")
+    latex = False
 
 
 ###################### Turning Diagram ######################
@@ -15,17 +25,19 @@ from VnDF import ALLF
 from VnDF import ALtr
 
 #### Parameters
-n_max =  ## Put Value HERE
-n_min =  ## Put Value HERE
-W =  ## Put Value HERE
-S =  ## Put Value HERE
-rho =  ## Put Value HERE
-CL_max =  ## Put Value HERE
-CL_min =  ## Put Value HERE
-unit =  ## Put Value HERE
+W =  2922.5 #lbf = 13000 N
+n_max =  2.1+(24000/(W+10000)) # formula provided by FAR part 23
+n_min =  0.4*n_max # formula provided by FAR part 23
+S =  172.27 #ft^2
+rho = 0.00237 #slug/ft^3
+CL_max = 1.8 # Based on FS data
+CL_min = 1.6 # Best guess
+unit = 'e' # English units
 
 #### Calculation
-Vmax =  200; V = np.linspace(0,Vmax,400) # Vmax can be taken as V_D  ## Put Value HERE for Vmax
+VC = 203.41 #ft/s = 62 m/s
+VD = VC/0.8 # Best guess
+Vmax =  VD; V = np.linspace(0,Vmax,400) # Vmax can be taken as V_D  ## Put Value HERE for Vmax
 Vs = Cal_Vs(W,S,rho,CL_max)
 VA = np.sqrt(n_max)*Vs
 n_SL = SLLF(V, n_max)
@@ -34,7 +46,7 @@ Rmin_SL = SLtr(V, n_max, unit)
 Rmin_AL = ALtr(V, Vs, unit)
 
 #### Make plots
-g, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=False, figsize=(10,4))
+g, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=False, figsize=(10,10))
 ########## Subplot 1
 ax1.plot(V, n_SL, 'r-', V, n_AL, 'b--')
 ax1.set_ylabel(r'Load Factor $n$') 
@@ -69,7 +81,7 @@ n_negative = np.maximum(-(Vsnn/Vsn)**2,n_min)
 #### Plot Preparation
 xr = [Vsp, Vsp, Vsn, Vsn]; yr = [1, 0, 0, -1]
 #### Make plots
-plt.figure(figsize=(9, 3))
+plt.figure(figsize=(10,10))
 plt.plot(Vsnn, n_positive, 'k', Vsnn, n_negative, 'k')
 plt.plot(xr,yr,'r-')
 plt.axis([0, 200, -2, 2])
@@ -89,17 +101,19 @@ plt.show()
 ###################### Gust Diagram ######################  
 #### Continue to use V in section 1
 from VnDF import Calc_Vgust
-c_av = ## Put Value HERE
-CLa = ## Put Value HERE
-VC = ## Put Value HERE
-VD = ## Put Value HERE
-VB = ## Put Value HERE
+c_av = 4.15 #ft
+CLa = 2*np.pi #per rad
+mu = 2*W/S/(rho*c_av*2*np.pi*32.17)
+Kg = 0.88*mu/(5.4+mu)
+VS1 = 88.58 #ft/s = 27 m/s
+Uref = 10 #ft/s (reference gust speed)
+VB = VS1*(1+Kg*Uref*VC*CLa/(498*W))**(0.5)
 n_GD = []; V_GD = [VB,VC,VD]; condition = ['B','C','D']
 for Vr,c in zip(V_GD,condition):
     n_GD.append(Calc_Vgust(Vr,W,S,rho,c_av,CLa,c))
 n_GD.insert(0,1); V_GD.insert(0,0)
 #### Make plots
-plt.figure(figsize=(9, 3))
+plt.figure(figsize=(10,10))
 plt.plot(V_GD,n_GD,'k') # for positive Ude
 plt.plot(V_GD,2*np.ones(len(n_GD))-n_GD,'k') # for negative Ude
 plt.axis([0, 200, -1, 3])
@@ -116,7 +130,7 @@ plt.show()
 ##########################################################
 
 ###################### Composite V-n Diagram ######################  
-plt.figure(figsize=(12, 4))
+plt.figure(figsize=(10,12))
 #### From PART B
 plt.plot(Vsnn, n_positive, 'k', Vsnn, n_negative, 'k')
 plt.plot(xr,yr,'r-')

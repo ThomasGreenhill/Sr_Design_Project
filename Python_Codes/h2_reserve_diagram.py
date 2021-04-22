@@ -65,14 +65,14 @@ plt.fill_between(t_vec[0:len(t_vec)-1]/3600, e_reserve*numpy.ones(numpy.size(t_v
 plt.fill_between(t_vec[len(t_vec)-2:len(t_vec)]/3600, e_time[len(t_vec)-2:len(t_vec)],color=(153/255,0,51/255),alpha=0.9,label="Hydrogen Fuel Available - Emergency")
 plt.plot(t_vec/3600, e_total*numpy.ones(numpy.size(t_vec)), 'k',label = "Full Tank")
 
-plt.plot((2148.06/3600, 2148.06/3600),(0,7),'k--',label="Divert")
-plt.plot((t_vec[len(t_vec)-2]/3600, t_vec[len(t_vec)-2]/3600),(0,7),'k-.',label="Emergency Reserves")
-plt.ylim((0,7))
+plt.plot((2148.06/3600, 2148.06/3600),(0,8),'k--',label="Divert")
+plt.plot((t_vec[len(t_vec)-2]/3600, t_vec[len(t_vec)-2]/3600),(0,8),'k-.',label="Emergency Reserves")
+plt.ylim((0,8))
 plt.ylabel("Hydrogen Fuel (kg)")
 plt.xlabel("Time (h)")
 plt.title("Hydrogen Reserves Over Mission")
 
-plt.legend(loc='upper center')
+plt.legend(loc='best')
 # plt.savefig('./Figures/battery_energy.png', bbox_inches='tight')
 time_emgcy = tf - t_vec[len(t_vec)-2] + 30000/P_emgcy*3600
 print("Emergency Fuel Reserve Time (Hydrogen Fuel + Battery) = ", time_emgcy/60,"minutes")
