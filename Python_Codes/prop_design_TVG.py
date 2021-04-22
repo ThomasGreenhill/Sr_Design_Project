@@ -22,7 +22,7 @@ except:
     latex = False
 
 
-def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
+def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn, num=201):
     # return r, c, beta, P_design, T_design, Q_design, eta_P, theta
     """
     prop_design_TVG
@@ -91,7 +91,6 @@ def prop_design(AtmData, Propeller, T_req, m0_fn, Cd_fn):
     v_inf = AtmData.vel
 
     # Number of points from root to tip on the propeller
-    num = 201
     D = 2 * R
     r = numpy.linspace(0, R, num)
     x = r / R
