@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import sys
 
 import os
+sys.path.append("../Utilities")
 
 savedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -92,7 +93,7 @@ Rmin_AL = ALtr(V, Vs, unit)
 
 #### Make plots
 
-g, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=False, figsize=(10,5))
+g, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=False, figsize=(10,8))
 
 ########## Subplot 1
 
@@ -162,7 +163,7 @@ xr = [Vsp, Vsp, Vsn, Vsn]; yr = [1, 0, 0, -1]
 
 #### Make plots
 
-plt.figure(figsize=(15,7.5))
+plt.figure(figsize=(10,8))
 
 plt.plot(Vsnn, n_positive, 'k', Vsnn, n_negative, 'k')
 
@@ -228,7 +229,7 @@ n_GD.insert(0,1); V_GD.insert(0,0)
 
 #### Make plots
 
-plt.figure(figsize=(15,7.5))
+plt.figure(figsize=(10,8))
 
 plt.plot(V_GD,n_GD,'k') # for positive Ude
 
@@ -248,9 +249,9 @@ plt.text(VC, -n_max+0.75, r'$V_C$', ha='center') # The location of the notation 
 
 plt.text(VD, -n_max+0.75, r'$V_D$', ha='center') # The location of the notation can be adjusted
 
-plt.text(Vmax*0.95*1.2, -n_max+0.75, r'Equivalent Airspeed $V_e$', ha='center') # The location of the notation can be adjusted
+plt.text(Vmax*0.95*1.2, -n_max+0.25, r'Equivalent Airspeed $V_e$', ha='center') # The location of the notation can be adjusted
 
-plt.title('Generic V-n gust diagram')
+plt.title('Generic V-n Gust Diagram')
 
 plt.ylabel(r'Load Factor $n$') 
 
@@ -266,7 +267,7 @@ plt.show()
 
 ###################### Composite V-n Diagram ######################  
 
-plt.figure(figsize=(15,7.5))
+plt.figure(figsize=(10,8))
 
 #### From PART B
 
