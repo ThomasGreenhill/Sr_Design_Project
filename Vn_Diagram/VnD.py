@@ -27,11 +27,11 @@ from VnDF import ALtr
 #### Parameters
 W =  2922.5 #lbf = 13000 N
 n_max =  2.1+(24000/(W+10000)) # formula provided by FAR part 23
-n_min =  0.4*n_max # formula provided by FAR part 23
+n_min =  -0.4*n_max # formula provided by FAR part 23
 S =  172.27 #ft^2
 rho = 0.00237 #slug/ft^3
 CL_max = 1.8 # Based on FS data
-CL_min = 1.6 # Best guess
+CL_min = -1.6 # Best guess
 unit = 'e' # English units
 
 #### Calculation
@@ -65,7 +65,7 @@ g.text(Vs/Vmax+0.025, 0.06, r'$V_s$', ha='center') # The location of the notatio
 g.text(VA/Vmax+0.010, 0.06, r'$V_A$', ha='center') # The location of the notation can be adjusted 
 plt.gca().axes.get_xaxis().set_visible(False)
 plt.savefig('%s/Figure_TD.png'%(savedir))
-plt.show()
+# plt.show()
 ############################################################
 
 ###################### Maneuvering Diagram ###################### 
@@ -95,7 +95,7 @@ plt.text(Vsn, -2.25, r'$V_{s_{-1}}$', ha='center') # The location of the notatio
 plt.text(Vmax*0.9, -2.25, r'Equivalent Airspeed $V_e$', ha='center') # The location of the notation can be adjusted
 plt.gca().axes.get_xaxis().set_visible(False)
 plt.savefig('%s/Figure_MD.png'%(savedir))
-plt.show()
+# plt.show()
 ################################################################## 
 
 ###################### Gust Diagram ######################  
