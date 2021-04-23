@@ -47,17 +47,17 @@ def Vspn(W,S,rho,CL_max,CL_min):
     Vsn = Cal_Vs(-W,S,rho,CL_min) #### Vs_-1
     return Vsp, Vsn
 
-## Generic V-n gust diagram
+## Generic V-n gust diagram (Based on FAR Part 25)
 def Calc_Vgust(V,W,S,rho,c_av,CLa,condition):
     g_e = 32.2
     mu_g = (W/S)/(0.5*rho*c_av*g_e*CLa)
     K_g = (0.88*mu_g)/(5.3+mu_g)
     if condition == 'B':
-        Ude = 66
+        Ude = 56
     elif condition == 'C':
-        Ude = 50
+        Ude = 56
     elif condition == 'D':
-        Ude = 25
+        Ude = 28
     else:
         print("Wrong codition!")
         exit()            
