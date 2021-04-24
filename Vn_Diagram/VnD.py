@@ -138,7 +138,6 @@ plt.gca().axes.get_xaxis().set_visible(False)
 
 plt.savefig('%s/Figure_TD.png'%(savedir))
 
-plt.show()
 
 ############################################################
 
