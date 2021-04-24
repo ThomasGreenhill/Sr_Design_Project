@@ -8,18 +8,17 @@ History:
 %}
 
 clc
-clear all
+clear
 close all
 %% Manually Input This Section!!!
 % Version Direction
 versionDir = "v1.5";
 
 % Save file name
-fileName = "cruise_long";
+fileName = "cruise_zoomed";
 
 % Included flap configurations
 flapConfig = ["f0", "f4u", "f4d"];
-
 
 %% Not designed to change in this section
 saveParentDir = "./FS Data";
@@ -27,7 +26,8 @@ fileType = ".mat";
 savePath = strcat(saveParentDir, "/", versionDir, "/", fileName, fileType);
 numDataSet = length(flapConfig);
 data.fields = flapConfig;
-fprintf(strcat("******Inputting data for "))
+fprintf(strcat("******Inputting data for ", fileName, "******\n"))
+sizes = zeros(2, numDataSet);
 
 for ii = 1:numDataSet
     
@@ -41,13 +41,18 @@ for ii = 1:numDataSet
             
             if isnumeric(inputMat)
                 cont = false;
-                fprintf(strcat("'", flapConfig(ii), "' successfully added\n\n"))
+                [numRows, numCols] = size(inputMat);
+                fprintf(strcat("Field '", flapConfig(ii), "' successfully added\n\n"))
             end
             
         end
         data.(flapConfig{ii}) = inputMat;
+        sizes(:, = [numRows; numCols];
+        sizes = [sizes, newColArr];
     end
     
 end
 
+data.size = sizes;
+fprintf("All fields successfully added!\n\n")
 save(savePath, 'data');

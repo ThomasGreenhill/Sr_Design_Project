@@ -1,0 +1,28 @@
+function [figH] = PlotLiftCurve(dataSet, caseName, lgd, figSize)
+
+    % Checking
+    if not(isstring(caseName)) && not(ischar(caseName))
+       error("Error: caseName should be a string or a character vector") 
+    end
+    
+    if not(isstring(lgd)) && not(ischar(lgd))
+        error("Error: lgd shou
+
+
+    fieldNames = dataSet.data.fields;
+    figH = figure('Renderer', 'painters', 'Position', figSize);
+    hold on
+    for ii = 1:length(fieldNames)
+        matrix = dataSet.data.fieldNames(ii);
+        alf_arr = matrix(:,1);
+        CL_arr = matrix(:,7);
+        plot(alf_arr, CL_arr) 
+    end
+    hold off
+    legend(lgd, 'Location', 'best', 'Interpreter', 'latex')
+    title(strcat("Lift Curve for ", caseName), 'Interpreter', 'latex')
+    xlabel("$Angle of Attack \alpha$", 'Interpreter', 'latex')
+    ylabel("Lift Coefficient $C_L$", 'Interpreter', 'latex')
+    grid on
+
+end
