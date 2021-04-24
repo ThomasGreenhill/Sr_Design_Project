@@ -96,42 +96,49 @@ Rmin_AL = ALtr(V, Vs, unit)
 g, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=False, figsize=(10,8))
 
 ########## Subplot 1
+ax1.set_title("Load Factor and Turn Radius vs. Airspeed with Aerodynamic and Structural Limits", y=1.1)
 
-ax1.plot(V, n_SL, 'r-', V, n_AL, 'b--')
+ax1.plot(V, n_SL, 'r-', label="Structural Limits")
+ax1.plot(V, n_AL, 'b-.')
 
 ax1.set_ylabel(r'Load Factor $n$') 
 
-ax1.vlines(x = Vs, ymin=-0.1, ymax=n_max*1.2, colors='k', linestyles='--')
+ax1.vlines(x = Vs, ymin=-0.1, ymax=n_max*1.2, colors='k', linestyles='--',label="Aerodynamic Limits")
 
 ax1.vlines(x = VA, ymin=-0.1, ymax=n_max*1.2, colors='k', linestyles='--')
 
-ax1.set_xlim([0, Vmax*1.2]); ax1.set_ylim([0, n_max*1.2])
+ax1.set_xlim([0.6*Vs, VA*1.2]); ax1.set_ylim([0, n_max*1.2])
 
 ########## Subplot 2
 
-ax2.plot(V, Rmin_SL, 'r-', V, Rmin_AL, 'b--')
+ax2.plot(V, Rmin_SL, 'r-', label="Structural Limits")
+ax2.plot(V, Rmin_AL, 'b-.', )
 
-ax2.set_ylabel(r'Turn Radius $R$') 
+ax2.set_ylabel(r'Turn Radius $R$ (ft)') 
 
-ax2.vlines(x = Vs, ymin=-0.1, ymax=2000, colors='k', linestyles='--')
+ax2.vlines(x = Vs, ymin=-0.1, ymax=2000, colors='k', linestyles='--',label="Aerodynamic Limits")
 
 ax2.vlines(x = VA, ymin=-0.1, ymax=2000, colors='k', linestyles='--')
 
-ax2.set_xlim([0, Vmax]); ax2.set_ylim([0, 2000])
+ax2.set_xlim([0.6*Vs, VA*1.2]); ax2.set_ylim([0, 2000])
+ax2.legend(loc='upper center')
 
 ######### Notations
 
 g.text(0.5, 0.06, r'Airspeed $V$', ha='center')
 
-g.text(Vs/(1.2*Vmax)+0.1, 0.06, r'$V_s$', ha='center') # The location of the notation can be adjusted 
+g.text(Vs/(1.2*VA)+0.12-0.6*Vs/(1.2*VA), 0.89, str(round(Vs*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
+g.text(Vs/(1.2*VA)+0.12-0.6*Vs/(1.2*VA), 0.06, r'$V_s$', ha='center') # The location of the notation can be adjusted 
 
-g.text(VA/(1.2*Vmax)+0.075, 0.06, r'$V_A$', ha='center') # The location of the notation can be adjusted 
+g.text(VA/(1.2*VA)+0.14-0.6*Vs/(1.2*VA), 0.89, str(round(VA*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
+g.text(VA/(1.2*VA)+0.14-0.6*Vs/(1.2*VA), 0.06, r'$V_A$', ha='center') # The location of the notation can be adjusted 
 
 plt.gca().axes.get_xaxis().set_visible(False)
 
+
 plt.savefig('%s/Figure_TD.png'%(savedir))
 
-# plt.show()
+plt.show()
 
 ############################################################
 
@@ -177,13 +184,16 @@ plt.vlines(x = Vsp, ymin=-1.2*n_max, ymax=1.2*n_max, colors='k', linestyles='--'
 
 plt.vlines(x = Vsn, ymin=-1.2*n_max, ymax=1.2*n_max, colors='k', linestyles='--')
 
-plt.title('Generic V-n maneuver diagram')
+plt.title('V-n Maneuver Diagram', y=1.04)
 
+plt.text(VA, n_max+0.9, str(round(VA*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
 plt.text(VA, -1.2*n_max-0.25, r'$V_A$', ha='center') # The location of the notation can be adjusted
 
-plt.text(Vsp, -1.2*n_max-0.25, r'$V_{s_{1}}$', ha='center') # The location of the notation can be adjusted
+plt.text(Vsp-8, n_max+0.9, str(round(Vsp*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
+plt.text(Vsp-3, -1.2*n_max-0.25, r'$V_{s_{1}}$', ha='center') # The location of the notation can be adjusted
 
-plt.text(Vsn, -1.2*n_max-0.25, r'$V_{s_{-1}}$', ha='center') # The location of the notation can be adjusted
+plt.text(Vsn+10, n_max+0.9, str(round(Vsn*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
+plt.text(Vsn+5, -1.2*n_max-0.25, r'$V_{s_{-1}}$', ha='center') # The location of the notation can be adjusted
 
 plt.text(Vmax*0.95, -1.2*n_max-0.25, r'Equivalent Airspeed $V_e$', ha='center') # The location of the notation can be adjusted
 
@@ -243,15 +253,18 @@ plt.vlines(x = VC, ymin=-n_max+1, ymax=n_max+1, colors='k', linestyles='--')
 
 plt.vlines(x = VD, ymin=-n_max+1, ymax=n_max+1, colors='k', linestyles='--')
 
+plt.text(VB-8, n_max+1.1, str(round(VB*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
 plt.text(VB, -n_max+0.75, r'$V_B$', ha='center') # The location of the notation can be adjusted
 
+plt.text(VC+8, n_max+1.1, str(round(VC*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
 plt.text(VC, -n_max+0.75, r'$V_C$', ha='center') # The location of the notation can be adjusted
 
+plt.text(VD, n_max+1.1, str(round(VD*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
 plt.text(VD, -n_max+0.75, r'$V_D$', ha='center') # The location of the notation can be adjusted
 
 plt.text(Vmax*0.95*1.2, -n_max+0.25, r'Equivalent Airspeed $V_e$', ha='center') # The location of the notation can be adjusted
 
-plt.title('Generic V-n Gust Diagram')
+plt.title('V-n Gust Diagram', y=1.04)
 
 plt.ylabel(r'Load Factor $n$') 
 
@@ -259,7 +272,7 @@ plt.gca().axes.get_xaxis().set_visible(False)
 
 plt.savefig('%s/Figure_GD.png'%(savedir))
 
-plt.show()
+# plt.show()
 
 ##########################################################
 
@@ -283,11 +296,14 @@ plt.vlines(x = Vsn, ymin=-n_max+1, ymax=n_max+1, colors='k', linestyles='--')
 
 plt.title('Generic V-n maneuver diagram')
 
+plt.text(VA-12, n_max+1.1, str(round(VA*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
 plt.text(VA, -n_max+0.75, r'$V_A$', ha='center') # The location of the notation can be adjusted
 
-plt.text(Vsp, -n_max+0.75, r'$V_{s_{1}}$', ha='center') # The location of the notation can be adjusted
+plt.text(Vsp-10, n_max+1.1, str(round(Vsp*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
+plt.text(Vsp-3, -n_max+0.75, r'$V_{s_{1}}$', ha='center') # The location of the notation can be adjusted
 
-plt.text(Vsn, -n_max+0.75, r'$V_{s_{-1}}$', ha='center') # The location of the notation can be adjusted
+plt.text(Vsn+12, n_max+1.1, str(round(Vsn*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
+plt.text(Vsn+5, -n_max+0.75, r'$V_{s_{-1}}$', ha='center') # The location of the notation can be adjusted
 
 #### From PART C
 
@@ -301,17 +317,20 @@ plt.vlines(x = VC, ymin=-n_max+1, ymax=n_max+1, colors='k', linestyles='--')
 
 plt.vlines(x = VD, ymin=-n_max+1, ymax=n_max+1, colors='k', linestyles='--')
 
+plt.text(VB, n_max+1.3, str(round(VB*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
 plt.text(VB, -n_max+0.75, r'$V_B$', ha='center') # The location of the notation can be adjusted
 
+plt.text(VC+8, n_max+1.1, str(round(VC*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
 plt.text(VC, -n_max+0.75, r'$V_C$', ha='center') # The location of the notation can be adjusted
 
+plt.text(VD, n_max+1.1, str(round(VD*0.592484,1))+" kn", ha='center') # The location of the notation can be adjusted
 plt.text(VD, -n_max+0.75, r'$V_D$', ha='center') # The location of the notation can be adjusted
 
 plt.axis([0, Vmax*1.2, -n_max+1, n_max+1])
 
-plt.title('Composite V-n gust diagram')
+plt.title('Composite V-n gust diagram',y=1.05)
 
-plt.text(Vmax*0.95*1.2, -n_max+0.75, r'Equivalent Airspeed $V_e$', ha='center') # The location of the notation can be adjusted
+plt.text(Vmax*0.95*1.3, -n_max+0.75, r'Equivalent Airspeed $V_e$', ha='center') # The location of the notation can be adjusted
 
 plt.ylabel(r'Load Factor $n$') 
 
