@@ -1,0 +1,10 @@
+%{
+Plots the FS data, stored in folder ./Figures
+
+History:
+    04.23.2021, XT. Created
+%}
+
+%% Extracting data
+parentDit = "./FS Data";
+file
