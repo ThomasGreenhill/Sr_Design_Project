@@ -8,6 +8,7 @@ formatlatex()
 warning('off', 'all')
 mkdir './Figures'
 warning('on', 'all')
+set(groot, 'DefaultLegendInterpreter', 'latex')
 
 CDo = 0.026293749772854;
 %% Load the data
@@ -205,16 +206,16 @@ plot(CL_nf_44z, CD_nf_44z, 'DisplayName', "No Flap Deflection")
 hold on
 plot(CL_fu_44z, CD_fu_44z, 'DisplayName', "Flap Up 4$^{\circ}$")
 plot(CL_fd_44z, CD_fd_44z, 'DisplayName', "Flap Down 4$^{\circ}$")
-legend
 xlabel("Lift Coefficient $C_L$", 'FontSize', sizeFont)
 ylabel("Total Airframe Drag Coefficient $C_D$", 'FontSize', sizeFont)
 xticks(CL_ticks_zoomed)
 yticks(CD_ticks_zoomed)
-scatter(0, CDo,1000,'+','k')
-text(CL_fu_62z(29)+0.05,CDo,strcat("$C_{D_{0_{ret}}} =",num2str(CDo,4),"$"),'fontsize',18)
 xlim([-0.25, 0.75])
-text(CL_fu_62z(29)+0.05,CDo,strcat("$C_{D_{0_{ext}}} =",num2str(CDo,4),"$"),'fontsize',18)
+scatter(0, CDo,1000,'+','k', 'DisplayName', '$C_{D_o}$')
+text(CL_fu_62z(29)+0.05,CDo,strcat("$C_{D_{0_{ret}}} =",num2str(CDo,4),"$"),'fontsize',18)
 title(["Zoomed Drag Coefficient vs. Lift Coefficient for Jiffy Jerboa", "During Climb Cruise: 44 m/s with Varying Flap Deflection (Gear Extended)"], 'FontSize', sizeFont)
+hold off
+legend
 saveas(gcf,"./Figures/CDvCL_44_zoomed_ext.jpg")
 
 % Landing v = 38 m/s

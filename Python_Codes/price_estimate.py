@@ -222,7 +222,7 @@ if __name__ == '__main__':
     C_motor = 3000 * N_eng  # from EMRAX quote, already being conservative
     C_eng = C_fuel_cell + C_motor
 
-    profit_margin = 0.1
+    profit_margin = 0.127
     oper_hrs = 6 * 365  # 6 hr/day, just an rough estimate
     oper_yrs = 15  # assumed based on typical Cessna 172 lasting 30000 hrs
 
