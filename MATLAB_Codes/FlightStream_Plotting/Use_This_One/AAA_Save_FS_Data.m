@@ -17,7 +17,7 @@ close all
 versionDir = "v1.5";  % Make sure it's the right version!
 
 % Save file name
-fileName = "climb_zoomed";  % Double check the name matches in plot
+fileName = "cruise_zoomed";  % Double check the name matches in plot
 
 % Included flap configurations
 flapConfig = ["f0", "f4u", "f4d"];  % Keep the field names this way

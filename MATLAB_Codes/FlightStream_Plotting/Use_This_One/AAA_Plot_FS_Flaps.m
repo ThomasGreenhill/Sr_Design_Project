@@ -9,15 +9,24 @@ History:
 clear
 close all
 clc
-%% input parameters (could change)
+%% ******Controll parameters******
 dirPath = "./FS Data";
 version = "v1.5";
 fileType = ".mat";
 fieldReq = ["AoA", "Beta", "Velocity", "Cx", "Cy", "Cz", "CL", "CDi", "CDo", "CMx", "CMy", "CMz"];
 
+% show or save fig
 save_or_not = true;
 show_or_not = true;
+
+% mark for CD_o and CL_max
+mark_CD_o_or_not = true;
+mark_CL_max_or_not = true;
+
 %% Setup
+mark.CD_o = mark_CD_o_or_not;
+mark.CL_max = mark_CL_max_or_not;
+
 saveDir = "./Figures";
 saveInfo.save = save_or_not;
 saveInfo.path = strcat(saveDir, "/", version, "/");
@@ -33,9 +42,9 @@ else
     set(0,'DefaultFigureVisible','on');
 end
 
-figWidth = 2000; figHeight = 1000;
+figWidth = 1600; figHeight = 900;
 figXStart = 10; figYStart = 10;
-figSize = [figXStart, figYStart, figWidth, figHeight];
+figSize = [figXStart, figYStart, figXStart + figWidth, figYStart + figHeight];
 
 %% Extracting data
 % cruise_long
@@ -60,32 +69,32 @@ CTOL_zoomed = load(strcat(dirPath, "/", version, "/", fileName, fileType));
 %% Plot cruise long
 caseName = "Cruise, Long";
 lgd = ["$0^o$ flap", "$4^o$ flap up", "$4^o$ flap down"];
-cruise_long_lc = PlotLiftCurve(cruise_long, caseName, lgd, figSize, saveInfo);
-cruise_long_dp = PlotDragPolar(cruise_long, caseName, lgd, figSize, saveInfo);
+cruise_long_lc = PlotLiftCurve(cruise_long, caseName, lgd, figSize, saveInfo, mark);
+cruise_long_dp = PlotDragPolar(cruise_long, caseName, lgd, figSize, saveInfo, mark);
 
 %% Plot cruise zoomed
 caseName = "Cruise, Zoomed";
 lgd = ["$0^o$ flap", "$4^o$ flap up", "$4^o$ flap down"];
-%cruise_zoomed_lc = PlotLiftCurve(cruise_zoomed, caseName, lgd, figSize, saveInfo);
-cruise_zoomed_dp = PlotDragPolar(cruise_zoomed, caseName, lgd, figSize, saveInfo);
+%cruise_zoomed_lc = PlotLiftCurve(cruise_zoomed, caseName, lgd, figSize, saveInfo, mark);
+cruise_zoomed_dp = PlotDragPolar(cruise_zoomed, caseName, lgd, figSize, saveInfo, mark);
 
 %% Plot climb zoomed
 caseName = "Climb, Zoomed";
 lgd = ["$0^o$ flap", "$4^o$ flap up", "$4^o$ flap down"];
-%climb_zoomed_lc = PlotLiftCurve(climb_zoomed, caseName, lgd, figSize, saveInfo);
-climb_zoomed_dp = PlotDragPolar(climb_zoomed, caseName, lgd, figSize, saveInfo);
+%climb_zoomed_lc = PlotLiftCurve(climb_zoomed, caseName, lgd, figSize, saveInfo, mark);
+climb_zoomed_dp = PlotDragPolar(climb_zoomed, caseName, lgd, figSize, saveInfo, mark);
 
 %% Plot landing long
 caseName = "Conventional Landing, Long";
 lgd = ["$4^o$ flap down"];
-landing_long_lc = PlotLiftCurve(CTOL_long, caseName, lgd, figSize, saveInfo);
-landing_long_dp = PlotDragPolar(CTOL_long, caseName, lgd, figSize, saveInfo);
+landing_long_lc = PlotLiftCurve(CTOL_long, caseName, lgd, figSize, saveInfo, mark);
+landing_long_dp = PlotDragPolar(CTOL_long, caseName, lgd, figSize, saveInfo, mark);
 
 %% Plot landing zoomed
 caseName = "Conventional Landing, Zoomed";
 lgd = ["$4^o$ flap down"];
-%landing_zoomed_lc = PlotLiftCurve(CTOL_zoomed, caseName, lgd, figSize, saveInfo);
-landing_zoomed_dp = PlotDragPolar(CTOL_zoomed, caseName, lgd, figSize, saveInfo);
+%landing_zoomed_lc = PlotLiftCurve(CTOL_zoomed, caseName, lgd, figSize, saveInfo. mark);
+landing_zoomed_dp = PlotDragPolar(CTOL_zoomed, caseName, lgd, figSize, saveInfo, mark);
 
 %%
 set(0,'DefaultFigureVisible','on');
