@@ -67,7 +67,7 @@
 	\node [block, right of=input5, node distance= 4.0 cm, align=center, text width = 4.5 cm] (G5) {GPS positions};
 	\draw [->] (input5) -- node[] {} (G5);
 % Second column of block
-	\node [block, right of=G3, node distance= 6.0 cm, align=center, text width = 2.0 cm] (H1) {Sensor};
+	\node [block, right of=G3, node distance= 6.0 cm, align=center, text width = 2.0 cm] (H1) {Sensor \\ Fusion};
 % Arrows between first and second column
 %%%%  	\foreach \X in {1,2,4,5} can be used here, but it is removed for others' convenience
 	%% G1
@@ -100,7 +100,7 @@
 	\node [block, right of=H1, node distance= 4.0 cm, align=center, text width = 2.5 cm] (I1) {Guidance, Navigation and Control};
 	\draw [->] (H1) -- node[] {} (I1);
 % Last block
-	\node [block, below of=I1, node distance= 3.0 cm, align=center, text width = 2.5 cm] (J1) {Plant};
+	\node [block, below of=I1, node distance= 3.0 cm, align=center, text width = 2.5 cm] (J1) {Aircraft \\Plant};
 	\draw [->] (I1) -- node[] {} (J1);
 \end{tikzpicture}
 \caption{Block diagram.}

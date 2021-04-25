@@ -108,7 +108,7 @@ print("Beta angle at 75% is {:.5f} degree".format(numpy.rad2deg(prop.bet[beta_75
 print("Activity factor is {:.2f}, which corresponds to {:.2f} in openVSP (Source checked)".format(AF, AF * 2))
 print("CL_design is {:.2f}".format(CL_design))
 
-"""
+
 # Plot the propeller design
 in_line = [0] * len(r)
 # in_line = 0.15*r**2
@@ -283,4 +283,3 @@ plt.tight_layout()
 plt.savefig('./Figures/motor_performance_required.png', bbox_inches='tight')
 
 plt.show()
-"""
