@@ -73,7 +73,7 @@ unit = 'e' # English units
 
 VC = 203.41 #ft/s = 62 m/s
 
-VD = VC/0.8 # Best guess
+VD = VC*1.3/0.9 # Best guess
 
 Vmax =  VD; V = np.linspace(0,Vmax,400) # Vmax can be taken as V_D  ## Put Value HERE for Vmax
 
