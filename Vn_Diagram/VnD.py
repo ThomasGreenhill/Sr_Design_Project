@@ -224,7 +224,7 @@ Kg = 0.88*mu/(5.4+mu)
 
 VS1 = 88.58 #ft/s = 27 m/s
 
-Uref = 10 #ft/s (reference gust speed)
+Uref = 25 #ft/s (reference gust speed)
 
 VB = 2.1*VS1*(1+Kg*Uref*VC*CLa/(498*W))**(0.5) # just need to be no less than the value of equation
 
