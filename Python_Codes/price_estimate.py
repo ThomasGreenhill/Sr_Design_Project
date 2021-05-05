@@ -241,7 +241,7 @@ def operating_cost(oper_hrs, fuel_cost_per_hour, crew_cost_per_hour, average_spe
     # print tabulated data
     if table:
         cost_bundle, name_bundle = annual_oper_cost_bundle
-        round_digit = 2
+        round_digit = 1
         data = []
 
         if profit:
@@ -250,8 +250,9 @@ def operating_cost(oper_hrs, fuel_cost_per_hour, crew_cost_per_hour, average_spe
 
         data.append(['Annual Operating Cost:', ' '])
 
+        annual_adjust_num = 1e3
         for ii in range(len(cost_bundle)):
-            data.append([name_bundle[ii], round(cost_bundle[ii], round_digit)])
+            data.append([name_bundle[ii], '{:.1f} Thousand USD'.format(round(cost_bundle[ii] / annual_adjust_num, round_digit))])
 
         data.append([' ', ' '])
 
