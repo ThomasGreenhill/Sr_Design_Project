@@ -16,7 +16,7 @@ from tabulate import tabulate
 import numpy as np
 
 
-def price_estimate(oper_hrs, fuel_per_hour, crew_per_hour, oper_yrs, W_empty, V_max, Q_5, FTA, C_eng, N_eng, C_avionics,
+def price_estimate(oper_hrs, fuel_per_hour, crew_per_hour, oper_yrs, W_empty, V_ne, Q_5, FTA, C_eng, N_eng, C_avionics,
                    CPIs=(1.1604, 1.0611), profit=True, profit_margin=0.1, passenger=True,
                    table=False, latex_format=False):
     """
@@ -33,7 +33,7 @@ def price_estimate(oper_hrs, fuel_per_hour, crew_per_hour, oper_yrs, W_empty, V_
 
     (func: capital_cost)
     :param W_empty: float, (lb) empty weight of airplane
-    :param V_max: float, (kt) maximum equivalent airspeed
+    :param V_ne: float, (kt) maximum equivalent airspeed
     :param Q_5: int, lesser of production quantity or number to be produced in 5 years
     :param FTA: int, number of flight test airplanes
     :param C_eng: float, (most recent USD) cost per engine
@@ -58,7 +58,7 @@ def price_estimate(oper_hrs, fuel_per_hour, crew_per_hour, oper_yrs, W_empty, V_
     except ValueError:
         print("Element in CPIs is not number")
 
-    price_capital = capital_cost(W_empty, V_max, Q_5, FTA, C_eng, N_eng, C_avionics,
+    price_capital = capital_cost(W_empty, V_ne, Q_5, FTA, C_eng, N_eng, C_avionics,
                                  CPI=CPI_2012, profit=profit, profit_margin=profit_margin, passenger=passenger,
                                  table=table, latex_format=latex_format)
 
@@ -69,14 +69,14 @@ def price_estimate(oper_hrs, fuel_per_hour, crew_per_hour, oper_yrs, W_empty, V_
     return price_total, price_capital, price_oper * oper_yrs * Q_5
 
 
-def capital_cost(W_empty, V_max, Q_5, FTA, C_eng, N_eng, C_avionics,
+def capital_cost(W_empty, V_ne, Q_5, FTA, C_eng, N_eng, C_avionics,
                  CPI=1.0, profit=True, profit_margin=0.1, passenger=True,
                  table=False, latex_format=False):
     """
     Estimates the cost (profit=False) or price (profit=True) of the airplane
 
     :param W_empty: float, (lb) empty weight of airplane
-    :param V_max: float, (kt) maximum equivalent airspeed
+    :param V_ne: float, (kt) maximum equivalent airspeed
     :param Q_5: int, lesser of production quantity or number to be produced in 5 years
     :param FTA: int, number of flight test airplanes
     :param C_eng: float, (most recent USD) cost per engine
@@ -100,13 +100,13 @@ def capital_cost(W_empty, V_max, Q_5, FTA, C_eng, N_eng, C_avionics,
     }
 
     # airframe engineering hours
-    H_E = 4.86 * W_empty ** 0.777 * V_max ** 0.894 * Q_5 ** 0.163  # hrs
+    H_E = 4.86 * W_empty ** 0.777 * V_ne ** 0.894 * Q_5 ** 0.163  # hrs
 
     # tooling hours
-    H_T = 5.99 * W_empty ** 0.777 * V_max ** 0.696 * Q_5 ** 0.263  # hrs
+    H_T = 5.99 * W_empty ** 0.777 * V_ne ** 0.696 * Q_5 ** 0.263  # hrs
 
     # manufacturing hours
-    H_M = 7.37 * W_empty ** 0.82 * V_max ** 0.484 * Q_5 ** 0.641  # hrs
+    H_M = 7.37 * W_empty ** 0.82 * V_ne ** 0.484 * Q_5 ** 0.641  # hrs
 
     # quality control hours
     if passenger:
@@ -115,13 +115,13 @@ def capital_cost(W_empty, V_max, Q_5, FTA, C_eng, N_eng, C_avionics,
         H_Q = 0.076 * H_M  # hrs for cargo airplane
 
     # development support cost
-    C_D = 91.3 * W_empty ** 0.630 * V_max ** 1.3  # USD in 2012
+    C_D = 91.3 * W_empty ** 0.630 * V_ne ** 1.3  # USD in 2012
 
     # flight test cost
-    C_F = 2498 * W_empty ** 0.325 * V_max ** 0.822 * FTA ** 1.21  # USD in 2012
+    C_F = 2498 * W_empty ** 0.325 * V_ne ** 0.822 * FTA ** 1.21  # USD in 2012
 
     # manufacturing materials cost
-    C_M = 22.1 * W_empty ** 0.921 * V_max ** 0.621 * Q_5 ** 0.799  # USD in 2012
+    C_M = 22.1 * W_empty ** 0.921 * V_ne ** 0.621 * Q_5 ** 0.799  # USD in 2012
 
     # engine cost
     C_eng_total = C_eng * N_eng * Q_5
@@ -203,11 +203,13 @@ def operating_cost(oper_hrs, fuel_cost_per_hour, crew_cost_per_hour, CPI=1,
 
     return annual_oper_cost * (1.0 + profit_margin)
 
+
 if __name__ == '__main__':
     # price estimation for Jiffy Jerboa
     # set values
     W_empty = 2495.50  # lb, operating empty weight
-    V_max = 127  # KIAS, never exceed speed, adopted from Cessna 172 (127 KTAS)
+    V_d = 134.1  # KIAs, structural limit speed
+    V_ne = 0.9 * V_d  # KIAS, never exceed speed, adopted from Cessna 172 (127 KTAS)
     N_eng = 8  # eight engine per aircraft
     CPI_2012 = 1.160364414  # CPI from Jan 2012 to Feb 2021
     CPI_2018 = 1.061109385  # CPI from Jan 2018 to Feb 2021
@@ -217,12 +219,13 @@ if __name__ == '__main__':
     Q_5 = 80 * 15  # production rate over past 5 years
     FTA = 5  # test flight airplanes
 
-    C_avionics = 20000 + 2000  # USD, cost for avionics, adopted from SkyView HDX system for Cessna models
-    C_fuel_cell = 12555  # online brief research
-    C_motor = 3000 * N_eng  # from EMRAX quote, already being conservative
-    C_eng = C_fuel_cell + C_motor
+    C_avionics = 50000  # USD, cost for avionics, adopted from SkyView HDX system for Cessna models
+    C_fuel_cell = 20000  # online brief research
+    C_battery = 20000  # battery
+    C_motor = 3000 * N_eng  # estimated cost of motor, tilting mechanism, etc...
+    C_eng = C_fuel_cell + C_battery + C_motor
 
-    profit_margin = 0.127
+    profit_margin = 0.0
     oper_hrs = 6 * 365  # 6 hr/day, just an rough estimate
     oper_yrs = 15  # assumed based on typical Cessna 172 lasting 30000 hrs
 
@@ -236,8 +239,8 @@ if __name__ == '__main__':
     fuel_per_hr = fuel_price_per_kg * m_H2_per_hr  # USD / hr
 
     crew_per_hr = 63  # USD/hr, for one pilot in flight
-    
-    price_out = price_estimate(oper_hrs, fuel_per_hr, crew_per_hr, oper_yrs, W_empty, V_max, Q_5, FTA, C_eng, N_eng,
+
+    price_out = price_estimate(oper_hrs, fuel_per_hr, crew_per_hr, oper_yrs, W_empty, V_ne, Q_5, FTA, C_eng, N_eng,
                                C_avionics, CPIs=CPIs, profit=True,
                                profit_margin=profit_margin, passenger=True, table=True, latex_format=False)
 
@@ -248,8 +251,11 @@ if __name__ == '__main__':
     print('Price per aircraft {:.2e}'.format(price_out[0] / Q_5))
     print('Capital price per aircraft: {:.2e}'.format(price_out[1] / Q_5))
     print('Operating price (fuel included) per aircraft: {:.2e}'.format(price_out[2] / Q_5))
-    print('Total price per flight hour: {:.2e}'.format(price_out[0] / Q_5 / (oper_hrs * oper_yrs)))
-    print('Operating price (fuel included) per flight hour: {:.2e}'.format(price_out[2] / Q_5 / (oper_hrs * oper_yrs)))
+    print('Total price per flight hour: {:.0f} USD'.format(price_out[0] / Q_5 / (oper_hrs * oper_yrs)))
+    print('Operating price (fuel included) per flight hour: {:.0f} USD'.format(price_out[2] / Q_5 / (oper_hrs * oper_yrs)))
+
+    average_speed = 120  # average speed is 120 miles per hour
+    print('Price per mile is {:.2f} USD'.format((price_out[0] / Q_5 / (oper_hrs * oper_yrs)) / average_speed))
     print('----------------------------')
 
     """
@@ -278,7 +284,6 @@ if __name__ == '__main__':
     # The test case has quality control hours set for cargo airplanes
     # Other than that, the func is good
     """
-
 
     """
     # operating_cost test
