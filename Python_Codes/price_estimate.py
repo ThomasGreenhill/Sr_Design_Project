@@ -17,7 +17,7 @@ import numpy as np
 
 
 def price_estimate(oper_hrs, fuel_per_hour, crew_per_hour, oper_yrs, W_empty, V_ne, Q_5, FTA, C_eng, N_eng, C_avionics,
-                   CPIs=(1.1604, 1.0611), profit=True, profit_margin=0.1, passenger=True,
+                   average_speed=None, CPIs=(1.1604, 1.0611), profit=True, profit_margin=0.1, passenger=True,
                    table=False, latex_format=False):
     """
     Estimates the total cost/price throughout the lift cycle of an average aircraft
@@ -27,6 +27,7 @@ def price_estimate(oper_hrs, fuel_per_hour, crew_per_hour, oper_yrs, W_empty, V_
     :param oper_hrs: float, (hr) average operating hours per year
     :param fuel_per_hour: float, (USD/hr) average fuel cost per hour
     :param crew_per_hour: float, (USD/hr) average crew cost per hour
+    :param average_speed: float, (mph) average speed of aircraft (only needed for table)
 
     (func: price_estimate (main))
     :param oper_yrs: float, average operating years for aircraft
@@ -58,13 +59,21 @@ def price_estimate(oper_hrs, fuel_per_hour, crew_per_hour, oper_yrs, W_empty, V_
     except ValueError:
         print("Element in CPIs is not number")
 
+    tabulate_major_info(table, latex_format, W_empty, profit, oper_yrs, oper_hrs, V_ne, Q_5, FTA, average_speed)
+
     price_capital = capital_cost(W_empty, V_ne, Q_5, FTA, C_eng, N_eng, C_avionics,
                                  CPI=CPI_2012, profit=profit, profit_margin=profit_margin, passenger=passenger,
                                  table=table, latex_format=latex_format)
 
-    price_oper = operating_cost(oper_hrs, fuel_per_hour, crew_per_hour, CPI=CPI_2018,
-                                profit=profit, profit_margin=profit_margin)
+    price_oper, price_oper_bundle = operating_cost(oper_hrs, fuel_per_hour, crew_per_hour, average_speed=average_speed,
+                                                   CPI=CPI_2018, profit=profit, profit_margin=profit_margin,
+                                                   table=table,
+                                                   latex_format=latex_format)
+
     price_total = price_capital + price_oper * oper_yrs * Q_5
+
+    tabulate_total_cost(table, latex_format, price_total, price_capital, price_oper,
+                        Q_5, oper_yrs, oper_hrs, average_speed, crew_per_hour)
 
     return price_total, price_capital, price_oper * oper_yrs * Q_5
 
@@ -140,27 +149,146 @@ def capital_cost(W_empty, V_ne, Q_5, FTA, C_eng, N_eng, C_avionics,
         profit_margin = 0.0
     est_price = est_cost * (1.0 + profit_margin)
 
+    # print tabulated data
+    adjust_num_cost = 1e6
+    adjust_num_hrs = 1e3
     if table:
-        data = [['Airframe Engineering', H_E, H_E * hourly_cost['R_E'] * CPI / 1e3],
-                ['Tooling', H_T, H_T * hourly_cost['R_T'] * CPI / 1e3],
-                ['Manufacturing', H_M, H_M * hourly_cost['R_M'] * CPI / 1e3],
-                ['Quality Control', H_Q, H_Q * hourly_cost['R_Q'] * CPI / 1e3],
-                ['Development', None, C_D * CPI / 1e3],
-                ['Flight Test', None, C_F * CPI / 1e3],
-                ['Manufacturing Material', None, C_M * CPI / 1e3],
-                ['Engines', None, C_eng_total / 1e3],
-                ['Avionics', None, C_avionics_total / 1e3],
-                ['Total cost for {} airplanes (w/o profit)'.format(Q_5), None, est_cost / 1e3]]
+        data = [['Airframe Engineering', H_E / adjust_num_hrs, H_E * hourly_cost['R_E'] * CPI / adjust_num_cost],
+                ['Tooling', H_T / adjust_num_hrs, H_T * hourly_cost['R_T'] * CPI / adjust_num_cost],
+                ['Manufacturing', H_M / adjust_num_hrs, H_M * hourly_cost['R_M'] * CPI / adjust_num_cost],
+                ['Quality Control', H_Q / adjust_num_hrs, H_Q * hourly_cost['R_Q'] * CPI / adjust_num_cost],
+                ['Development', None, C_D * CPI / adjust_num_cost],
+                ['Flight Test', None, C_F * CPI / adjust_num_cost],
+                ['Manufacturing Material', None, C_M * CPI / adjust_num_cost],
+                ['Engines', None, C_eng_total / adjust_num_cost],
+                ['Avionics', None, C_avionics_total / adjust_num_cost],
+                ['Total cost for {} airplanes (w/o profit)'.format(Q_5), None, est_cost / adjust_num_cost]]
 
         if profit:
-            data.append(['Total price for {} airplanes (w/ profit)'.format(Q_5), None, est_price / 1e3])
+            data.append(['Total price for {} airplanes (w/ profit)'.format(Q_5), None, est_price / adjust_num_cost])
 
-        data.append(['Total cost per airplane (w/o profit)', None, est_cost / Q_5 / 1e3])
+        data.append(['Total cost per airplane (w/o profit)', None, est_cost / Q_5 / adjust_num_cost])
 
         if profit:
-            data.append(['Total price per airplane (w/ profit)', None, est_price / Q_5 / 1e3])
+            data.append(['Total price per airplane (w/ profit)', None, est_price / Q_5 / adjust_num_cost])
 
-        headers = ['Category', 'Time [hr]', r'Cost [10^3 USD]']
+        headers = ['Category', r'Time [10^3 hr]', r'Cost [Million USD]']
+
+        if latex_format:
+            table_out = tabulate(data, headers=headers, tablefmt="latex",
+                                 numalign='right', floatfmt=(None, '.1f', '.1f'))
+            print(table_out)
+        else:
+            table_out = tabulate(data, headers=headers, tablefmt="fancy_grid",
+                                 numalign='right', floatfmt=(None, '.1f', '.1f'))
+            print(table_out)
+
+    return est_price
+
+
+def operating_cost(oper_hrs, fuel_cost_per_hour, crew_cost_per_hour, average_speed=None, CPI=1,
+                   profit=True, profit_margin=0.1, table=False, latex_format=False):
+    """
+    Estimates the operating cost per year (excluding fuel) for a single aircraft
+    Info from: https://www.faa.gov/regulations_policies/policy_guidance/benefit_cost/
+               Section 4.2, Table 4-10
+    Category of Jiffy Jerboa: Turboprop, multi-engine, part 23
+
+    :param oper_hrs: float, (hr) average operating hours per year
+    :param fuel_cost_per_hour: float, (most recent USD) hourly fuel cost
+    :param crew_cost_per_hour: flaot, (most recent USD) hourly crew cost
+    "param average_speed: float, (mph) average airspeed, only needed in table
+    :param CPI: float, the inflation from 2018 USD to most recent USD
+    :param profit: bool, True to include profit
+    :param profit_margin: float, profit margin as a ratio
+    :param table: bool, True to print tabulated data
+    :param latex_format: bool, True to output in latex format
+    :return annual_oper_cost: float, (most recent USD) operation cost per year (excluding fuel)
+    """
+
+    data_set = {  # based on 2018 USD
+        'crew': 268,  # crew cost per flight hour
+        'maintenance': 731,  # maintenance cost per flight hour
+        'annual fixed cost without depreciation': 102687,  # annual fixed cost without depreciation
+        'annual depreciation': 155238,  # annual depreciation price
+        'average annual hours': 456  # average annual hours
+    }
+
+    if profit is True:
+        profit_margin = profit_margin
+    else:
+        profit_margin = 0.0
+
+    # all costs below are annual costs
+    crew_cost = crew_cost_per_hour * oper_hrs * (1 + profit_margin)
+
+    fuel_cost = fuel_cost_per_hour * oper_hrs * (1 + profit_margin)
+
+    maintenance_cost = data_set['maintenance'] * data_set['average annual hours'] * (1 + profit_margin) * CPI
+
+    fixed_cost = data_set['annual fixed cost without depreciation'] * CPI * (1 + profit_margin)
+
+    depreciation_cost = data_set['annual depreciation'] * CPI * (1 + profit_margin)
+
+    annual_oper_cost = crew_cost + fuel_cost + maintenance_cost + fixed_cost + depreciation_cost
+
+    annual_oper_cost_no_crew = fuel_cost + maintenance_cost + fixed_cost + depreciation_cost
+
+    annual_oper_cost_bundle = \
+        ((crew_cost, fuel_cost, maintenance_cost, fixed_cost, depreciation_cost, annual_oper_cost),
+         ('Crew', 'Fuel', 'Maintenance', 'Fixed', 'Depreciation', 'Total'))
+
+    # print tabulated data
+    if table:
+        cost_bundle, name_bundle = annual_oper_cost_bundle
+        round_digit = 2
+        data = []
+
+        if profit:
+            data.append(['Profit Margin', '{:.2f}%'.format(profit_margin * 100)])
+            data.append([' ', ' '])
+
+        data.append(['Annual Operating Cost:', ' '])
+
+        for ii in range(len(cost_bundle)):
+            data.append([name_bundle[ii], round(cost_bundle[ii], round_digit)])
+
+        data.append([' ', ' '])
+
+        # per flight hour
+        data.append(['Operating cost per flight hour:', ' '])
+
+        for ii in range(len(cost_bundle)):
+            data.append([name_bundle[ii], round(cost_bundle[ii] / oper_hrs, round_digit)])
+
+        data.append([' ', ' '])
+
+        # per mile per seat (with pilot)
+        available_seat = 2  # total available seats in flight
+        data.append(['Operating cost per mile per seat (with pilot)', ' '])
+
+        if average_speed is None:
+            raise Exception("Please provide an average speed in mph.")
+
+        for ii in range(len(cost_bundle)):
+            data.append([name_bundle[ii],
+                         round(cost_bundle[ii] / oper_hrs / average_speed / available_seat, round_digit)])
+
+        # per mile per seat (autonomous flight, without pilot)
+        available_seat = 3  # total available seats in flight
+        data.append(['Operating cost per mile per seat (autonomous)', ' '])
+
+        if average_speed is None:
+            raise Exception("Please provide an average speed in mph.")
+
+        for ii in range(1, len(cost_bundle) - 1):
+            data.append([name_bundle[ii],
+                         round(cost_bundle[ii] / oper_hrs / average_speed / available_seat, round_digit)])
+
+        data.append([name_bundle[-1],
+                     round(annual_oper_cost_no_crew / oper_hrs / average_speed / available_seat, round_digit)])
+
+        headers = ['Category', r'Cost [USD]']
 
         if latex_format:
             table_out = tabulate(data, headers=headers, tablefmt="latex",
@@ -171,37 +299,105 @@ def capital_cost(W_empty, V_ne, Q_5, FTA, C_eng, N_eng, C_avionics,
                                  numalign='right', floatfmt=(None, '.0f', '.0f'))
             print(table_out)
 
-    return est_price
+    return annual_oper_cost, annual_oper_cost_bundle
 
 
-def operating_cost(oper_hrs, fuel_cost_per_hour, crew_cost_per_hour, CPI=1,
-                   profit=True, profit_margin=0.1):
+def tabulate_major_info(table, latex_format, W_empty, profit, oper_yrs, oper_hrs, V_ne, Q_5, FTA, average_speed):
     """
-    Estimates the operating cost per year (excluding fuel) for a single aircraft
-    Info from: https://www.faa.gov/regulations_policies/policy_guidance/benefit_cost/
-               Section 4.2, Table 4-10
-    Category of Jiffy Jerboa: Turboprop, multi-engine, part 23
+    Function to quickly capture the major information of design and price estimation
 
-    :param oper_hrs: float, (hr) average operating hours per year
-    :param CPI: float, the inflation from 2018 USD to most recent USD
-    :return annual_oper_cost: float, (most recent USD) operation cost per year (excluding fuel)
+    :param table: bool, True to print the table
+    :param latex_format: bool, True to output latex format
+    :param W_empty: float, (lb) aircraft empty weight
+    :param profit: bool, True to include profit
+    :param oper_yrs: int, years of operation
+    :param oper_hrs: int, annual hour of operation
+    :param V_ne: float, (KIAS) never-exceed speed
+    :param Q_5: int, production rate in 5 years
+    :param FTA: int, number of flight test aircrafts
+    :param average_speed: float, (mph) average aircraft speed
+    :return: None
     """
+    if table is False:
+        return
 
-    data_set = {  # based on 2018 USD
-        'total per hour': 2164 - 561 - 268,  # fuel, crew subtracted
-        'average annual hours': 456
-    }
-
-    average_annual_cost_other = data_set['total per hour'] * data_set['average annual hours']
-
-    annual_oper_cost = average_annual_cost_other + (fuel_cost_per_hour + crew_cost_per_hour) * oper_hrs
+    data = [['Aircraft Empty Weight', '{:.0f} lb'.format(W_empty)],
+            ['Number of engine per aircraft', '{:d}'.format(N_eng)]]
 
     if profit is True:
-        profit_margin = profit_margin
-    else:
-        profit_margin = 0.0
+        data.append(['Profit Margin', '{:.1f}%'.format(profit_margin * 100)])
 
-    return annual_oper_cost * (1.0 + profit_margin)
+    data.append(['Operating Years', oper_yrs])
+    data.append(['Operating Hour per Year', oper_hrs])
+    data.append(['Never-exceed Velocity', '{:.0f} KIAS'.format(V_ne)])
+    data.append(['5-year Production Rate', Q_5])
+    data.append(['Number of Test Airplanes', FTA])
+    data.append(['Average Speed', '{:.0f} mph'.format(average_speed)])
+
+    headers = ['Parameter', 'Value']
+
+    if latex_format:
+        table_out = tabulate(data, headers=headers, tablefmt="latex",
+                             numalign='right', floatfmt=(None, '.0f', '.0f'))
+        print(table_out)
+    else:
+        table_out = tabulate(data, headers=headers, tablefmt="fancy_grid",
+                             numalign='right', floatfmt=(None, '.0f', '.0f'))
+        print(table_out)
+
+    return
+
+
+def tabulate_total_cost(table, latex_format, price_total, price_capital, price_oper,
+                        Q_5, oper_yrs, oper_hrs, average_speed, crew_per_hour):
+    if table is False:
+        return
+
+    data = []
+
+    # cost per seat per mile
+    # per mile per seat (with pilot)
+    available_seat = 2  # total available seats in flight
+    data.append(['Operating cost per mile per seat (with pilot)', ' '])
+    data.append(['Total Cost per Mile',
+                 '{:.2f}'.format(price_total / Q_5 / oper_yrs / oper_hrs / average_speed)])
+    data.append(['Total Available Seats', available_seat])
+    data.append(['Capital Cost per Mile per Seat',
+                 '{:.2f}'.format(price_capital / Q_5 / oper_yrs / oper_hrs / average_speed / available_seat)])
+    data.append(['Operating Cost per Mile per Seat',
+                 '{:.2f}'.format(price_oper / oper_hrs / average_speed / available_seat)])
+    data.append(['Total Cost per Mile per Seat',
+                 '{:.2f}'.format(price_total / Q_5 / oper_yrs / oper_hrs / average_speed / available_seat)])
+
+    data.append([' ', ' '])
+    # cost per seat per mile
+    # per mile per seat (autonomous, without pilot)
+    available_seat = 3  # total available seats in flight
+    data.append(['Operating cost per mile per seat (autonomous, without pilot)', ' '])
+    data.append(['Total Cost per Mile',
+                 '{:.2f}'.format((price_total / Q_5 / oper_yrs / oper_hrs - crew_per_hour)
+                                 / average_speed)])
+    data.append(['Total Available Seats', available_seat])
+    data.append(['Capital Cost per Mile per Seat',
+                 '{:.2f}'.format(price_capital / Q_5 / oper_yrs / oper_hrs / average_speed / available_seat)])
+    data.append(['Operating Cost per Mile per Seat',
+                 '{:.2f}'.format((price_oper / oper_hrs - crew_per_hour) / average_speed / available_seat)])
+    data.append(['Total Cost per Mile per Seat',
+                 '{:.2f}'.format((price_total / Q_5 / oper_yrs / oper_hrs - crew_per_hour)
+                                 / average_speed / available_seat)])
+
+    headers = ['Category', 'USD']
+
+    if latex_format:
+        table_out = tabulate(data, headers=headers, tablefmt="latex",
+                             numalign='right', floatfmt=(None, '.0f', '.0f'))
+        print(table_out)
+    else:
+        table_out = tabulate(data, headers=headers, tablefmt="fancy_grid",
+                             numalign='right', floatfmt=(None, '.0f', '.0f'))
+        print(table_out)
+
+    return
 
 
 if __name__ == '__main__':
@@ -216,7 +412,7 @@ if __name__ == '__main__':
     CPIs = [CPI_2012, CPI_2018]
 
     # adjustable values
-    Q_5 = 80 * 15  # production rate over past 5 years
+    Q_5 = 500  # production rate over past 5 years
     FTA = 5  # test flight airplanes
 
     C_avionics = 50000  # USD, cost for avionics, adopted from SkyView HDX system for Cessna models
@@ -225,7 +421,7 @@ if __name__ == '__main__':
     C_motor = 3000 * N_eng  # estimated cost of motor, tilting mechanism, etc...
     C_eng = C_fuel_cell + C_battery + C_motor
 
-    profit_margin = 0.0
+    profit_margin = 0.1
     oper_hrs = 6 * 365  # 6 hr/day, just an rough estimate
     oper_yrs = 15  # assumed based on typical Cessna 172 lasting 30000 hrs
 
@@ -240,10 +436,12 @@ if __name__ == '__main__':
 
     crew_per_hr = 63  # USD/hr, for one pilot in flight
 
-    price_out = price_estimate(oper_hrs, fuel_per_hr, crew_per_hr, oper_yrs, W_empty, V_ne, Q_5, FTA, C_eng, N_eng,
-                               C_avionics, CPIs=CPIs, profit=True,
-                               profit_margin=profit_margin, passenger=True, table=True, latex_format=False)
+    average_speed = 120  # average speed is 120 miles per hour
 
+    price_out = price_estimate(oper_hrs, fuel_per_hr, crew_per_hr, oper_yrs, W_empty, V_ne, Q_5, FTA, C_eng, N_eng,
+                               C_avionics, average_speed=average_speed, CPIs=CPIs, profit=True,
+                               profit_margin=profit_margin, passenger=True, table=True, latex_format=True)
+    """
     print('Fuel price is {:.2f} USD per hour'.format(fuel_per_hr))
     print('For Jiffy Jerboa (in USD 2021)')
     print('----------------------------')
@@ -252,53 +450,8 @@ if __name__ == '__main__':
     print('Capital price per aircraft: {:.2e}'.format(price_out[1] / Q_5))
     print('Operating price (fuel included) per aircraft: {:.2e}'.format(price_out[2] / Q_5))
     print('Total price per flight hour: {:.0f} USD'.format(price_out[0] / Q_5 / (oper_hrs * oper_yrs)))
-    print('Operating price (fuel included) per flight hour: {:.0f} USD'.format(price_out[2] / Q_5 / (oper_hrs * oper_yrs)))
-
-    average_speed = 120  # average speed is 120 miles per hour
+    print('Operating price (fuel included) per flight hour: {:.0f} USD'.format(
+        price_out[2] / Q_5 / (oper_hrs * oper_yrs)))
     print('Price per mile is {:.2f} USD'.format((price_out[0] / Q_5 / (oper_hrs * oper_yrs)) / average_speed))
     print('----------------------------')
-
-    """
-    # capital_cost test case from 04.06.2021 lecture example 
-    
-    # rate of inflation from Jan 2012 to Jan 2021
-    # obtained from:
-    # https://www.bls.gov/data/inflation_calculator.htm
-    inflation_2012 = 11603644.14 / 10000000.00  # from 2012 to 2021
-    inflation_2018 = 10611093.85 / 10000000.00  # from 2018 to 2021
-
-    W_empty = 5867  # lb, empty weight
-    V_max = 236  # KIAS, never exceed speed
-    Q_5 = 275  # production rate over past 5 years
-    FTA = 2  # test flight airplanes
-    C_eng = 850000  # USD, cost per engine
-    N_eng = 1  # one engine per aircraft
-    C_avionics = 250000  # USD, cost for avionics
-    CPI = 1.107  # 2012 - 2019
-    profit_margin = 0.1
-
-    price = capital_cost(W_empty, V_max, Q_5, FTA, C_eng, N_eng, C_avionics, CPI=CPI, profit=True,
-                         profit_margin=profit_margin, passenger=False, table=True, latex_format=False)
-    # print(price / 1e6 / Q_5)
-    # The test case seems to ignore the manufacturing material cost
-    # The test case has quality control hours set for cargo airplanes
-    # Other than that, the func is good
-    """
-
-    """
-    # operating_cost test
-    
-    oper_hrs = 456
-    oper_cost = operating_cost(oper_hrs, CPI=1)
-
-    
-    # price_estimate (main) test
-    
-    oper_yrs = 10
-    CPIs = (1.1604, 1.0611)
-    fuel_per_hr = 20
-    price_out = price_estimate(oper_hrs, fuel_per_hr, oper_yrs, W_empty, V_max, Q_5, FTA, C_eng, N_eng,
-                                 C_avionics, CPIs=CPIs, profit=True,
-                                 profit_margin=profit_margin, passenger=False, table=True, latex_format=False)
-    print(price_out[0] / 1e6)
     """
