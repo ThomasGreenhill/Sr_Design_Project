@@ -35,15 +35,29 @@ except ValueError:
     print("Not using latex formatting")
     latex = False
 
-# Select airfoil and parameters
+# Default transition location, don't change here
+Xtr = 0
+# To set transition location, set Xtr = [upper loc, lower loc]
+# You don't need to set Xtr at all, unless you want to
+
+# SELECT AIRFOIL AND PARAMETERS
+
 # foils = ['23012', 'P51D Ref', 'NLF 0115 Ref', 'NLF 0414F Ref', 'HS NLF 213 Ref']
 # alfs = numpy.linspace(-3,25,200)
 # NACA = [True, False, False, False, False]
 # Re = 5.8e6
-foils = ['NLF 0414F (+4) Ref', 'NLF 0414F (+2) Ref', 'NLF 0414F Ref', 'NLF 0414F (-2) Ref', 'NLF 0414F (-4) Ref']
-alfs = numpy.linspace(-3,8,200)
-NACA = [False, False, False, False, False]
+
+# foils = ['NLF 0414F (+4) Ref', 'NLF 0414F (+2) Ref', 'NLF 0414F Ref', 'NLF 0414F (-2) Ref', 'NLF 0414F (-4) Ref']
+# alfs = numpy.linspace(-3,8,200)
+# NACA = [False, False, False, False, False]
+# Re = 5.8e6
+
+foils = ['NLF 0414F Ref']
+alfs = numpy.linspace(-3,18,100)
+NACA = [False]
 Re = 5.8e6
+Xtr = [0.6, 0.5] # Can specify Xtr if desired
+
 
 # Choose to plot Cl or Cd
 # Type = 'Cl-a'
@@ -64,7 +78,8 @@ for foil,N in zip(foils,NACA):
     else:
         GeomFile = foil
         print('Running XFoil for NACA '+GeomFile)
-    o = pyxfoil.GetPolar(GeomFile, N, alfs, Re, SaveCP=False, quiet=True)
+    o = pyxfoil.GetPolar(foil=GeomFile, naca=N, alfs=alfs, Re=Re, Xtr=Xtr, 
+                         SaveCP=False, quiet=True)
     
     # Select proper polar data file
     if not N:
