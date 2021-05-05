@@ -116,7 +116,7 @@ def ErrorMessage(text):
 ########################################################################
 
 class Xfoil:
-    def __init__(self, foil='0012', naca=True, Re=0, Iter=100,
+    def __init__(self, foil='0012', naca=True, Re=0, Xtr=0, Iter=100,
         xfoilpath=None, headless=True):
         """Initialize class for specific airfoil.
         foil --> airfoil name, either NACA digits or path to geometry file
@@ -156,6 +156,8 @@ class Xfoil:
         #SAVE RUN PARAMETERS
         #Reynolds number
         self.Re = Re
+        #Transition location
+        self.Xtr = Xtr
         #Maximum iteration
         self.Iter = Iter
         #MAKE AIRFOIL NAME
@@ -248,6 +250,7 @@ class Xfoil:
         if self.Re != 0:
             #VISCOULS SIMULATION WITH GIVEN REYNOLDS NUMBER
             self.AddInput('visc {}'.format( self.Re ) )
+        
         #SET ITERATION NUMBER
         self.AddInput('iter {}'.format( self.Iter ))
 
@@ -277,6 +280,14 @@ class Xfoil:
         self.alfs = alfs
         #SET REYNOLDS NUMBER
         self.EnterOperMenu()
+        #SET TRANSITION LOCATION
+        if self.Xtr != 0:
+            #ENTER VPAR MENU
+            self.AddInput('vpar')
+            #SPECIFY TRANSITION LOCATION
+            self.AddInput('xtr {} {}'.format(self.Xtr[0], self.Xtr[1]))
+            #RETURN TO OPER MENU
+            self.AddInput('')
 
         #SET UP POLAR ACCUMULATION
         # if len(alfs) > 1:
@@ -408,7 +419,7 @@ def WriteXfoilFile(name, x, z):
 ### MAIN ###############################################################
 ########################################################################
 
-def GetPolar(foil='0012', naca=True, alfs=[0], Re=0,
+def GetPolar(foil='0012', naca=True, alfs=[0], Re=0, Xtr=0,
                 SaveCP=True, Iter=100, pane=False,
                 overwrite=True, quiet=True):
     """For a single airfoil at a single Reynolds number,
@@ -423,7 +434,7 @@ def GetPolar(foil='0012', naca=True, alfs=[0], Re=0,
     quiet --> Supress XFOIL output
     """
     #INITIALIZE XFOIL OBJECT
-    obj = Xfoil(foil, naca, Re, Iter=Iter)
+    obj = Xfoil(foil, naca, Re, Xtr=Xtr, Iter=Iter)
     #GEOMETRY
     #condition panel geometry (use for rough shapes, not on smooth shapes)
     if pane:
