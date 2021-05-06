@@ -125,11 +125,10 @@ def deIcing_heat_load(AtmData, x_loc, thickness, span, freeze_factor, C_liquid, 
     q_dot_PS = q_dot_sens + q_dot_conv + q_dot_evap + q_dot_KE + q_dot_aero
 
     ### power requirements for cyclic heated surfaces
-    #m_dot_ice = t * rho_LWC  # local ice mass flow rate per unit area
-    #eff_heat = 0.7  # heating efficiency
-    #q_dot_cycl = eff_heat * (m_dot_ice / t) * (dT * C_ice + L_f)
-    q_dot_cycl = 0
-
+    m_dot_ice = thickness * rho_LWC  # local ice mass flow rate per unit area
+    eff_heat = 0.7  # heating efficiency
+    q_dot_cycl = eff_heat * (m_dot_ice / thickness) * (dT * C_ice + L_f)
+    # the unit in the paper is SUPER weird, but this q_dot_cycl doesn't affect that much
 
     ### Total heating power, with k-factors
     K_PS = 0.19  # ratio of the area of continuously heated parting strips against total area to be de-iced
@@ -163,21 +162,20 @@ if __name__ == '__main__':
     C_ice = 2093  # J/(kg K), specific heat capacity of ice
     L_f = 3.34e5  # J/kg, latent heat of water fusion
     T_target = 6  # deg C, target heating temperature
-    T_inf = -18  # deg C, environment temperature
+    T_inf = atm.temp - 273.15  # deg C, environment temperature (assume under standard atmosphere)
     T_skin = T_target  # deg C, temperature at surface
     k_air = 0.0227  # W/(mK), thermal conductivity of air at 255.3 K
     R_h = 1  # Non-dimensional, relative humidity, actual / saturated vapor pressure
     C_p_air = 1000  # J/(kg K), specific heat capacity under constant pressure for air (at 300K)
     L_e = 2.257e6  # J/kg, latent heat of water evaporation
-    rho_LWC = 1  # kg/m^3, liquid water content, mass of supercooled water per volume
-    thickness = 1  # m, maximum airfoil thickness
-    span = 1  # m, airfoil span-wise extension for total wing
+    rho_LWC = 4.5e-4  # kg/m^3, liquid water content, mass of supercooled water per volume (assume stratocumulus)
+    thickness = 0.14166 * 1.26491  # m, maximum airfoil thickness, using mean chord length
+    span = 12.65  # m, airfoil span-wise extension for total wing
     v_wall = 0  # m/s, (Seems to be) surface layer velocity (assumed 0 due to laminar flow)
     freeze_factor = 0.5  # Non-dimensional, 0-1, freezing fraction, indicates the amount of liquid water that turns into ice
 
     # function call
-    P_req = main_deIcing_power(atm, x_loc, thickness, span, freeze_factor, C_liquid, C_ice, C_p_air, L_f, L_e, T_target,
-                       T_inf, T_skin, k_air, R_h,
-                       rho_LWC, v_wall)
+    P_req = main_deIcing_power(atm, x_loc, thickness, span, freeze_factor, C_liquid, C_ice, C_p_air, L_f, L_e,
+                               T_target, T_inf, T_skin, k_air, R_h, rho_LWC, v_wall)
 
     print('The approximate power required for electrical de-icing is {:.2f} W'.format(P_req))
