@@ -6,17 +6,17 @@
       <ID>OVECQUVZMZ</ID>
       <Name>Vehicle</Name>
       <AdjustView>
-        <CORX Value="0.000000000000000000e+00" ID="QUXMTWPHVRQ"/>
-        <CORY Value="0.000000000000000000e+00" ID="NVLXKWRLMUC"/>
-        <CORZ Value="0.000000000000000000e+00" ID="DFEWQGFITQN"/>
-        <PanX Value="0.000000000000000000e+00" ID="WGTPXAJGJQM"/>
-        <PanY Value="0.000000000000000000e+00" ID="HYPKMFRAAQE"/>
-        <RotationX Value="2.861083085765196543e+01" ID="DSBIMHXPZWS"/>
-        <RotationY Value="-2.867823287192894455e+01" ID="KVAVWRWSVJW"/>
-        <RotationZ Value="-1.069918141499138464e+01" ID="DMLNCPCSVDQ"/>
-        <ViewportX Value="0.000000000000000000e+00" ID="QJNRLDGPPXX"/>
-        <ViewportY Value="0.000000000000000000e+00" ID="NEMLPYBBWQQ"/>
-        <Zoom Value="1.000000000000000021e-03" ID="MXIYMXFXPXB"/>
+        <CORX Value="0.000000000000000000e+00" ID="DVQANBERKAO"/>
+        <CORY Value="0.000000000000000000e+00" ID="YUTKEEFKAZF"/>
+        <CORZ Value="0.000000000000000000e+00" ID="MZZZGDQGCUZ"/>
+        <PanX Value="0.000000000000000000e+00" ID="ASWGZMKYFKI"/>
+        <PanY Value="0.000000000000000000e+00" ID="KNOAISPDRJY"/>
+        <RotationX Value="3.461623541179795183e+01" ID="CLYYZUFLMXL"/>
+        <RotationY Value="-1.055472035272467579e+01" ID="PKVOAEEOAEH"/>
+        <RotationZ Value="-1.267259552848461190e+01" ID="JZXXLEOPDWB"/>
+        <ViewportX Value="0.000000000000000000e+00" ID="HQRBAGSRRCF"/>
+        <ViewportY Value="0.000000000000000000e+00" ID="SBAOXVORLJB"/>
+        <Zoom Value="1.000000000000000021e-03" ID="DTTUFIPDRJP"/>
       </AdjustView>
       <AirfoilExport>
         <AFAppendGeomIDFlag Value="1.000000000000000000e+00" ID="PVZYVXCKDRF"/>
@@ -61,12 +61,12 @@
         <StructUnit Value="3.000000000000000000e+00" ID="DXQEQLIVEBH"/>
       </FeaStructure>
       <FitModel>
-        <Select_Box_Flag Value="0.000000000000000000e+00" ID="AVZFVAUIRHI"/>
-        <Select_One_Flag Value="0.000000000000000000e+00" ID="GYBOBHIJLXK"/>
-        <U_TargetPt Value="0.000000000000000000e+00" ID="TDMUAQPZQPD"/>
-        <U_Type Value="1.000000000000000000e+00" ID="LCPZFHNRLLP"/>
-        <W_TargetPt Value="0.000000000000000000e+00" ID="DEVPBTAYSFP"/>
-        <W_Type Value="1.000000000000000000e+00" ID="QTWFDCAZTRQ"/>
+        <Select_Box_Flag Value="0.000000000000000000e+00" ID="DHZBLNLSCXV"/>
+        <Select_One_Flag Value="0.000000000000000000e+00" ID="YTFTFEJQHYK"/>
+        <U_TargetPt Value="0.000000000000000000e+00" ID="MIUPBHSQAYJ"/>
+        <U_Type Value="1.000000000000000000e+00" ID="OUMVLSGKFKL"/>
+        <W_TargetPt Value="0.000000000000000000e+00" ID="LNOWIUSQOGN"/>
+        <W_Type Value="1.000000000000000000e+00" ID="HDWNMIAUNQR"/>
       </FitModel>
       <IGESSettings>
         <ExportPropMainSurf Value="0.000000000000000000e+00" ID="QVIOTQXUFAG"/>
@@ -546,7 +546,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -1910,7 +1910,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -2285,7 +2285,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -2447,7 +2447,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -3104,7 +3104,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -3730,7 +3730,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -3892,7 +3892,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -4549,7 +4549,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -5175,7 +5175,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -5337,7 +5337,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -5994,7 +5994,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -6633,7 +6633,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -7006,7 +7006,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -7825,7 +7825,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -8460,7 +8460,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -8842,7 +8842,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -9234,7 +9234,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -9602,7 +9602,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -10301,7 +10301,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -10667,7 +10667,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -11176,6 +11176,52 @@
     </ParmContainer>
   </CFDGridDensity>
   <StructureMgr>
+    <FeaPropertyInfo>
+      <ParmContainer>
+        <ID>ASJGUZKJCG</ID>
+        <Name>DefaultShell</Name>
+        <FeaProperty>
+          <CrossSecArea Value="1.000000000000000056e-01" ID="HHCTTTUHOPY"/>
+          <CrossSectType Value="0.000000000000000000e+00" ID="GPTBBNGBYBL"/>
+          <Dim1 Value="0.000000000000000000e+00" ID="OFJXAIXWXGB"/>
+          <Dim2 Value="0.000000000000000000e+00" ID="NWAEEBUPMZY"/>
+          <Dim3 Value="0.000000000000000000e+00" ID="IAYDZSVLUPX"/>
+          <Dim4 Value="0.000000000000000000e+00" ID="KQLJZJRSCDP"/>
+          <Dim5 Value="0.000000000000000000e+00" ID="MLOKPFHBDOL"/>
+          <Dim6 Value="0.000000000000000000e+00" ID="CYBKHAXCADA"/>
+          <FeaMaterialIndex Value="0.000000000000000000e+00" ID="GOEQMEAIGWT"/>
+          <FeaPropertyType Value="0.000000000000000000e+00" ID="DTENFDQGOQV"/>
+          <Ixx Value="0.000000000000000000e+00" ID="YJQZJSUBKSV"/>
+          <Iyy Value="1.000000000000000056e-01" ID="TCBGNJVPZDE"/>
+          <Izy Value="0.000000000000000000e+00" ID="BWWUDOHGZVS"/>
+          <Izz Value="1.000000000000000056e-01" ID="TTMHORMTQXW"/>
+          <Thickness Value="1.000000000000000056e-01" ID="ROIIFCKZEXO"/>
+        </FeaProperty>
+      </ParmContainer>
+    </FeaPropertyInfo>
+    <FeaPropertyInfo>
+      <ParmContainer>
+        <ID>HQLLTFNUVJ</ID>
+        <Name>DefaultBeam</Name>
+        <FeaProperty>
+          <CrossSecArea Value="1.000000000000000056e-01" ID="MZTCWPHBDJE"/>
+          <CrossSectType Value="0.000000000000000000e+00" ID="JCQDHCUNJCR"/>
+          <Dim1 Value="0.000000000000000000e+00" ID="TJAFBSVQUCT"/>
+          <Dim2 Value="0.000000000000000000e+00" ID="WIUZUXGIOPJ"/>
+          <Dim3 Value="0.000000000000000000e+00" ID="VSXVBWFSWSK"/>
+          <Dim4 Value="0.000000000000000000e+00" ID="JSAULMHOJFY"/>
+          <Dim5 Value="0.000000000000000000e+00" ID="ZVJDOCHKINA"/>
+          <Dim6 Value="0.000000000000000000e+00" ID="FSRFXUNLPTO"/>
+          <FeaMaterialIndex Value="0.000000000000000000e+00" ID="CJZCHLBKQAJ"/>
+          <FeaPropertyType Value="1.000000000000000000e+00" ID="QJOVXVCRJTG"/>
+          <Ixx Value="0.000000000000000000e+00" ID="MKAZXORDCUD"/>
+          <Iyy Value="1.000000000000000056e-01" ID="HWZWLPKRGNI"/>
+          <Izy Value="0.000000000000000000e+00" ID="EIZONVQKUYE"/>
+          <Izz Value="1.000000000000000056e-01" ID="AIWQXKYWDAE"/>
+          <Thickness Value="1.000000000000000056e-01" ID="CQJPGQXWXFW"/>
+        </FeaProperty>
+      </ParmContainer>
+    </FeaPropertyInfo>
     <FeaPropertyInfo>
       <ParmContainer>
         <ID>QPBCCFRPIZ</ID>
