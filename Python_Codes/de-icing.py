@@ -8,6 +8,7 @@ Note:
 
 History
     05.05.2021, XT. Created
+    05.05.2021, XT. Roughly debugged, still has unit confusion from paper but limited effect on final value
 
 """
 from Class130 import AtmData
