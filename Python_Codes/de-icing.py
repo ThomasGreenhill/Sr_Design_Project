@@ -8,13 +8,15 @@ Note:
 
 History
     05.05.2021, XT. Created
-
+    05.05.2021, XT. Roughly debugged, still has unit confusion from paper but limited effect on final value
 """
+
 from Class130 import AtmData
 import numpy as np
 
-def main_deIcing_power(AtmData, x_loc, thickness, span, freeze_factor, C_liquid, C_ice, C_p_air, L_f, L_e, T_target, T_inf, T_skin, k_air, R_h,
-                      rho_LWC, v_wall):
+
+def main_deIcing_power(AtmData, x_loc, thickness, span, freeze_factor, C_liquid, C_ice, C_p_air, L_f, L_e,
+                       T_target, T_inf, T_skin, k_air, R_h, rho_LWC, v_wall, K_PS, K_cycl):
     """
     Approximate the de-icing power required
     :param AtmData: Class130, contains atmospheric data
@@ -34,11 +36,13 @@ def main_deIcing_power(AtmData, x_loc, thickness, span, freeze_factor, C_liquid,
     :param R_h: Non-dimensional, relative humidity, actual / saturated vapor pressure
     :param rho_LWC: kg/m^3, liquid water content, mass of supercooled water per volume
     :param v_wall: m/s, (not sure) surface layer velocity (can assume 0 due to laminar flow)
+    :param K_PS: 1, ratio of the area of continuously heated parting strips against total area to be de-iced
+    :param K_PS: 1, ratio of cyclic heat on time against total cycle time.
     :return: required power
     """
 
     q_load = deIcing_heat_load(AtmData, x_loc, thickness, span, freeze_factor, C_liquid, C_ice, C_p_air, L_f, L_e,
-                               T_target, T_inf, T_skin, k_air, R_h, rho_LWC, v_wall)
+                               T_target, T_inf, T_skin, k_air, R_h, rho_LWC, v_wall, K_PS, K_cycl)
 
     P_req = deIcing_power_calculation(q_load, thickness, span)
 
@@ -60,8 +64,7 @@ def deIcing_power_calculation(q_load, thickness, span):
 
 
 def deIcing_heat_load(AtmData, x_loc, thickness, span, freeze_factor, C_liquid, C_ice, C_p_air, L_f, L_e,
-                      T_target, T_inf, T_skin, k_air, R_h, rho_LWC, v_wall):
-
+                      T_target, T_inf, T_skin, k_air, R_h, rho_LWC, v_wall, K_PS, K_cycl):
     """
     Calculates the de-icing heat load under given condition
     Parameters all the same as the main_deIcing_power
@@ -79,23 +82,24 @@ def deIcing_heat_load(AtmData, x_loc, thickness, span, freeze_factor, C_liquid, 
     :param T_inf: deg C, environment temperature
     :param T_skin: deg C, temperature at surface
     :param k_air: W/(mK), thermal conductivity of air
-    :param R_h: Non-dimensional, relative humidity, actual / saturated vapor pressure
+    :param R_h: 1, relative humidity, actual / saturated vapor pressure
     :param rho_LWC: kg/m^3, liquid water content, mass of supercooled water per volume
     :param v_wall: m/s, (not sure) surface layer velocity (can assume 0 due to laminar flow)
+    :param K_PS: 1, ratio of the area of continuously heated parting strips against total area to be de-iced
+    :param K_PS: 1, ratio of cyclic heat on time against total cycle time.
     :return: q_load, heat_load_required
     """
-
 
     v_inf = AtmData.vel  # m/s, free stream velocity
     mu_inf = AtmData.visc  # (Pa s), free stream viscosity
     rho_inf = AtmData.dens  # (kg/m^3), free stream air density
     P_inf = AtmData.pres  # (Pa), free stream pressure
     E_m = 0.00324 * (v_inf / thickness) ** 0.613  # Non-dimensional, 0-1, water catch efficiency (1 for full catch)
-             # E_m is func(airspeed, droplet size, airfoil thickness, shape, viscosity, air density)
+    # E_m is func(airspeed, droplet size, airfoil thickness, shape, viscosity, air density)
 
     m_dot_local = E_m * v_inf * thickness * span * rho_LWC  # kg/(s m^2), local water catch
 
-    ### power requirement for continuously heated surfaces
+    # power requirement for continuously heated surfaces
     # sensible heating
     dT = T_target - T_inf  # deg C or K, change in temperature
     q_dot_sens = m_dot_local * (dT * ((1 - freeze_factor) * C_liquid + freeze_factor * C_ice) + freeze_factor * L_f)
@@ -118,23 +122,20 @@ def deIcing_heat_load(AtmData, x_loc, thickness, span, freeze_factor, C_liquid, 
     q_dot_KE = m_dot_local * 0.5 * v_inf ** 2
 
     # aerodynamic heating
-    R_c = 1 - ((0.99 * v_wall ** 2) / (v_inf ** 2)) * (1 - Pr ** freeze_factor)  # boundary recovery factor with n = 0.5 due to laminar boundary layer
+    R_c = 1 - ((0.99 * v_wall ** 2) / (v_inf ** 2)) * (
+            1 - Pr ** freeze_factor)  # boundary recovery factor with n = 0.5 due to laminar boundary layer
     q_dot_aero = R_c * h_0 * (v_inf ** 2) / (2 * C_p_air)
 
     # total heat rate
     q_dot_PS = q_dot_sens + q_dot_conv + q_dot_evap + q_dot_KE + q_dot_aero
 
-    ### power requirements for cyclic heated surfaces
+    # power requirements for cyclic heated surfaces
     m_dot_ice = thickness * rho_LWC  # local ice mass flow rate per unit area
     eff_heat = 0.7  # heating efficiency
     q_dot_cycl = eff_heat * (m_dot_ice / thickness) * (dT * C_ice + L_f)
     # the unit in the paper is SUPER weird, but this q_dot_cycl doesn't affect that much
 
-    ### Total heating power, with k-factors
-    K_PS = 0.19  # ratio of the area of continuously heated parting strips against total area to be de-iced
-    # Adopted from general layout
-    K_cycl = 0.05  # ratio of cyclic heat on time against total cycle time.
-    # Take 9s heat-on time in 3 min = 180 sec, yield 5%
+    # Total heating power, with k-factors
     q_load = q_dot_PS * K_PS + q_dot_cycl * K_cycl
 
     return q_load
@@ -172,10 +173,12 @@ if __name__ == '__main__':
     thickness = 0.14166 * 1.26491  # m, maximum airfoil thickness, using mean chord length
     span = 12.65  # m, airfoil span-wise extension for total wing
     v_wall = 0  # m/s, (Seems to be) surface layer velocity (assumed 0 due to laminar flow)
-    freeze_factor = 0.5  # Non-dimensional, 0-1, freezing fraction, indicates the amount of liquid water that turns into ice
+    freeze_factor = 0.9  # Non-dimensional, 0-1, freezing fraction, indicates the amount of liquid water that turns into ice
+    K_PS = 0.2  # generally, ratio of the area of continuously heated parting strips against total area to be de-iced
+    K_cycl = 0.95  # ratio of cyclic heat on time against total cycle time.
 
     # function call
     P_req = main_deIcing_power(atm, x_loc, thickness, span, freeze_factor, C_liquid, C_ice, C_p_air, L_f, L_e,
-                               T_target, T_inf, T_skin, k_air, R_h, rho_LWC, v_wall)
+                               T_target, T_inf, T_skin, k_air, R_h, rho_LWC, v_wall, K_PS, K_cycl)
 
     print('The approximate power required for electrical de-icing is {:.2f} W'.format(P_req))
