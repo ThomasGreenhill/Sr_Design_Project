@@ -1,4 +1,4 @@
-function [figH] = PlotDragPolar(dataSet, caseName, lgd, figSize, saveInfo, mark, ending)
+function [figH] = PlotDragPolar(dataSet, dragBreakDown, caseName, lgd, figSize, saveInfo, mark, ending)
     % Checking
     if not(isstring(caseName)) && not(ischar(caseName))
         error("Error: caseName should be a string or a character array") 
@@ -18,7 +18,11 @@ function [figH] = PlotDragPolar(dataSet, caseName, lgd, figSize, saveInfo, mark,
         matrix = dataSet.data.(fieldNames(ii));
         CL_arr = matrix(:,7);
         CDi_arr = matrix(:,8);
-        CDo_arr = matrix(:,9);
+        if dragBreakDown.bool == true
+            CDo_arr = dragBreakDown.f_total ./ dragBreakDown.S_ref;
+        else
+            CDo_arr = matrix(:,9);
+        end
         CD_arr = CDi_arr + CDo_arr;
         plot(CL_arr, CD_arr, 'LineWidth', 2) 
         

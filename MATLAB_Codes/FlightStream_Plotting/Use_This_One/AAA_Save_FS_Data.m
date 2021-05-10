@@ -14,7 +14,7 @@ clear
 close all
 %% Manually Input This Section!!!
 % Version Direction
-versionDir = "v1.5/v1.5_lg";  % Make sure it's the right version!
+versionDir = "v2.1/no_prop/v2.1_nlg";  % Make sure it's the right version!
 
 % Save file name
 fileName = "CTOL_zoomed";  % Double check the name matches in plot
@@ -25,6 +25,11 @@ flapConfig = ["f0", "f4u", "f4d"];  % Keep the field names this way
 
 %% Not designed to change in this section
 saveParentDir = "./FS Data";
+
+if not(isfolder(strcat(saveParentDir, '/', versionDir)))
+   mkdir(strcat(saveParentDir, '/', versionDir))
+end
+
 fileType = ".mat";
 savePath = strcat(saveParentDir, "/", versionDir, "/", fileName, fileType);
 numDataSet = length(flapConfig);

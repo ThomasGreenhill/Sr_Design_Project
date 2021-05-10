@@ -49,7 +49,7 @@ function [figH] = PlotLiftCurve(dataSet, caseName, lgd, figSize, saveInfo, mark,
         ttl = strcat("Lift Curves for ", caseName, ending); 
     end
     title(ttl, 'fontsize', 20, 'Interpreter', 'latex')
-    xlabel("$Angle of Attack \alpha$", 'fontsize', 18, 'Interpreter', 'latex')
+    xlabel("Angle of Attack $\alpha$", 'fontsize', 18, 'Interpreter', 'latex')
     ylabel("Lift Coefficient $C_L$", 'fontsize', 18, 'Interpreter', 'latex')
     grid on
     
