@@ -1,4 +1,4 @@
-function [figH] = PlotDragPolar(dataSet, caseName, lgd, figSize, saveInfo, mark)
+function [figH] = PlotDragPolar(dataSet, caseName, lgd, figSize, saveInfo, mark, ending)
     % Checking
     if not(isstring(caseName)) && not(ischar(caseName))
         error("Error: caseName should be a string or a character array") 
@@ -45,9 +45,9 @@ function [figH] = PlotDragPolar(dataSet, caseName, lgd, figSize, saveInfo, mark)
     hold off
     legend(lgd, 'Location', 'northwest', 'fontsize', 16, 'Interpreter', 'latex')
     if length(fieldNames) == 1
-        ttl = strcat("Drag Polar for ", caseName);
+        ttl = strcat("Drag Polar for ", caseName, ending);
     else
-        ttl = strcat("Drag Polars for ", caseName);
+        ttl = strcat("Drag Polars for ", caseName, ending);
     end
     title(ttl, 'fontsize', 20, 'Interpreter', 'latex')
     xlabel("Lift Coefficient $C_L$", 'fontsize', 18, 'Interpreter', 'latex')

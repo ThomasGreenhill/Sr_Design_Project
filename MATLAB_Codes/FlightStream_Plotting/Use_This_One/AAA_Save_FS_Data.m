@@ -14,10 +14,10 @@ clear
 close all
 %% Manually Input This Section!!!
 % Version Direction
-versionDir = "v1.5_new";  % Make sure it's the right version!
+versionDir = "v1.5/v1.5_lg";  % Make sure it's the right version!
 
 % Save file name
-fileName = "cruise_long";  % Double check the name matches in plot
+fileName = "CTOL_zoomed";  % Double check the name matches in plot
 
 % Included flap configurations
 flapConfig = ["f0", "f4u", "f4d"];  % Keep the field names this way

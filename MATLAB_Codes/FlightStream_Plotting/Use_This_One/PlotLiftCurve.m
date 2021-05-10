@@ -1,4 +1,4 @@
-function [figH] = PlotLiftCurve(dataSet, caseName, lgd, figSize, saveInfo, mark)
+function [figH] = PlotLiftCurve(dataSet, caseName, lgd, figSize, saveInfo, mark, ending)
 
     % Checking
     if not(isstring(caseName)) && not(ischar(caseName))
@@ -44,9 +44,9 @@ function [figH] = PlotLiftCurve(dataSet, caseName, lgd, figSize, saveInfo, mark)
     hold off
     legend(lgd, 'Location', 'northwest', 'fontsize', 16, 'Interpreter', 'latex')
     if length(fieldNames) == 1
-        ttl = strcat("Lift Curve for ", caseName);
+        ttl = strcat("Lift Curve for ", caseName, ending);
     else
-        ttl = strcat("Lift Curves for ", caseName); 
+        ttl = strcat("Lift Curves for ", caseName, ending); 
     end
     title(ttl, 'fontsize', 20, 'Interpreter', 'latex')
     xlabel("$Angle of Attack \alpha$", 'fontsize', 18, 'Interpreter', 'latex')
