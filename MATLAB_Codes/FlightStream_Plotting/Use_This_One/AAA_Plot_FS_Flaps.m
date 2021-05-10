@@ -21,7 +21,10 @@ show_or_not = true;
 
 % mark for CD_o and CL_max
 mark_CD_o_or_not = true;
-mark_CL_max_or_not = true;
+mark_CL_max_or_not = false;
+
+% figure size
+figWidth = 1200; figHeight = 800;
 
 %% Setup
 mark.CD_o = mark_CD_o_or_not;
@@ -42,7 +45,6 @@ else
     set(0,'DefaultFigureVisible','on');
 end
 
-figWidth = 1600; figHeight = 900;
 figXStart = 10; figYStart = 10;
 figSize = [figXStart, figYStart, figXStart + figWidth, figYStart + figHeight];
 

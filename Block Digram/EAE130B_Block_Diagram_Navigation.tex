@@ -1,0 +1,86 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[margin=1in,footskip=0.25in]{geometry}
+\setlength{\belowcaptionskip}{-11pt}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{indentfirst}
+\usepackage{mathtools} 
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{placeins}
+\usepackage{tikz}
+\usetikzlibrary{scopes}
+\usetikzlibrary{shapes,arrows,decorations.markings,plotmarks}
+\usepackage[american]{circuitikz}
+\usepackage{bondgraphs}
+\usepackage{float}
+\usepackage{steinmetz}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage[utf8]{inputenc}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepackage{ulem}
+\usepackage{sectsty}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{siunitx}
+\usepackage{xspace}
+\usepackage{advdate}
+\pgfplotsset{width=10cm,compat=1.9}
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+\newcounter{MyCounter}
+\newcommand{\MATLAB}{\textsc{Matlab}\xspace}
+
+%%%% Block Diagram Set-up
+\tikzstyle{block} = [draw, fill=white, rectangle, minimum height=3em, minimum width=4.5em]
+\tikzstyle{rhombus} = [diamond, minimum width=2em, minimum height=1em, text centered, draw=black, fill=white]
+\tikzstyle{sum} = [draw, fill=white, circle, node distance=1cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{reference} = [coordinate]
+\tikzstyle{notation} = [draw,  fill=white, rectangle]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+\tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
+   1 with {\arrow[semithick]{open triangle 60}}},
+   double distance=1.4pt, shorten >= 5.5pt,
+   preaction = {decorate},
+   postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
+\tikzstyle{innerWhite} = [semithick, white,line width=1.4pt, shorten >= 4.5pt]
+
+\title{EAE 130B Block Diagram 2}
+\author{Yihui Li}
+\date{\today}
+
+\begin{document}
+\begin{figure}[!htb]
+    \centering
+\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+% Nodes
+	\node [input, name=input] {};
+	\node [rhombus, right of=input, node distance = 2.75 cm] (Guidance) {Guidance};
+	\node [sum, right of=Guidance, node distance = 3.25 cm] (sum) {$\Sigma$};
+	\node [block, right of=sum, node distance = 2.50 cm] (controller) {$G_c(s)$};
+	\node [reference, right of=controller, node distance = 1.25 cm] (r1) {};
+	\node [block, right of=controller, node distance = 2.50 cm] (system) {$G_{p}(s)$};
+	\node [output, right of=system, node distance = 1.5 cm] (output1) {};
+	\node [output, right of=system, node distance = 3.0 cm] (output2) {};
+	\node [block, below of=r1, node distance = 2.0 cm] (measurement) {$H(s)$};
+% Connections
+	\draw [->] (input) -- node[] {} (Guidance);
+	\draw [vecArrow] (Guidance) -- node [] {$r(s)$} (sum);
+	\draw [vecArrow] (sum) -- node {$e(s)$} (controller);
+	\draw [vecArrow] (controller) -- node {} (system);
+	\draw [vecArrow] (system) -- node {} (output2);
+	\draw [vecArrow] (output1) |- node[] {} (measurement);
+	\draw [vecArrow] (measurement) -| node[pos=0.99] {$-$} node [near end] {} (sum);
+	\draw [vecArrow] (measurement) -| node[near end] {} (Guidance);
+% Notations
+	\node[left of = input, node distance = 0.5 cm]  (target) {Target};
+\end{tikzpicture}
+\caption{Block diagram.}
+\label{fig:blockdiagram2}
+\end{figure}
+\end{document}
