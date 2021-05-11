@@ -1,4 +1,11 @@
+"""
+******Unfinished
+Script intending to plot the hydrogen price curve in the future
+Based on https://drive.google.com/drive/folders/1akvN_6GLhzGGzOibt-WXC1PUk1tI6Z2K?usp=sharing
 
+History:
+    Created, XT. 05.10.2021
+"""
 
 
 import numpy as np
