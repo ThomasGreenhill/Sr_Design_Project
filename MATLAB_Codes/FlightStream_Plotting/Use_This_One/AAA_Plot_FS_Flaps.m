@@ -11,7 +11,7 @@ close all
 clc
 %% ******Controll parameters******
 dirPath = "./FS Data";
-version = "v2.1/no_prop/v2.1_lg";
+version = "v2.1/no_prop/v2.1_nlg";
 fileType = ".mat";
 fieldReq = ["AoA", "Beta", "Velocity", "Cx", "Cy", "Cz", "CL", "CDi", "CDo", "CMx", "CMy", "CMz"];
 
@@ -24,16 +24,17 @@ mark_CD_o_or_not = true;
 mark_CL_max_or_not = false;
 
 % figure size
-figWidth = 1200; figHeight = 800;
+figWidth = 1600; figHeight = 1000;
 
 % plotting induced only upon the CDo's
 dragBreakDown_or_not = true;
 % ***please provide the total flat plate area and reference area here
-f_total = 0.420699;  % m^2, flat plate area for [ ***Extended*** ]
+f_total = 0.319062;  % m^2, flat plate area for [ ***Retracted*** ]
+%f_total = 0.420699;  % m^2, flat plate area for [ ***Extended*** ]
 S_ref = 16;  % m^2, wing reference area
 
 % ending message
-ending = ", landing gear extended";
+ending = ", landing gear retracted";
 %% Setup
 mark.CD_o = mark_CD_o_or_not;
 mark.CL_max = mark_CL_max_or_not;
