@@ -19,8 +19,11 @@ def landing_distance(gam, VS, W, S, rho, muB, CD, CL):
     g = 32.17 # ft.s^-2
 
     # Assume V = V approach = VS*1.23
-    V = VS*1.23
+    V = VS*1.3
     n = 1.2 # Assumed
+
+    nmax = (V/VS)**2
+    print("Stall nmax is {}".format(nmax))
 
     # Air distance
     SF = V**2/(g*(n-1)) * numpy.sin(gam)
@@ -55,5 +58,10 @@ if __name__ == '__main__':
     SF, SA, SFR, SB = landing_distance(gam, VS, W, S, rho, muB, CD, CL)
 
     STOT = SF + SA + SFR + SB
+
+    print("AIR DISTANCE: {} ft".format(SA))
+    print("FLARE DISTANCE: {} ft".format(SF))
+    print("FREE ROLL DISTANCE: {} ft".format(SFR))
+    print("Breaking DISTANCE: {} ft".format(SB))
     print("TOTAL LANDING DISTANCE: {} ft".format(STOT))
     

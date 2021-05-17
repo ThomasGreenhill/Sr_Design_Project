@@ -90,7 +90,7 @@ for n in range(ARe_n):
     plt.text(ARe_sweep[n,-1,0]+ARe_text_x_offset,
              ARe_sweep[n,-1,1]+ARe_text_y_offset,
              '{:.3f}'.format(ARe_vec[n]))
-plt.plot(38.7,20,'ro',markersize=15)
+plt.plot(38.7,17,'ro',markersize=15,label="Jiffy Jerboa")
 
 plt.text(36,36,"Zero-lift Drag\nCoefficient $C_{D_0}$")
 plt.text(40,2,"Effective Aspect\nRatio $AR\cdot e$")
@@ -99,6 +99,7 @@ plt.xlim(5,1.2*np.max(CD0_sweep[:,:,0]))
 plt.ylim(0,1.2*np.max(CD0_sweep[:,:,1]))
 plt.xlabel("Wing Loading (lbf/ft$^2$)")
 plt.ylabel("Maximum Lift-Drag Ratio")
-plt.title("Cruise Altitude 6,000 ft (SA), Cruise Speed 120 kts")
+plt.title("Design Space for UAM With a Weight of 2922 lb and Cruise at 6000 ft")
+plt.legend()
 plt.savefig('Figures/carpet_plot_1.png')
 plt.show()

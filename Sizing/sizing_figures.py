@@ -136,10 +136,10 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
     # ax1.yaxis.grid()
     # ax1.xaxis.grid()
     title = "TOGW vs. Wing Area and Wing Loading in SI units"
-    plt.title(title)
+    plt.title(title + r' ($ \overline{\rho}_\infty = 1.05$)')
     ax1.plot(S_ref_list, TOGW_S_ref, 'b-', label="Wing area")
     ax1.set_xlabel("Wing reference area (m$^2$)")
-    ax2.scatter(79,13000,1000,color='k',marker='+',label="Initial Sizing Choice")
+    ax2.scatter(79,13000,1000,color='k',marker='+',label="Sizing Choice")
     ax2.plot((79,79),(17000,13000),'k--')
     ax1.plot((9.6,16),(13000,13000),'k--')
     ax1.scatter(16.1,13000,1000,color='k',marker='+')
@@ -157,7 +157,7 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
     ### Power Loading vs. Wing Loading
     # Plot in Imperial Units
     plt.figure(3)
-    plt.plot(wing_loading_1_IM, power_loading_1_IM, 'b-', label="Initial Sizing")
+    plt.plot(wing_loading_1_IM, power_loading_1_IM, 'b-', label="Sizing")
     plt.ylabel("Power loading (lbf/hp)")
     # plt.grid()
     plt.xlabel("Wing loading (lb/ft$^2$)")
@@ -169,15 +169,15 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
 
     # Plot in SI Units
     plt.figure(4)
-    plt.plot(wing_loading_1, power_loading_1, 'b-', label="Initial Sizing")
+    plt.plot(wing_loading_1, power_loading_1, 'b-', label="Sizing")
     plt.ylabel("Power loading (N/W)")
-    plt.scatter(79,0.0583,1000,color='k',marker='+',label="Initial Sizing Choice")
+    plt.scatter(79,0.0583,1000,color='k',marker='+',label="Sizing Choice")
     plt.plot((79,79),(0,0.0585),'k--')
     plt.ylim((0.0525,0.072))
     # plt.grid()
     plt.xlabel("Wing loading (kg/m$^2$)")
     title = "Power Loading vs. Wing Loading in SI units"
-    plt.title(title)
+    plt.title(title + r' ($ \overline{\rho}_\infty = 1.05$)')
     plt.legend(loc="upper left")
     pathway = './' + my_folder + '/' + title + fig_type
     plt.savefig(pathway, bbox_inches='tight')
@@ -238,10 +238,10 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
     ax1.plot((5,20),(13000/9.81,13000/9.81),'k--')
     ax2.plot(disk_loading_list_SI, numpy.array(TOGW_S_disk)/9.81, 'r-', label="Disk loading")
     ax2.set_xlabel("Disk loading (kg/m$^2$)")
-    ax2.scatter(650,13000/9.81,1000,color='k',marker='+',label="Initial Sizing Choice")
+    ax2.scatter(650,13000/9.81,1000,color='k',marker='+',label="Sizing Choice")
     ax2.plot((650,650),(20500/9.81,13000/9.81),'k--')
     title = "TOGW vs. Disk Area and Disk Loading in SI units"
-    plt.title(title)
+    plt.title(title + r' ($ \overline{\rho}_\infty = 1.05$)')
     ax1.set_ylabel("TOGW (N)")
     ax1.legend(loc="upper left")
     ax2.legend(loc="upper right")
@@ -287,7 +287,7 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
     plt.plot((79, 79), (0.09, 20),'k--')
     plt.ylim((0.09, 20))
 
-    plt.title(title)
+    plt.title(title + r' ($ \overline{\rho}_\infty = 1.05$)')
     # plt.grid()
     plt.ylabel("Thrust-to-weight ratio")
     plt.xlabel("Wing loading (kg/m$^2$)")
@@ -315,7 +315,7 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
 
     # Plot in Imperial unit
     plt.figure(9)
-    plt.plot(disk_loading_list_IM, power_loading_list_IM, 'b-', label="Initial Sizing")
+    plt.plot(disk_loading_list_IM, power_loading_list_IM, 'b-', label="Sizing")
     plt.plot(disk_loading_limit_IM, power_loading_limit_IM, 'r-', label="Theoretical Limit")
     title = "Power Loading vs. Disk Loading in Imperial Units"
     plt.title(title)
@@ -328,11 +328,11 @@ def sizing_figures(Sizing, S_wing_LO, S_wing_HI, S_disk_LO, S_disk_HI, num):
 
     # Plot in SI unit
     plt.figure(10)
-    plt.plot(disk_loading_list_SI, power_loading_list_SI, 'b-', label="Initial Sizing Trend")
+    plt.plot(disk_loading_list_SI, power_loading_list_SI, 'b-', label="Sizing Trend")
     plt.plot(disk_loading_limit_SI, power_loading_limit_SI, 'r-', label="Theoretical Limit")
     title = "Power Loading vs. Disk Loading in SI units"
-    plt.title(title)
-    plt.scatter(650,0.058,1000,color='k',marker='+',label="Initial Sizing Choice")
+    plt.title(title + r' ($ \overline{\rho}_\infty = 1.05$)')
+    plt.scatter(650,0.058,1000,color='k',marker='+',label="Sizing Choice")
     plt.plot((650,650),(0.058,0),'k--')
     plt.ylim((0,0.12))
     # plt.grid()
