@@ -202,7 +202,7 @@ def moment_func_max_negative(location):
 
 
 if __name__ == '__main__':
-    max_span = 6.325
+    max_span = 6.325  # m
 
     # yield strengths from https://zoltek.com/products/px35/prepreg/
     yield_tensile = 1.850e9  # Pa
