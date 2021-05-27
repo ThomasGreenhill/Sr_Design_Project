@@ -55,7 +55,8 @@ def spar_rectangular_cc_thickness(Ixx_arr, span_arr, spar_locations, af_file_pat
         distance = 0
         for spar in range(np.size(spar_locations)):
             distance = distance + z_up_along_span[spar][span_section] ** 2 + z_lo_along_span[spar][span_section] ** 2
-        cubic_coeffs = [base * chord_arr[span_section] / root_chord / 3, 0, distance, -Ixx_arr[span_section]]
+        cur_base = base * chord_arr[span_section] / root_chord
+        cubic_coeffs = [cur_base / 3, 0,  cur_base * distance, -Ixx_arr[span_section]]
         cubic_func = lambda x: cubic_coeffs[0] * x**3 + cubic_coeffs[1] * x**2 + cubic_coeffs[2] * x + cubic_coeffs[3]
         thickness_required[span_section] = fsolve(cubic_func, 1)
 
@@ -101,7 +102,6 @@ if __name__ == "__main__":
                                                            save_parent_path=None, save_type=".png")
 
     rect_base = np.linspace(0.1, 0.4, 5)  # base length for rectangular cross sections
-    print(rect_base)
     thickness_arr = []
     for rr in range(np.size(rect_base)):
         thickness_required = spar_rectangular_cc_thickness(Ixx_arr[0], span_arr, spar_locations, af_file_path,
