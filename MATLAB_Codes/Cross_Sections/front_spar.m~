@@ -1,0 +1,3 @@
+%% Plots Front Spar
+
+fill([0, 0, 1, 1], 

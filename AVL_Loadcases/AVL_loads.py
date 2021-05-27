@@ -5,6 +5,7 @@ sys.path.append('../Utilities')
 sys.path.append('../AVL_Automation')
 from pyAvl_Cf_Cm_FAER import pyAvl_Cf_Cm_FAER
 import avlwrapper as avl
+from matplotlib.offsetbox import AnchoredText
 
 try:
     import formatfigures
@@ -54,13 +55,19 @@ Wlb = 2922 #lbf
 W = 13000 #N
 
 # Plotting Function
-def plotVM(x, stripshear, stripmoment):
+def plotVM(x, stripshear, stripmoment, shearfit, p):
+    fitstr = "$V_z = {:.4}y^4 + {:.4}y^3 + {:.4}y^2 + {:.4}y + {:.4}$".format(*p)
+    print(fitstr)
     plt.figure(figsize=(12, 10))
-    plt.subplot(2,1,1)
-    plt.plot(x, stripshear*qbar*S, 'k')
+    ax = plt.subplot(2,1,1)
+    plt.plot(x, stripshear*qbar*S, 'k', label="Result from AVL")
+    plt.plot(x, shearfit, '--r', label="4th Order Fit")
     plt.fill_between(x, stripshear*qbar*S, color=(0/255, 255/255, 9/255), alpha=0.7)
+    anchored_text = AnchoredText(fitstr, loc=2)
+    ax.add_artist(anchored_text)
     plt.xlabel("Strip Location Along Half-Span (m)")
     plt.ylabel("Shear $V_z$ (N)")
+    # plt.legend()
     plt.title("Shear Diagram for Wing")
     plt.subplot(2,1,2)
     plt.fill_between(x, stripmoment*qbar*bspan*S, color=(255/255, 4/255, 30/255),alpha=0.8)
@@ -122,7 +129,10 @@ stripshear = numpy.array(result['Run']['StripShearMoments']['Main_Wing']['Vz/(q*
 stripmoment = numpy.array(result['Run']['StripShearMoments']['Main_Wing']['Mx/(q*Bref*Sref)'])
 x = numpy.array(result['Run']['StripShearMoments']['Main_Wing']['2Y/Bref'])*bspan/2
 loadcasestr = "Max Positive Load Factor (3.8 g) at VNE"
-plotVM(x, stripshear, stripmoment)
+p = numpy.polyfit(x, stripshear*qbar*S, 4)
+print(p)
+shearfit = numpy.polyval(p, x)
+plotVM(x, stripshear, stripmoment, shearfit, p)
 plt.savefig("./Figures/maxload_VNE.jpg")
 
 
@@ -162,6 +172,10 @@ stripshear = numpy.array(result['Run']['StripShearMoments']['Main_Wing']['Vz/(q*
 stripmoment = numpy.array(result['Run']['StripShearMoments']['Main_Wing']['Mx/(q*Bref*Sref)'])
 x = numpy.array(result['Run']['StripShearMoments']['Main_Wing']['2Y/Bref'])*bspan/2
 loadcasestr = "Max Negative Load Factor (-1.52 g) at VNE"
-plotVM(x, stripshear, stripmoment)
+p = numpy.polyfit(x, stripshear*qbar*S, 4)
+print(p)
+shearfit = numpy.polyval(p, x)
+plotVM(x, stripshear, stripmoment, shearfit, p)
 plt.savefig("./Figures/minload_VNE.jpg")
 plt.show()
+
