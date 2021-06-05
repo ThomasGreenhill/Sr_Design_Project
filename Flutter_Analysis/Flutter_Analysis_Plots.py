@@ -23,6 +23,7 @@ for i in range(len(rawinfo)):
 
 
 #### Make plot (Frequnecy vs Speed)
+
 ax1 = plt.subplot()
 for i in range(1, j):  
     flutter_list["group_%s"%(i)].plot(kind='line', x='VELOCITY', y='KFREQ', ax = ax1, label = 'point %s' % i)
