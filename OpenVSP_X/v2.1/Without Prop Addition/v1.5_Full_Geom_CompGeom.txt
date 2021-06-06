@@ -1,42 +1,28 @@
 ...Comp Geom...
-9 Num Comps
-16 Total Num Meshes
-51592 Total Num Tris
+5 Num Comps
+9 Total Num Meshes
+42536 Total Num Tris
 
 Theo_Area   Wet_Area   Theo_Vol    Wet_Vol  Name
-   23.492     11.069      5.925      2.903  Fuselage       
-   33.249     15.745      1.942      0.956  Main_Wing      
-    1.738      0.750      0.021      0.009  Canard         
-    6.196      2.927      0.194      0.095  Horizontal_Tail
-    3.932      1.814      0.131      0.063  Vertical_Tail  
-    0.169      0.057      0.003      0.001  Front_LG       
-    0.119      0.100      0.001      0.001  Rear_LG        
-    0.119      0.000      0.001      0.000  Rear_LG        
-    0.272      0.133      0.010      0.005  Front_LG_Wheel 
-    0.308      0.305      0.011      0.011  Rear_LG_Wheel  
-    0.308      0.000      0.011      0.000  Rear_LG_Wheel  
+   23.492     11.072      5.925      2.903  Fuselage       
+   33.250     15.756      1.942      0.956  Main_Wing      
+    1.741      0.751      0.021      0.009  Canard         
+    6.206      2.931      0.194      0.095  Horizontal_Tail
+    3.938      1.817      0.131      0.063  Vertical_Tail  
 -------------------------------------------------
-   69.904     32.899      8.251      4.045  Totals         
+   68.626     32.327      8.214      4.027  Totals         
 
 Tag_Theo_Area   Tag_Wet_Area    Tag_Name
-       23.492         11.069    Fuselage_Surf0 
-       16.624         15.745    Main_Wing_Surf0
-       16.624          0.000    Main_Wing_Surf1
-        0.869          0.750    Canard_Surf0   
-        0.869          0.000    Canard_Surf1   
-        3.098          2.927    Horizontal_Tail_Surf0
-        3.098          0.000    Horizontal_Tail_Surf1
-        3.932          1.814    Vertical_Tail_Surf0
-        0.169          0.057    Front_LG_Surf0 
-        0.119          0.100    Rear_LG_Surf0  
-        0.119          0.000    Rear_LG_Surf1  
-        0.136          0.133    Front_LG_Wheel_Surf0
-        0.136          0.000    Front_LG_Wheel_Surf1
-        0.308          0.305    Rear_LG_Wheel_Surf0
-        0.308          0.000    Rear_LG_Wheel_Surf1
+       23.492         11.072    Fuselage_Surf0 
+       16.625         15.756    Main_Wing_Surf0
+       16.625          0.000    Main_Wing_Surf1
+        0.870          0.751    Canard_Surf0   
+        0.870          0.000    Canard_Surf1   
+        3.103          2.931    Horizontal_Tail_Surf0
+        3.103          0.000    Horizontal_Tail_Surf1
+        3.938          1.817    Vertical_Tail_Surf0
         0.000          0.000    _Surf0         
-WARNING: 4 open meshes merged
+WARNING: 3 open meshes merged
      Merged: Main_Wing
      Merged: Canard
      Merged: Horizontal_Tail
-     Merged: Front_LG_Wheel
