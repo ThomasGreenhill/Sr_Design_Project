@@ -26,18 +26,21 @@ for i in range(len(rawinfo)):
 
 ax1 = plt.subplot()
 for i in range(1, j):  
-    flutter_list["group_%s"%(i)].plot(kind='line', x='VELOCITY', y='KFREQ', ax = ax1, label = 'point %s' % i)
+    flutter_list["group_%s"%(i)].plot(kind='line', x='VELOCITY', y='KFREQ', ax = ax1, label = '%s' % i)
 ax1.set_xlabel('Velocity (m/s)')
-ax1.set_ylabel('Frequency (Hz)')
+ax1.set_ylabel('Frequency')
 ax1.set_title('Frequency vs Speed')
+ax1.legend(title='Point:', loc='best', ncol = 4, fontsize = 'small')
 plt.show()
+
 
 #### Make plot (Damping vs Speed)
 
 ax2 = plt.subplot()
 for i in range(1, j):  
-    flutter_list["group_%s"%(i)].plot(kind='line', x='VELOCITY', y='DAMPING', ax = ax2, label = 'point %s' % i)
+    flutter_list["group_%s"%(i)].plot(kind='line', x='VELOCITY', y='DAMPING', ax = ax2, label = '%s' % i)
 ax2.set_xlabel('Velocity (m/s)')
 ax2.set_ylabel('Damping')
 ax2.set_title('Damping vs Speed')
+ax2.legend(title='Point:', loc='best', ncol = 4, fontsize = 'small')
 plt.show()
