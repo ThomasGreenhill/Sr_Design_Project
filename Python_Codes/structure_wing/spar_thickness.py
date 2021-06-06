@@ -154,3 +154,15 @@ if __name__ == "__main__":
     plt.grid()
     plt.legend()
     plt.show()
+
+    # MP 5.29 using 100mm base
+    span_arr = -span_arr
+    thickness = thickness_main[0]
+    fit = np.polyfit(span_arr,thickness,deg=3)
+    thickness_test = np.polyval(fit, span_arr)
+    # print(thickness-thickness_test)
+    plt.figure()
+    plt.plot(span_arr,thickness,'k-')
+    plt.plot(span_arr,thickness_test,'r--')
+    print('Fit coefficients:')
+    print(fit)

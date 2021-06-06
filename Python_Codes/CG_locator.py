@@ -208,6 +208,10 @@ print("Mass Moment of Inertia about x: {:.4f} kg-m^2".format(Im[0])) ## Changed 
 print("Mass Moment of Inertia about y: {:.4f} kg-m^2".format(Im[1])) ## Changed by Yihui, 03/18/2021
 print("Mass Moment of Inertia about z: {:.4f} kg-m^2".format(Im[2])) ## Changed by Yihui, 03/18/2021
 
+print("\nZCOM: {:.4f}".format(CG_pos[3]))
+print("Main wing motor z-loc: {:.4f}".format(MiddleRotor.z))
+print("Canard motor z-loc: {:.4f}\n".format(CanardRotor.z))
+
 print("\nCalculating CG based on empy weight:")
 print("------------------------------------")
 objs = [Fuselage, *MotorList, *MotorConList, *RotorList, MainWing, *Empennage,\
