@@ -34,13 +34,27 @@ ax1.legend(title='Point:', loc='best', ncol = 4, fontsize = 'small')
 plt.show()
 
 
-#### Make plot (Damping vs Speed)
+#### Make plot (Damping vs Speed, Raw Scale)
 
 ax2 = plt.subplot()
 for i in range(1, j):  
     flutter_list["group_%s"%(i)].plot(kind='line', x='VELOCITY', y='DAMPING', ax = ax2, label = '%s' % i)
 ax2.set_xlabel('Velocity (m/s)')
-ax2.set_ylabel('Damping')
-ax2.set_title('Damping vs Speed')
+ax2.set_ylabel('Damping')  
+ax2.grid() 
+ax2.set_title('Damping vs Speed (Raw Scale)')
 ax2.legend(title='Point:', loc='best', ncol = 4, fontsize = 'small')
+plt.show()
+
+#### Make plot (Damping vs Speed, Magnified Scale)
+
+ax3 = plt.subplot()
+for i in [ii for ii in range(1, j) if ii != 11]:  
+    flutter_list["group_%s"%(i)].plot(kind='line', x='VELOCITY', y='DAMPING', ax = ax3, label = '%s' % i)
+ax3.set_xlabel('Velocity (m/s)')
+ax3.set_ylabel('Damping')  
+ax3.set_ylim([-0.01, 0.01])
+ax3.grid() 
+ax3.set_title('Damping vs Speed (Magnified Scale)')
+ax3.legend(title='Point:', loc='best', ncol = 5, fontsize = 'small')
 plt.show()
