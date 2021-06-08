@@ -135,11 +135,12 @@ if __name__ == '__main__':
     # plotting
     Pa_Mpa = 1 / 1e6
     plt.figure()
-    plt.plot(span_arr, max_pos_shear_arr * Pa_Mpa, label="Max Positive Load")
-    plt.plot(span_arr, max_neg_shear_arr * Pa_Mpa, label="Max Negative Load")
+    plt.plot(span_arr[:-1], max_pos_shear_arr[:-1] * Pa_Mpa, label="Max Positive Load")
+    plt.plot(span_arr[:-1], max_neg_shear_arr[:-1] * Pa_Mpa, label="Max Negative Load")
     plt.grid()
     plt.xlabel("Span (m)")
     plt.ylabel("Absolute Shear (MPa)")
-    plt.title("Span Sectional Maximum Shear Stress")
+    plt.title("Span Sectional Maximum Shear Stress with Root Base of 100 mm and 2 mm Constant Addition to Spar "
+              "Thickness")
     plt.legend(loc="best")
     plt.show()
