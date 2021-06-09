@@ -21,7 +21,7 @@ import mses
 
 
 def get_Ixx_along_span(moment_func_multiple, func_legends, safety_factor, yield_tensile, yield_compress, span,
-                       af_file_path, num_span=11, plot_fig=True, save=True, save_parent_path=None, save_type=".png"):
+                       af_file_path, num_span=101, plot_fig=True, save=True, save_parent_path=None, save_type=".png"):
 
     Ixx_arr_required = []
     span_arr = np.linspace(0, span, num_span)
@@ -60,7 +60,7 @@ def get_Ixx_along_span(moment_func_multiple, func_legends, safety_factor, yield_
     return Ixx_arr_required, span_arr
 
 
-def get_min_Ixx(moment_func, safety_factor, max_span, af_file_path, yield_tensile, yield_compress, num_span=11):
+def get_min_Ixx(moment_func, safety_factor, max_span, af_file_path, yield_tensile, yield_compress, num_span=101):
     """
     Finds the minimum Ixx through a combination of rought estimation and precise determination
     :param moment_func: function for moment calculate
@@ -126,7 +126,7 @@ def determine_yield(Ixx_arr, moment_func, safety_factor, max_span, af_file_path,
     bot_yield_arr = [False for ii in range(len(Ixx_arr))]
 
     for cur_index, Ixx in enumerate(Ixx_arr):
-        sigma_top_arr, sigma_bot_arr = find_bending_stresses(moment_func, Ixx, max_span, af_file_path, num_span=11)
+        sigma_top_arr, sigma_bot_arr = find_bending_stresses(moment_func, Ixx, max_span, af_file_path, num_span=101)
         max_sigma_top = max(abs(sigma_top_arr))
         max_sigma_bot = max(abs(sigma_bot_arr))
         sigma_top_sum = sum(sigma_top_arr)
@@ -155,7 +155,7 @@ def determine_yield(Ixx_arr, moment_func, safety_factor, max_span, af_file_path,
     return top_safe_index, bot_safe_index
 
 
-def find_bending_stresses(moment_func, Ixx, span, af_file_path, num_span=11):
+def find_bending_stresses(moment_func, Ixx, span, af_file_path, num_span=101):
     """
     Finds the bending stresses at the top most and bottom most points given the airfoil geometry
     :param moment_func: function to calculate moment along span
@@ -192,7 +192,7 @@ def find_bending_stresses(moment_func, Ixx, span, af_file_path, num_span=11):
     return sigma_top_arr, sigma_bot_arr
 
 
-def find_Ixx_required(moment_func, safety_factor, yield_tensile, yield_compress, span, af_file_path, num_span=11):
+def find_Ixx_required(moment_func, safety_factor, yield_tensile, yield_compress, span, af_file_path, num_span=101):
     """
 
     :param moment_func: function to calculate moment along span
