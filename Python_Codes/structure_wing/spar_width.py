@@ -118,10 +118,16 @@ if __name__ == '__main__':
         base_arr_aft_new = find_flange_width_fixed_height(Ixx_aft_arr, span_arr, height_const, spar_aft, af_file_path)
         base_arr_aft.append(base_arr_aft_new)
 
+    # line styles
+    line_style_arr = ["solid", "dotted", "dashed", "dashdot", (0, (3, 5, 1, 5, 1, 5)), (0, (3, 1, 1, 1, 1, 1)),
+                      (0, (3, 10, 1, 10, 1, 10))]
+
     # Plot, main
     plt.figure()
     for ii in range(np.size(height_const_main_arr)):
-        plt.plot(span_arr, base_arr_main[ii] * 1e3, label="Fixed Single Flange Thickness of {:.2f} mm".format(height_const_main_arr[ii] * 1e3))
+        plt.plot(span_arr, base_arr_main[ii] * 1e3,
+                 label="Fixed Single Flange Thickness of {:.2f} mm".format(height_const_main_arr[ii] * 1e3),
+                 linestyle=line_style_arr[ii])
     plt.title("Width Distribution of Main Spar along Span")
     plt.xlabel("Span-wise Location (m)")
     plt.ylabel("Required Width (mm)")
@@ -132,7 +138,9 @@ if __name__ == '__main__':
     # Plot, aft
     plt.figure()
     for ii in range(np.size(height_const_aft_arr)):
-        plt.plot(span_arr, base_arr_aft[ii] * 1e3, label="Fixed Single Flange Thickness of {:.2f} mm".format(height_const_aft_arr[ii] * 1e3))
+        plt.plot(span_arr, base_arr_aft[ii] * 1e3,
+                 label="Fixed Single Flange Thickness of {:.2f} mm".format(height_const_aft_arr[ii] * 1e3),
+                 linestyle=line_style_arr[ii])
     plt.title("Width Distribution of Aft Spar along Span")
     plt.xlabel("Span-wise Location (m)")
     plt.ylabel("Required Width (mm)")
