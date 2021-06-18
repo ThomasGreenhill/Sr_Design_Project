@@ -142,12 +142,18 @@ if __name__ == '__main__':
         tau_arr.append(tau_arr_current)
         span_arr.append(span_arr_cur)
 
+    # line styles
+    line_style_arr = ["solid", "dotted", "dashed", "dashdot", (0, (3, 5, 1, 5, 1, 5)), (0, (3, 1, 1, 1, 1, 1)),
+                      (0, (3, 10, 1, 10, 1, 10))]
+
     # plots
     Pa_MPa = 1e6
     span_plot = [0, max_span]
     plt.figure()
     for ii in range(np.size(base_arr)):
-        plt.plot(span_arr[ii], tau_arr[ii] / Pa_MPa, label="Web Base of {:.2f} mm".format(base_arr[ii] / convert_factor))
+        plt.plot(span_arr[ii], tau_arr[ii] / Pa_MPa,
+                 label="Web Base of {:.2f} mm".format(base_arr[ii] / convert_factor),
+                 linestyle= line_style_arr[ii])
 
     plt.plot(span_plot, tensile_strength_plot, label="Max Allowed, SF = {:.1f}".format(safety_factor))
     plt.grid()

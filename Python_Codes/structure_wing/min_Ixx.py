@@ -40,9 +40,15 @@ def get_Ixx_along_span(moment_func_multiple, func_legends, safety_factor, yield_
                 if type(func_legends[num_func]) is not str:
                     raise TypeError("Elements in func_legends must be string")
 
+        # line styles
+        line_style_arr = ["solid", "dotted", "dashed", "dashdot", (0, (3, 5, 1, 5, 1, 5)), (0, (3, 1, 1, 1, 1, 1)),
+                          (0, (3, 10, 1, 10, 1, 10))]
+
         plt.figure()
         for num_func in range(np.size(moment_func_multiple)):
-            plt.plot(span_arr, 1e12 * Ixx_arr_required[num_func], label=func_legends[num_func])
+            plt.plot(span_arr, 1e12 * Ixx_arr_required[num_func],
+                     label=func_legends[num_func],
+                     linestyle=line_style_arr[num_func+2])
         plt.grid()
         ttl = "Minimum required Ixx along span"
         plt.title(ttl)

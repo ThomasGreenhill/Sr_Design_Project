@@ -132,11 +132,17 @@ if __name__ == '__main__':
     max_neg_shear_arr, _ = max_shear_along_span(shear_force_func, thickness_arr,
                                                 root_base, span, span_num=num_span)
 
+    # line styles
+    line_style_arr = ["solid", "dotted", "dashed", "dashdot", (0, (3, 5, 1, 5, 1, 5)), (0, (3, 1, 1, 1, 1, 1)),
+                      (0, (3, 10, 1, 10, 1, 10))]
+
     # plotting
     Pa_Mpa = 1 / 1e6
     plt.figure()
-    plt.plot(span_arr[:-1], max_pos_shear_arr[:-1] * Pa_Mpa, label="Max Positive Load")
-    plt.plot(span_arr[:-1], max_neg_shear_arr[:-1] * Pa_Mpa, label="Max Negative Load")
+    plt.plot(span_arr[:-1], max_pos_shear_arr[:-1] * Pa_Mpa,
+             label="Max Positive Load", linestyle=line_style_arr[1])
+    plt.plot(span_arr[:-1], max_neg_shear_arr[:-1] * Pa_Mpa,
+             label="Max Negative Load", linestyle=line_style_arr[2])
     plt.grid()
     plt.xlabel("Span (m)")
     plt.ylabel("Absolute Shear (MPa)")
